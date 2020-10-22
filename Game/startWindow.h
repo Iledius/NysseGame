@@ -3,12 +3,11 @@
 
 #include <QWindow>
 
-
-class window
+class StartWindow : public QWindow
 {
     Q_OBJECT
 public:
-    window();
+    StartWindow();
 };
 
 #endif // WINDOW_H
