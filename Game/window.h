@@ -4,7 +4,7 @@
 #include <QWindow>
 
 
-class window
+class window : public QWindow
 {
     Q_OBJECT
 public:
