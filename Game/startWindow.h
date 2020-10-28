@@ -3,12 +3,16 @@
 
 #include <QWindow>
 
+<<<<<<< HEAD:Game/window.h
 
 class window : public QWindow
+=======
+class StartWindow : public QWindow
+>>>>>>> startWindow:Game/startWindow.h
 {
     Q_OBJECT
 public:
-    window();
+    StartWindow();
 };
 
 #endif // WINDOW_H

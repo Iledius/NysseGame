@@ -1,14 +1,14 @@
 TEMPLATE = app
 TARGET = NYSSE
 
-QT += core gui widgets network multimedia
+QT += core gui widgets network multimedia testlib
 
 CONFIG += c++14
 
 SOURCES += \
     game.cpp \
     main.cc \
-    window.cpp
+    mainwindow.cpp
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib
@@ -36,4 +36,7 @@ else:unix: PRE_TARGETDEPS += \
 
 HEADERS += \
     game.h \
-    window.h
+    mainwindow.h
+
+FORMS += \
+    mainwindow.ui
