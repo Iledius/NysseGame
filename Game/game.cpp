@@ -1,15 +1,17 @@
 #include "game.h"
 
-game::game()
-{
-}
 
-void game::update()
-{
+Game::Game(QWidget *parent): QGraphicsView(parent){
+    scene = new QGraphicsScene(this);
 
 }
 
-void game::render()
+void Game::update()
+{
+
+}
+
+void Game::render()
 {
 
 }
