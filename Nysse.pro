@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
-QT += testlib
+
 SUBDIRS += \
 	CourseLib \
 	Game
