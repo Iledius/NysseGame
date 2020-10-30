@@ -9,7 +9,7 @@ SOURCES += \
     game.cpp \
     gamewindow.cpp \
     main.cc \
-    mainwindow.cpp
+    startdialog.cpp
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib
@@ -38,8 +38,8 @@ else:unix: PRE_TARGETDEPS += \
 HEADERS += \
     game.h \
     gamewindow.hh \
-    mainwindow.h
+    startdialog.h
 
 FORMS += \
     gamewindow.ui \
-    mainwindow.ui
+    startdialog.ui
