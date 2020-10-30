@@ -7,6 +7,7 @@ CONFIG += c++14
 
 SOURCES += \
     game.cpp \
+    gamewindow.cpp \
     main.cc \
     mainwindow.cpp
 
@@ -36,7 +37,9 @@ else:unix: PRE_TARGETDEPS += \
 
 HEADERS += \
     game.h \
+    gamewindow.hh \
     mainwindow.h
 
 FORMS += \
+    gamewindow.ui \
     mainwindow.ui

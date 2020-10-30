@@ -15,26 +15,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pushButton_clicked()
-{
-    //aloita peli
-}
-
-void MainWindow::on_pushButton_5_clicked()
-{
-    //Näytä high scoret
-}
-
-void MainWindow::on_pushButton_6_clicked()
-{
-    //Avaa settings
-}
-
-void MainWindow::on_pushButton_7_clicked()
-{
-    //Poistu
-}
-
 void MainWindow::on_easyButton_toggled(bool checked)
 {
     if (checked)
@@ -58,4 +38,18 @@ void MainWindow::on_hardButton_toggled(bool checked)
     {
         difficulty = "hard";
     }
+   //MainWindow::started = true;
+}
+
+void MainWindow::on_startButton_released()
+{
+    std::string new_name = ui->nameEdit->text().toStdString();
+    if(new_name.length() > 0)
+    {
+        player_name = new_name;
+    }
+    started = true;
+    std::cout << player_name << started << std::endl;
+
+    MainWindow::started = true;
 }
