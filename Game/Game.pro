@@ -6,10 +6,10 @@ QT += core gui widgets network multimedia testlib
 CONFIG += c++14
 
 SOURCES += \
-    game.cpp \
     gamewindow.cpp \
     main.cc \
-    startdialog.cpp
+    startdialog.cpp \
+    tampere.cpp
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib
@@ -36,9 +36,9 @@ else:unix: PRE_TARGETDEPS += \
     $$OUT_PWD/../Course/CourseLib/libCourseLib.a
 
 HEADERS += \
-    game.h \
     gamewindow.hh \
-    startdialog.h
+    startdialog.h \
+    tampere.hh
 
 FORMS += \
     gamewindow.ui \

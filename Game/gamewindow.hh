@@ -5,6 +5,10 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QImage>
+#include "graphics/simpleactoritem.hh"
+#include "core/logic.hh"
+#include "core/location.hh"
+#include "tampere.hh"
 
 namespace Ui {
 class GameWindow;
@@ -17,12 +21,16 @@ class GameWindow : public QMainWindow
 public:
     explicit GameWindow(QWidget *parent = nullptr);
     ~GameWindow();
-
+    void addNysse(unsigned int line);
+    std::vector<CourseSide::SimpleActorItem*> nysses;
 
 private:
     Ui::GameWindow *ui;
     QGraphicsScene *scene;
+    CourseSide::Logic* logic_;
+    std::shared_ptr<Tampere> city_;
     QGraphicsView *gameView;
+
 
 };
 
