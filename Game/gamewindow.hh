@@ -22,6 +22,7 @@ public:
     explicit GameWindow(QWidget *parent = nullptr);
     ~GameWindow();
     void addNysse(unsigned int line);
+    void moveNysse();
     std::vector<CourseSide::SimpleActorItem*> nysses;
 
 private:
@@ -30,6 +31,7 @@ private:
     CourseSide::Logic* logic_;
     std::shared_ptr<Tampere> city_;
     QGraphicsView *gameView;
+    std::vector<std::pair<int,int>> nysse_locationdata_;
 
 
 };
