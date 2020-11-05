@@ -5,6 +5,9 @@
 #include "actors/nysse.hh"
 #include "actors/passenger.hh"
 #include "actors/stop.hh"
+#include "interfaces/iactor.hh"
+#include "core/location.hh"
+
 
 class Tampere : public Interface::ICity
 {
@@ -17,6 +20,12 @@ public:
     void addStop(std::shared_ptr<Interface::IStop> stop) override;
     void addActor(std::shared_ptr<Interface::IActor> newactor) override;
     void removeActor(std::shared_ptr<Interface::IActor> actor) override;
+    void actorRemoved(std::shared_ptr<Interface::IActor> actor) override;
+    bool findActor(std::shared_ptr<Interface::IActor> actor) const override;
+    void actorMoved(std::shared_ptr<Interface::IActor> actor) override;
+    std::vector<std::shared_ptr<Interface::IActor>> getNearbyActors(Interface::Location loc) const override;
+    bool isGameOver() const override;
+
 private:
     QTime time_;
     QMainWindow gamewindow_;

@@ -13,7 +13,7 @@ GameWindow::GameWindow(QWidget *parent) :
 
     // Ei toimi, ilmeisesti koska luokka Tampere on abstrakti, eli funktioita ei ole implementoitu? en y,,ärrä
     // ps. ctrl + klikkaamalla luokkaa pääsee kätevästi hyppimään filujen välillä :D
-    //std::shared_ptr<Tampere> city_ = std::make_shared<Tampere>();
+    std::shared_ptr<Tampere> city_ = std::make_shared<Tampere>();
 
     ui->setupUi(this);
     QBrush backGround(*backImg);
