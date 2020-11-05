@@ -2,14 +2,13 @@
 #include "ui_gamewindow.h"
 
 
-
 GameWindow::GameWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::GameWindow)
 {
     std::vector<CourseSide::SimpleActorItem*> nysses;
     scene = new QGraphicsScene(this);
-    QImage* backImg = new QImage("../Game/images/water.png");
+    QImage* backImg = new QImage(":/offlinedata/offlinedata/kartta_iso_1095x592.png");
     logic_ = new CourseSide::Logic(this);
 
     // Ei toimi, ilmeisesti koska luokka Tampere on abstrakti, eli funktioita ei ole implementoitu? en y,,ärrä
@@ -18,7 +17,7 @@ GameWindow::GameWindow(QWidget *parent) :
 
     ui->setupUi(this);
     QBrush backGround(*backImg);
-    scene->setSceneRect(0,0,600,400);
+    scene->setSceneRect(0,0,1095,592);
     scene->setBackgroundBrush(backGround);
     gameView = new QGraphicsView();
     gameView->setParent(this);
@@ -26,11 +25,12 @@ GameWindow::GameWindow(QWidget *parent) :
 
     logic_->setTime(8, 0);
 
-    // Jotta logic sadaan käyttöön, täytyy ajaa finalizeGameStart().
-    // Jotta finalizegamestart() toimisi, pitää tehdä ajaa funktio takeCity().
-
-    //logic_->takeCity(city_);
-    //logic_->finalizeGameStart();
+    QString buses_string = ":/offlinedata/offlinedata/final_bus_liteN.json";
+    QString stops_string = ":/offlinedata/offlinedata/full_stations_kkj3.json";
+    logic_->readOfflineData(buses_string,stops_string);
+    logic_->fileConfig(buses_string,stops_string);
+    logic_->takeCity(city_);
+    logic_->finalizeGameStart();
 }
 
 
@@ -41,6 +41,12 @@ void GameWindow::addNysse(unsigned int line)
     CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(3,5,1);
     scene->addItem(nysse);
     nysses.push_back(nysse);
+}
+
+void GameWindow::moveNysse()
+{
+    CourseSide::SimpleActorItem* n = nysses.at(0);
+    n->moveBy(5,1);
 }
 
 
