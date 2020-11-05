@@ -28,8 +28,8 @@ GameWindow::GameWindow(QWidget *parent) :
 
     // Jotta logic sadaan käyttöön, täytyy ajaa finalizeGameStart().
     // Jotta finalizegamestart() toimisi, pitää tehdä ajaa funktio takeCity().
-
-    //logic_->takeCity(city_);
+    //logic_->addNewBuses();
+    logic_->takeCity(city_);
     //logic_->finalizeGameStart();
 }
 
