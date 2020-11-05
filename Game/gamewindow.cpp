@@ -1,4 +1,5 @@
 #include "gamewindow.hh"
+#include <iostream>
 #include "ui_gamewindow.h"
 
 
@@ -28,25 +29,25 @@ GameWindow::GameWindow(QWidget *parent) :
     QString buses_string = ":/offlinedata/offlinedata/final_bus_liteN.json";
     QString stops_string = ":/offlinedata/offlinedata/full_stations_kkj3.json";
     logic_->readOfflineData(buses_string,stops_string);
-    logic_->fileConfig(buses_string,stops_string);
     logic_->takeCity(city_);
     logic_->finalizeGameStart();
 }
 
 
-void GameWindow::addNysse(unsigned int line)
+void GameWindow::drawNysses()
 {
      //tällä hetkellä tehty oma funktio, käytetään logic_:in addNysseä jatkossa
 
-    CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(3,5,1);
+    CourseSide::SimpleActorItem *n = city_->nysses.at(0);
+    std::cout << n << std::endl;
+
+
+    CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(3332337,0,1);
     scene->addItem(nysse);
-    nysses.push_back(nysse);
 }
 
 void GameWindow::moveNysse()
 {
-    CourseSide::SimpleActorItem* n = nysses.at(0);
-    n->moveBy(5,1);
 }
 
 

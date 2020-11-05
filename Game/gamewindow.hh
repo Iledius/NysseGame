@@ -21,9 +21,8 @@ class GameWindow : public QMainWindow
 public:
     explicit GameWindow(QWidget *parent = nullptr);
     ~GameWindow();
-    void addNysse(unsigned int line);
+    void drawNysses();
     void moveNysse();
-    std::vector<CourseSide::SimpleActorItem*> nysses;
 
 private:
     Ui::GameWindow *ui;
