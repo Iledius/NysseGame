@@ -9,14 +9,14 @@ GameWindow::GameWindow(QWidget *parent) :
 {
     std::vector<CourseSide::SimpleActorItem*> nysses;
     scene = new QGraphicsScene(this);
-    QImage* backImg = new QImage(":/offlinedata/offlinedata/kartta_iso_1095x592.png");
+    QImage* backImg = new QImage(":/offlinedata/offlinedata/kartta_pieni_500x500.png");
     logic_ = new CourseSide::Logic(this);
 
-     std::shared_ptr<Tampere> city_temp_ = std::make_shared<Tampere>();
+    std::shared_ptr<Tampere> city_temp_ = std::make_shared<Tampere>();
 
     ui->setupUi(this);
     QBrush backGround(*backImg);
-    scene->setSceneRect(0,0,1095,592);
+    scene->setSceneRect(-100,-100,1095,592);
     scene->setBackgroundBrush(backGround);
     gameView = new QGraphicsView();
     gameView->setParent(this);
@@ -28,12 +28,12 @@ GameWindow::GameWindow(QWidget *parent) :
     QString stops_string = ":/offlinedata/offlinedata/full_stations_kkj3.json";
     logic_->readOfflineData(buses_string,stops_string);
     logic_->takeCity(city_temp_);
-    chooseCity(city_temp_);
+    takeCity(city_temp_);
     city_temp_=nullptr;
     logic_->finalizeGameStart();
 }
 
-void GameWindow::chooseCity(std::shared_ptr<Tampere>& city)
+void GameWindow::takeCity(std::shared_ptr<Tampere>& city)
 {
     city_ = city;
 }
@@ -45,6 +45,18 @@ void GameWindow::drawNysses()
         scene->addItem(nysse);
     }
 }
+
+void GameWindow::drawStops()
+{
+    //std::cout << city_ << std::endl;
+    for(auto loc : city_->stopList){
+        std::cout << loc.first << std::endl;
+        CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(loc.first,loc.second,0);
+        scene->addItem(nysse);
+    }
+}
+
+
 
 void GameWindow::moveNysse()
 {
