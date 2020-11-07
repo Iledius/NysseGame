@@ -23,6 +23,7 @@ public:
     ~GameWindow();
     void drawNysses();
     void moveNysse();
+    void chooseCity(std::shared_ptr<Tampere>& city);
 
 private:
     Ui::GameWindow *ui;
@@ -30,6 +31,7 @@ private:
     CourseSide::Logic* logic_;
     std::shared_ptr<Tampere> city_;
     QGraphicsView *gameView;
+    std::vector<std::pair<int,int>> nysse_locationdata_;
 
 
 };

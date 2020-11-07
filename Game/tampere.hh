@@ -26,7 +26,7 @@ public:
     void actorMoved(std::shared_ptr<Interface::IActor> actor) override;
     std::vector<std::shared_ptr<Interface::IActor>> getNearbyActors(Interface::Location loc) const override;
     bool isGameOver() const override;
-    std::vector<std::shared_ptr<Interface::IActor>> nysseList;
+    std::vector<std::pair<int,int>> nysseList;
 
 private:
     QTime time_;

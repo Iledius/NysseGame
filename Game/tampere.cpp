@@ -21,7 +21,10 @@ void Tampere::addStop(std::shared_ptr<Interface::IStop> stop)
 }
 void Tampere::addActor(std::shared_ptr<Interface::IActor> newactor)
 {
-    nysseList.push_back(newactor);
+    int x = newactor->giveLocation().giveX();
+    int y = newactor->giveLocation().giveY();
+    std::pair<int,int> coords = {x,y};
+    nysseList.push_back(coords);
 }
 void Tampere::removeActor(std::shared_ptr<Interface::IActor> actor)
 {
