@@ -17,9 +17,6 @@ int main(int argc, char *argv[])
         gameWindow.show();
         //tällä hetkellä tehty oma funktio, käytetään logic_:in addNysseä jatkossa
         gameWindow.addNysse(1);
-        for(int i=0; i<10; i++){
-            gameWindow.moveNysse();
-        }
     }
     else if(s.result() == 0)
     {
