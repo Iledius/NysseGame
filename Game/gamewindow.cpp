@@ -31,7 +31,6 @@ GameWindow::GameWindow(QWidget *parent) :
     chooseCity(city_temp_);
     city_temp_=nullptr;
     logic_->finalizeGameStart();
-
 }
 
 void GameWindow::chooseCity(std::shared_ptr<Tampere>& city)
@@ -41,8 +40,7 @@ void GameWindow::chooseCity(std::shared_ptr<Tampere>& city)
 
 void GameWindow::drawNysses()
 {
-   // CourseSide::SimpleActorItem* n = city_->nysseList.at(0);
-    std::cout << city_ << std::endl;
+    //std::cout << city_ << std::endl;
     for(auto loc : city_->nysseList){
         std::cout << loc.first << std::endl;
         CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(loc.first,loc.second,1);
@@ -51,8 +49,8 @@ void GameWindow::drawNysses()
 }
 
 void GameWindow::moveNysse()
-
 {
+
 }
 
 GameWindow::~GameWindow()
