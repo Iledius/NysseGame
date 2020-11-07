@@ -41,21 +41,13 @@ void GameWindow::chooseCity(std::shared_ptr<Tampere>& city)
 
 void GameWindow::drawNysses()
 {
-<<<<<<< HEAD
-     //tällä hetkellä tehty oma funktio, käytetään logic_:in addNysseä jatkossa
-    CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(99,5,1);
-    std::vector<std::shared_ptr<Interface::IActor>> kyrpa =  city_->nysseList;
-    scene->addItem(nysse);
-=======
    // CourseSide::SimpleActorItem* n = city_->nysseList.at(0);
     std::cout << city_ << std::endl;
     for(auto loc : city_->nysseList){
         std::cout << loc.first << std::endl;
-
         CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(loc.first,loc.second,1);
         scene->addItem(nysse);
     }
->>>>>>> refs/remotes/origin/master
 }
 
 void GameWindow::moveNysse()
