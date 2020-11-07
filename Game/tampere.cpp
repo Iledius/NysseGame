@@ -28,6 +28,7 @@ void Tampere::addActor(std::shared_ptr<Interface::IActor> newactor)
 }
 void Tampere::removeActor(std::shared_ptr<Interface::IActor> actor)
 {
+
 }
 void Tampere::actorRemoved(std::shared_ptr<Interface::IActor> actor){
 

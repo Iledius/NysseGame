@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     }
     else if(s.result() == 0)
     {
-        return 0;
+
     }
     return a.exec();
 }
