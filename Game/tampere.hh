@@ -26,11 +26,10 @@ public:
     void actorMoved(std::shared_ptr<Interface::IActor> actor) override;
     std::vector<std::shared_ptr<Interface::IActor>> getNearbyActors(Interface::Location loc) const override;
     bool isGameOver() const override;
-    std::vector<CourseSide::SimpleActorItem*> nysses;
+    std::vector<std::shared_ptr<Interface::IActor>> nysseList;
 
 private:
     QTime time_;
-
 };
 
 #endif // TAMPERE_HH

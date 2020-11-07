@@ -30,7 +30,6 @@ private:
     CourseSide::Logic* logic_;
     std::shared_ptr<Tampere> city_;
     QGraphicsView *gameView;
-    std::vector<std::pair<int,int>> nysse_locationdata_;
 
 
 };
