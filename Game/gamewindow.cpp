@@ -37,11 +37,12 @@ void GameWindow::drawNysses()
 {
      //tällä hetkellä tehty oma funktio, käytetään logic_:in addNysseä jatkossa
     CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(99,5,1);
-    std::cout << city_->nysseList.at(0) << std::endl;
+    std::vector<std::shared_ptr<Interface::IActor>> kyrpa =  city_->nysseList;
     scene->addItem(nysse);
 }
 
 void GameWindow::moveNysse()
+
 {
 }
 
