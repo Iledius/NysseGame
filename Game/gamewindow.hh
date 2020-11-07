@@ -24,6 +24,7 @@ public:
     void drawNysses();
     void moveNysse();
     void takeCity(std::shared_ptr<Tampere>& city);
+    void drawStops();
 
 private:
     Ui::GameWindow *ui;

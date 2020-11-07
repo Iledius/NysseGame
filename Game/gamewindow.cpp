@@ -48,6 +48,18 @@ void GameWindow::drawNysses()
     }
 }
 
+void GameWindow::drawStops()
+{
+    //std::cout << city_ << std::endl;
+    for(auto loc : city_->stopList){
+        std::cout << loc.first << std::endl;
+        CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(loc.first,loc.second,0);
+        scene->addItem(nysse);
+    }
+}
+
+
+
 void GameWindow::moveNysse()
 {
 

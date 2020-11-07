@@ -17,7 +17,10 @@ void Tampere::startGame()
 }
 void Tampere::addStop(std::shared_ptr<Interface::IStop> stop)
 {
-
+    int x = stop->getLocation().giveX();
+    int y = stop->getLocation().giveY();
+    std::pair<int,int> coords = {x,y};
+    stopList.push_back(coords);
 }
 void Tampere::addActor(std::shared_ptr<Interface::IActor> newactor)
 {
