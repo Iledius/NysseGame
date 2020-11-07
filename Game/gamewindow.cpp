@@ -1,4 +1,5 @@
 #include "gamewindow.hh"
+#include <iostream>
 #include "ui_gamewindow.h"
 
 
@@ -11,9 +12,7 @@ GameWindow::GameWindow(QWidget *parent) :
     QImage* backImg = new QImage(":/offlinedata/offlinedata/kartta_iso_1095x592.png");
     logic_ = new CourseSide::Logic(this);
 
-    // Ei toimi, ilmeisesti koska luokka Tampere on abstrakti, eli funktioita ei ole implementoitu? en y,,ärrä
-    // ps. ctrl + klikkaamalla luokkaa pääsee kätevästi hyppimään filujen välillä :D
-    std::shared_ptr<Tampere> city_ = std::make_shared<Tampere>();
+     std::shared_ptr<Tampere> city_ = std::make_shared<Tampere>();
 
     ui->setupUi(this);
     QBrush backGround(*backImg);
@@ -30,17 +29,21 @@ GameWindow::GameWindow(QWidget *parent) :
     logic_->readOfflineData(buses_string,stops_string);
     logic_->takeCity(city_);
     logic_->finalizeGameStart();
+
 }
 
 
-void GameWindow::addNysse(unsigned int line)
+void GameWindow::drawNysses()
 {
      //tällä hetkellä tehty oma funktio, käytetään logic_:in addNysseä jatkossa
     CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(99,5,1);
+    std::cout << city_->nysseList.at(0) << std::endl;
     scene->addItem(nysse);
-    nysses.push_back(nysse);
 }
 
+void GameWindow::moveNysse()
+{
+}
 
 GameWindow::~GameWindow()
 {

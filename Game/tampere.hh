@@ -1,9 +1,9 @@
 #ifndef TAMPERE_HH
 #define TAMPERE_HH
 #include "interfaces/icity.hh"
-#include <QMainWindow>
 #include "actors/nysse.hh"
 #include "actors/passenger.hh"
+#include "graphics/simpleactoritem.hh"
 #include "actors/stop.hh"
 #include "interfaces/iactor.hh"
 #include "core/location.hh"
@@ -14,6 +14,7 @@ class Tampere : public Interface::ICity
 public:
     Tampere();
     ~Tampere();
+
     void setBackground(QImage &basicbackground, QImage &bigbackground) override;
     void setClock(QTime clock) override;
     void startGame() override;
@@ -25,10 +26,10 @@ public:
     void actorMoved(std::shared_ptr<Interface::IActor> actor) override;
     std::vector<std::shared_ptr<Interface::IActor>> getNearbyActors(Interface::Location loc) const override;
     bool isGameOver() const override;
+    std::vector<std::shared_ptr<Interface::IActor>> nysseList;
 
 private:
     QTime time_;
-    QMainWindow gamewindow_;
 };
 
 #endif // TAMPERE_HH

@@ -15,8 +15,7 @@ int main(int argc, char *argv[])
     if(s.result() == 1)
     {
         gameWindow.show();
-        //tällä hetkellä tehty oma funktio, käytetään logic_:in addNysseä jatkossa
-        gameWindow.addNysse(1);
+        gameWindow.drawNysses();
     }
     else if(s.result() == 0)
     {

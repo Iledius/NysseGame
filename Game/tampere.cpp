@@ -5,6 +5,7 @@ Tampere::Tampere() :
     time_(QTime::currentTime().hour(), QTime::currentTime().minute(), QTime::currentTime().second())
 {
 }
+
 void Tampere::setBackground(QImage &basicbackground, QImage &bigbackground)
 {
 }
@@ -20,6 +21,7 @@ void Tampere::addStop(std::shared_ptr<Interface::IStop> stop)
 }
 void Tampere::addActor(std::shared_ptr<Interface::IActor> newactor)
 {
+    nysseList.push_back(newactor);
 
 }
 void Tampere::removeActor(std::shared_ptr<Interface::IActor> actor)
