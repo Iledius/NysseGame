@@ -23,7 +23,7 @@ public:
     ~GameWindow();
     void drawNysses();
     void moveNysse();
-    void chooseCity(std::shared_ptr<Tampere>& city);
+    void takeCity(std::shared_ptr<Tampere>& city);
 
 private:
     Ui::GameWindow *ui;
