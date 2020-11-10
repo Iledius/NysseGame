@@ -31,9 +31,14 @@ public:
     std::vector<std::pair<int,int>> stopList;
     std::vector<std::shared_ptr<Interface::IActor>> nysses;
     bool moved_since_update;
+    void drawNysses();
+    void takeScene(QGraphicsScene* sceneToTake);
+
 
 private:
     QTime time_;
+    QGraphicsScene* scene;
+    std::map<Interface::IActor,CourseSide::SimpleActorItem> nysse_graphic_pair;
 };
 
 #endif // TAMPERE_HH

@@ -33,6 +33,7 @@ GameWindow::GameWindow(QWidget *parent) :
     takeCity(city_temp_);
     city_temp_=nullptr;
     logic_->finalizeGameStart();
+    city_->takeScene(scene);
 }
 
 void GameWindow::takeCity(std::shared_ptr<Tampere>& city)
@@ -43,11 +44,12 @@ void GameWindow::takeCity(std::shared_ptr<Tampere>& city)
 void GameWindow::drawNysses()
 {
     //std::cout << city_ << std::endl;
-    for(auto bus : city_->nysses){
-        CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(bus->giveLocation().giveX(),
-                                                                             bus->giveLocation().giveY(),1);
-        scene->addItem(nysse);
-    }
+    //for(auto bus : city_->nysses){
+     //   CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(bus->giveLocation().giveX(),
+      //                                                                       bus->giveLocation().giveY(),1);
+     //   scene->addItem(nysse);
+    //}
+    city_->drawNysses();
 }
 
 
