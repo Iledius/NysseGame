@@ -24,10 +24,10 @@ void Tampere::addStop(std::shared_ptr<Interface::IStop> stop)
 }
 void Tampere::addActor(std::shared_ptr<Interface::IActor> newactor)
 {
-    int x = newactor->giveLocation().giveX();
-    int y = newactor->giveLocation().giveY();
-    std::pair<int,int> coords = {x,y};
-    nysseList.push_back(coords);
+    //TODO:
+    // logic kutsuu tätä funktiota nysseille ja passengereille
+    // erota jotenkin nysset passengereista.
+    nysses.push_back(newactor);
 }
 void Tampere::removeActor(std::shared_ptr<Interface::IActor> actor)
 {
@@ -37,16 +37,29 @@ void Tampere::actorRemoved(std::shared_ptr<Interface::IActor> actor){
 
 }
 bool Tampere::findActor(std::shared_ptr<Interface::IActor> actor) const {
-   return true;
+   return false;
 }
 void Tampere::actorMoved(std::shared_ptr<Interface::IActor> actor){
+    // iteraattorilla ettiminen saa kaatuman, siksi forloop
+    //std::vector<std::shared_ptr<Interface::IActor>>::iterator pos;
+    //pos = std::find(nysses.begin(), nysses.end(), actor);
 
+    //for(int i = 0;i < nysses.size();i++)
+    //{
+     //   if(nysses.at(i)==actor){
+
+    //    }
+        //Should output 1 4 8
+    //}
+
+    // todo: muuttuja, joka kertoo mitkä liikkuneet. Gamewindow katsoo tätä ja piirtää uusiksi.
+    // Gamewindowin siis saatava myös tieto busseista!
 }
 std::vector<std::shared_ptr<Interface::IActor>> Tampere::getNearbyActors(Interface::Location loc) const {
 
 }
 bool Tampere::isGameOver() const {
-
+    return false;
 }
 
 
