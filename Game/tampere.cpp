@@ -40,17 +40,15 @@ void Tampere::actorMoved(std::shared_ptr<Interface::IActor> actor){
     // iteraattorilla ettiminen saa kaatuman, siksi forloop
     //std::vector<std::shared_ptr<Interface::IActor>>::iterator pos;
     //pos = std::find(nysses.begin(), nysses.end(), actor);
-
-    for(unsigned long i = 0;i < nysses.size();i++)
-    {
-        if(nysses.at(i)==actor){
-            //scene->removeItem()
-        }
-    }
-
-    // todo: muuttuja, joka kertoo mitkä liikkuneet. Gamewindow katsoo tätä ja piirtää uusiksi.
-    // Gamewindowin siis saatava myös tieto busseista!
-
+    CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(actor->giveLocation().giveX(),
+                                                                         actor->giveLocation().giveY(),1);
+   std::map<std::shared_ptr<Interface::IActor>,CourseSide::SimpleActorItem*>::iterator it;
+   it = nysse_graphic_pairs.find(actor);
+   if(it != nysse_graphic_pairs.end()){
+        scene->removeItem(it->second);
+        it->second = nysse;
+        scene->addItem(nysse);
+   }
 }
 std::vector<std::shared_ptr<Interface::IActor>> Tampere::getNearbyActors(Interface::Location loc) const {
 
@@ -61,9 +59,10 @@ bool Tampere::isGameOver() const {
 
 void Tampere::drawNysses(){
     //std::cout << city_ << std::endl;
-    for(auto bus : nysses){
+    for(std::shared_ptr<Interface::IActor> bus : nysses){
         CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(bus->giveLocation().giveX(),
                                                                              bus->giveLocation().giveY(),1);
+        nysse_graphic_pairs.insert({bus, nysse});
         scene->addItem(nysse);
         break;
     }

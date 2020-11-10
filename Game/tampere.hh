@@ -8,6 +8,7 @@
 #include "interfaces/iactor.hh"
 #include "core/location.hh"
 #include <algorithm>    // std::find
+#include <map>
 
 
 class Tampere : public Interface::ICity
@@ -38,7 +39,7 @@ public:
 private:
     QTime time_;
     QGraphicsScene* scene;
-    std::map<Interface::IActor,CourseSide::SimpleActorItem> nysse_graphic_pair;
+    std::map<std::shared_ptr<Interface::IActor>,CourseSide::SimpleActorItem*> nysse_graphic_pairs;
 };
 
 #endif // TAMPERE_HH
