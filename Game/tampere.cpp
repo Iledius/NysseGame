@@ -64,7 +64,6 @@ void Tampere::drawNysses(){
                                                                              bus->giveLocation().giveY(),1);
         nysse_graphic_pairs.insert({bus, nysse});
         scene->addItem(nysse);
-        break;
     }
 }
 
