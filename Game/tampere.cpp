@@ -28,19 +28,26 @@ void Tampere::addActor(std::shared_ptr<Interface::IActor> newactor)
 }
 void Tampere::removeActor(std::shared_ptr<Interface::IActor> actor)
 {
-
+    std::map<std::shared_ptr<Interface::IActor>,CourseSide::SimpleActorItem*>::iterator it;
+    it=nysse_graphic_pairs.begin();
+    if(it != nysse_graphic_pairs.end()){
+         scene->removeItem(it->second);
+         nysse_graphic_pairs.erase(it);
+    }
 }
 void Tampere::actorRemoved(std::shared_ptr<Interface::IActor> actor){
 
 }
 bool Tampere::findActor(std::shared_ptr<Interface::IActor> actor) const {
+   std::map<std::shared_ptr<Interface::IActor>,CourseSide::SimpleActorItem*>::const_iterator it;
+   it=nysse_graphic_pairs.begin();
+   if(it != nysse_graphic_pairs.end())
+        return true;
+
    return false;
 }
 void Tampere::actorMoved(std::shared_ptr<Interface::IActor> actor){
-    // iteraattorilla ettiminen saa kaatuman, siksi forloop
-    //std::vector<std::shared_ptr<Interface::IActor>>::iterator pos;
-    //pos = std::find(nysses.begin(), nysses.end(), actor);
-    CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(actor->giveLocation().giveX(),
+   CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(actor->giveLocation().giveX(),
                                                                          actor->giveLocation().giveY(),1);
    std::map<std::shared_ptr<Interface::IActor>,CourseSide::SimpleActorItem*>::iterator it;
    it = nysse_graphic_pairs.find(actor);
@@ -58,7 +65,6 @@ bool Tampere::isGameOver() const {
 }
 
 void Tampere::drawNysses(){
-    //std::cout << city_ << std::endl;
     for(std::shared_ptr<Interface::IActor> bus : nysses){
         CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(bus->giveLocation().giveX(),
                                                                              bus->giveLocation().giveY(),1);
