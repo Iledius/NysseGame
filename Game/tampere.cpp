@@ -59,14 +59,12 @@ bool Tampere::findActor(std::shared_ptr<Interface::IActor> actor) const {
 }
 
 void Tampere::actorMoved(std::shared_ptr<Interface::IActor> actor){
-   CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(actor->giveLocation().giveX(),
-                                                                         actor->giveLocation().giveY(),1);
+   //CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(actor->giveLocation().giveX(),
+   //                                                                      actor->giveLocation().giveY(),1);
    std::map<std::shared_ptr<Interface::IActor>,CourseSide::SimpleActorItem*>::iterator it;
    it = nysse_graphic_pairs.find(actor);
    if(it != nysse_graphic_pairs.end()){
-        scene->removeItem(it->second);
-        it->second = nysse;
-        scene->addItem(nysse);
+        it->second->setCoord(actor.get()->giveLocation().giveX(),actor.get()->giveLocation().giveY());
    }
 }
 std::vector<std::shared_ptr<Interface::IActor>> Tampere::getNearbyActors(Interface::Location loc) const {
@@ -79,7 +77,7 @@ bool Tampere::isGameOver() const {
 void Tampere::drawNysses(){
     for(std::shared_ptr<Interface::IActor> bus : nysses){
         CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(bus->giveLocation().giveX(),
-                                                                             bus->giveLocation().giveY(),1);
+                                                                             bus->giveLocation().giveY(),255);
         nysse_graphic_pairs.insert({bus, nysse});
         scene->addItem(nysse);
     }

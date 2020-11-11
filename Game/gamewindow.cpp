@@ -16,13 +16,13 @@ GameWindow::GameWindow(QWidget *parent) :
 
     ui->setupUi(this);
     QBrush backGround(*backImg);
-    scene->setSceneRect(-100,-100,500,500);
+    scene->setSceneRect(0,0,500,500);
     scene->setBackgroundBrush(backGround);
     gameView = new QGraphicsView();
     gameView->setParent(this);
     gameView->setScene(scene);
 
-    logic_->setTime(23, 0);
+    logic_->setTime(8, 0);
 
     QString buses_string = ":/offlinedata/offlinedata/final_bus_liteN.json";
     QString stops_string = ":/offlinedata/offlinedata/full_stations_kkj3.json";
@@ -51,11 +51,13 @@ void GameWindow::drawNysses()
 
 void GameWindow::drawStops()
 {
-    for(auto loc : city_->stopList){
-        std::cout << loc.first << std::endl;
-        CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(loc.first,loc.second,0);
-        scene->addItem(nysse);
-    }
+    //tapahtuu nykyään tamepreessa, säilytetään jos tulee ongelmia
+
+    //for(auto loc : city_->stopList){
+    //    std::cout << loc.first << std::endl;
+    //    CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(loc.first,loc.second,0);
+    //    scene->addItem(nysse);
+    //}
 }
 
 GameWindow::~GameWindow()
