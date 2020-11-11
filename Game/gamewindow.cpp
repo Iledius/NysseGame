@@ -1,6 +1,7 @@
 #include "gamewindow.hh"
 #include <iostream>
 #include "ui_gamewindow.h"
+#include "startdialog.h"
 
 
 GameWindow::GameWindow(QWidget *parent) :
@@ -49,6 +50,14 @@ void GameWindow::drawNysses()
 
 void GameWindow::drawStops()
 {
+
+}
+
+void GameWindow::setPlayerName(QString s)
+{
+    player_name = s;
+    std::cout << "player name changed to " << s.toStdString() <<std::endl;
+    ui->playerNameLabel->setText(player_name);
 }
 
 GameWindow::~GameWindow()
