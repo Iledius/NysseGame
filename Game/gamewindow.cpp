@@ -9,22 +9,16 @@ GameWindow::GameWindow(QWidget *parent) :
 {
     std::vector<CourseSide::SimpleActorItem*> nysses;
     scene = new QGraphicsScene(this);
-    const auto bigmap = ":/offlinedata/offlinedata/kartta_iso_1095x592.png";
-    std::string smallmap = ":/offlinedata/offlinedata/kartta_pieni_500x500.png";
-    QImage* backImg = new QImage(bigmap);
+    QImage* backImg = new QImage(":/offlinedata/offlinedata/kartta_pieni_500x500.png");
     logic_ = new CourseSide::Logic(this);
-    gameView = new QGraphicsView();
 
     std::shared_ptr<Tampere> city_temp_ = std::make_shared<Tampere>();
 
     ui->setupUi(this);
     QBrush backGround(*backImg);
-    //
+    scene->setSceneRect(0,0,500,500);
     scene->setBackgroundBrush(backGround);
-
-    QRect rcontent = gameView->contentsRect();
-    gameView->setSceneRect(0, 0, rcontent.width(), rcontent.height());
-    scene->setSceneRect(0,0,rcontent.width(),rcontent.height());
+    gameView = new QGraphicsView();
     gameView->setParent(this);
     gameView->setScene(scene);
 

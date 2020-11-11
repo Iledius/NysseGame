@@ -34,6 +34,7 @@ public:
     bool moved_since_update;
     void drawNysses();
     void takeScene(QGraphicsScene* sceneToTake);
+    std::vector<std::pair<int,int>> nysseList;
 
 
 private:

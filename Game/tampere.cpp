@@ -23,9 +23,7 @@ void Tampere::addStop(std::shared_ptr<Interface::IStop> stop)
 {
     int x = stop->getLocation().giveX();
     int y = stop->getLocation().giveY();
-    //std::pair<int,int> coords = {x,y};
     stopList.push_back(stop);
-
     CourseSide::SimpleActorItem* stop_interf = new CourseSide::SimpleActorItem(stop->getLocation().giveX(),
                                                                           stop->getLocation().giveY(),0);
     scene->addItem(stop_interf);
@@ -34,7 +32,10 @@ void Tampere::addStop(std::shared_ptr<Interface::IStop> stop)
 
 void Tampere::addActor(std::shared_ptr<Interface::IActor> newactor)
 {
-    nysses.push_back(newactor);
+    int x = newactor->giveLocation().giveX()*1.3;
+    int y = newactor->giveLocation().giveY()*1.2;
+    std::pair<int,int> coords = {x,y};
+    nysseList.push_back(coords);
 }
 
 void Tampere::removeActor(std::shared_ptr<Interface::IActor> actor)
@@ -60,8 +61,6 @@ bool Tampere::findActor(std::shared_ptr<Interface::IActor> actor) const {
 }
 
 void Tampere::actorMoved(std::shared_ptr<Interface::IActor> actor){
-   //CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(actor->giveLocation().giveX(),
-   //                                                                      actor->giveLocation().giveY(),1);
    std::map<std::shared_ptr<Interface::IActor>,CourseSide::SimpleActorItem*>::iterator it;
    it = nysse_graphic_pairs.find(actor);
    if(it != nysse_graphic_pairs.end()){

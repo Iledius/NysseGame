@@ -24,6 +24,10 @@ public:
     void drawNysses();
     void takeCity(std::shared_ptr<Tampere>& city);
     void drawStops();
+    void setPlayerName(QString s);
+    void setDifficulty();
+    QString player_name;
+    std::string difficulty;
 
 private:
     Ui::GameWindow *ui;

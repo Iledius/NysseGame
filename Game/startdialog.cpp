@@ -16,12 +16,12 @@ startDialog::~startDialog()
 
 void startDialog::on_buttonBox_2_accepted()
 {
-    std::string new_name = ui->nameEdit->text().toStdString();
-    if(new_name.length() > 0)
+    QString new_name = ui->nameEdit->text();
+    std::cout << new_name.toStdString().length() << std::endl;
+    if(new_name.toStdString().length() > 0)
     {
         player_name = new_name;
     }
-    std::cout << player_name << std::endl;
     startDialog::accept();
 }
 
