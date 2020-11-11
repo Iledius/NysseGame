@@ -7,6 +7,8 @@
 #include "actors/stop.hh"
 #include "interfaces/iactor.hh"
 #include "core/location.hh"
+#include <algorithm>    // std::find
+#include <map>
 
 
 class Tampere : public Interface::ICity
@@ -26,11 +28,18 @@ public:
     void actorMoved(std::shared_ptr<Interface::IActor> actor) override;
     std::vector<std::shared_ptr<Interface::IActor>> getNearbyActors(Interface::Location loc) const override;
     bool isGameOver() const override;
-    std::vector<std::pair<int,int>> nysseList;
+    //std::vector<std::pair<int,int>> nysseList;
     std::vector<std::pair<int,int>> stopList;
+    std::vector<std::shared_ptr<Interface::IActor>> nysses;
+    bool moved_since_update;
+    void drawNysses();
+    void takeScene(QGraphicsScene* sceneToTake);
+
 
 private:
     QTime time_;
+    QGraphicsScene* scene;
+    std::map<std::shared_ptr<Interface::IActor>,CourseSide::SimpleActorItem*> nysse_graphic_pairs;
 };
 
 #endif // TAMPERE_HH

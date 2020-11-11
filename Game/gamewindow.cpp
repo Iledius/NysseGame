@@ -16,7 +16,7 @@ GameWindow::GameWindow(QWidget *parent) :
 
     ui->setupUi(this);
     QBrush backGround(*backImg);
-    scene->setSceneRect(0,0,1095,592);
+    scene->setSceneRect(-100,-100,500,500);
     scene->setBackgroundBrush(backGround);
     gameView = new QGraphicsView();
     gameView->setParent(this);
@@ -27,10 +27,13 @@ GameWindow::GameWindow(QWidget *parent) :
     QString buses_string = ":/offlinedata/offlinedata/final_bus_liteN.json";
     QString stops_string = ":/offlinedata/offlinedata/full_stations_kkj3.json";
     logic_->readOfflineData(buses_string,stops_string);
+    // tää cityn säätö pointterista referenssiks saa aikaan mystisiä ongelmia
+    // https://manski.net/2012/02/cpp-references-and-inheritance/ tuolla selitetty
     logic_->takeCity(city_temp_);
     takeCity(city_temp_);
     city_temp_=nullptr;
     logic_->finalizeGameStart();
+    city_->takeScene(scene);
 }
 
 void GameWindow::takeCity(std::shared_ptr<Tampere>& city)
@@ -40,11 +43,12 @@ void GameWindow::takeCity(std::shared_ptr<Tampere>& city)
 
 void GameWindow::drawNysses()
 {
-    for(auto loc : city_->nysseList){
-        CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(loc.first,loc.second,255);
-        scene->addItem(nysse);
+    for(auto loc : city_->nysses){
+        //CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(loc.first,loc.second,255);
+        //scene->addItem(nysse);
     }
 }
+
 
 void GameWindow::drawStops()
 {
