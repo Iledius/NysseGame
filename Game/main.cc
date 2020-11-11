@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     gameWindow.setPlayerName(s.player_name);
     if(s.result() == 0)
     {
-
+        //TODO: Sulje ohjelma
     }
     return a.exec();
 }

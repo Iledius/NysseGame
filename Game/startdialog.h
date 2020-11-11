@@ -15,7 +15,7 @@ public:
     explicit startDialog(QWidget *parent = nullptr);
     ~startDialog();
     QString player_name = "Tero Default";
-    std::string difficulty;
+    int difficulty = 0;
 
 private slots:
     void on_buttonBox_2_accepted();

@@ -28,7 +28,7 @@ GameWindow::GameWindow(QWidget *parent) :
     QString buses_string = ":/offlinedata/offlinedata/final_bus_liteN.json";
     QString stops_string = ":/offlinedata/offlinedata/full_stations_kkj3.json";
     logic_->readOfflineData(buses_string,stops_string);
-    // t�� cityn s��t� pointterista referenssiks saa aikaan mystisi� ongelmia
+    // tää cityn säätä pointterista referenssiks saa aikaan mystisiä ongelmia
     // https://manski.net/2012/02/cpp-references-and-inheritance/ tuolla selitetty
     logic_->takeCity(city_temp_);
     takeCity(city_temp_);
@@ -45,6 +45,7 @@ void GameWindow::takeCity(std::shared_ptr<Tampere>& city)
 
 void GameWindow::drawNysses()
 {
+
 }
 
 
@@ -58,6 +59,11 @@ void GameWindow::setPlayerName(QString s)
     player_name = s;
     std::cout << "player name changed to " << s.toStdString() <<std::endl;
     ui->playerNameLabel->setText(player_name);
+}
+
+void GameWindow::setDifficulty()
+{
+
 }
 
 GameWindow::~GameWindow()
