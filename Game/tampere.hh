@@ -29,7 +29,7 @@ public:
     std::vector<std::shared_ptr<Interface::IActor>> getNearbyActors(Interface::Location loc) const override;
     bool isGameOver() const override;
     //std::vector<std::pair<int,int>> nysseList;
-    std::vector<std::pair<int,int>> stopList;
+    std::vector<std::shared_ptr<Interface::IStop>> stopList;
     std::vector<std::shared_ptr<Interface::IActor>> nysses;
     bool moved_since_update;
     void drawNysses();

@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     if(s.result() == 1)
     {
         gameWindow.show();
-        gameWindow.drawNysses();
+        //gameWindow.drawNysses();
         //gameWindow.drawStops();
     }
     else if(s.result() == 0)

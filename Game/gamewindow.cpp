@@ -22,7 +22,7 @@ GameWindow::GameWindow(QWidget *parent) :
     gameView->setParent(this);
     gameView->setScene(scene);
 
-    logic_->setTime(8, 0);
+    logic_->setTime(23, 0);
 
     QString buses_string = ":/offlinedata/offlinedata/final_bus_liteN.json";
     QString stops_string = ":/offlinedata/offlinedata/full_stations_kkj3.json";
@@ -32,8 +32,9 @@ GameWindow::GameWindow(QWidget *parent) :
     logic_->takeCity(city_temp_);
     takeCity(city_temp_);
     city_temp_=nullptr;
-    logic_->finalizeGameStart();
     city_->takeScene(scene);
+    logic_->finalizeGameStart();
+
 }
 
 void GameWindow::takeCity(std::shared_ptr<Tampere>& city)
@@ -43,31 +44,18 @@ void GameWindow::takeCity(std::shared_ptr<Tampere>& city)
 
 void GameWindow::drawNysses()
 {
-    //std::cout << city_ << std::endl;
-    //for(auto bus : city_->nysses){
-     //   CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(bus->giveLocation().giveX(),
-      //                                                                       bus->giveLocation().giveY(),1);
-     //   scene->addItem(nysse);
-    //}
-    city_->drawNysses();
+   // tästä tuli turha? poista ehkä
+    //city_->drawNysses();
 }
 
 
 void GameWindow::drawStops()
 {
-    //std::cout << city_ << std::endl;
     for(auto loc : city_->stopList){
         std::cout << loc.first << std::endl;
         CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(loc.first,loc.second,0);
         scene->addItem(nysse);
     }
-}
-
-
-
-void GameWindow::moveNysse()
-{
-
 }
 
 GameWindow::~GameWindow()
