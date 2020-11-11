@@ -25,8 +25,9 @@ void Tampere::addStop(std::shared_ptr<Interface::IStop> stop)
     int y = stop->getLocation().giveY();
     stopList.push_back(stop);
     CourseSide::SimpleActorItem* stop_interf = new CourseSide::SimpleActorItem(stop->getLocation().giveX(),
-                                                                          stop->getLocation().giveY(),1);
+                                                                          stop->getLocation().giveY(),0);
     scene->addItem(stop_interf);
+    stop_interf->setPos(QPoint(x,y));
 }
 
 void Tampere::addActor(std::shared_ptr<Interface::IActor> newactor)
