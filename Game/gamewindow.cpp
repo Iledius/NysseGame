@@ -1,6 +1,7 @@
 #include "gamewindow.hh"
 #include <iostream>
 #include "ui_gamewindow.h"
+#include "startdialog.h"
 
 
 GameWindow::GameWindow(QWidget *parent) :
@@ -9,14 +10,14 @@ GameWindow::GameWindow(QWidget *parent) :
 {
     std::vector<CourseSide::SimpleActorItem*> nysses;
     scene = new QGraphicsScene(this);
-    QImage* backImg = new QImage(":/offlinedata/offlinedata/kartta_pieni_500x500.png");
+    QImage* backImg = new QImage(":/offlinedata/offlinedata/kartta_iso_1095x592.png");
     logic_ = new CourseSide::Logic(this);
 
     std::shared_ptr<Tampere> city_temp_ = std::make_shared<Tampere>();
 
     ui->setupUi(this);
     QBrush backGround(*backImg);
-    scene->setSceneRect(0,0,500,500);
+    scene->setSceneRect(0,-0,500,500);
     scene->setBackgroundBrush(backGround);
     gameView = new QGraphicsView();
     gameView->setParent(this);
@@ -44,20 +45,19 @@ void GameWindow::takeCity(std::shared_ptr<Tampere>& city)
 
 void GameWindow::drawNysses()
 {
-   // tästä tuli turha? poista ehkä
-    //city_->drawNysses();
 }
 
 
 void GameWindow::drawStops()
 {
-    //tapahtuu nykyään tamepreessa, säilytetään jos tulee ongelmia
 
-    //for(auto loc : city_->stopList){
-    //    std::cout << loc.first << std::endl;
-    //    CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(loc.first,loc.second,0);
-    //    scene->addItem(nysse);
-    //}
+}
+
+void GameWindow::setPlayerName(QString s)
+{
+    player_name = s;
+    std::cout << "player name changed to " << s.toStdString() <<std::endl;
+    ui->playerNameLabel->setText(player_name);
 }
 
 GameWindow::~GameWindow()
