@@ -16,7 +16,7 @@ GameWindow::GameWindow(QWidget *parent) :
 
     ui->setupUi(this);
     QBrush backGround(*backImg);
-    scene->setSceneRect(-100,-100,500,500);
+    scene->setSceneRect(0,-0,500,500);
     scene->setBackgroundBrush(backGround);
     gameView = new QGraphicsView();
     gameView->setParent(this);
@@ -32,8 +32,9 @@ GameWindow::GameWindow(QWidget *parent) :
     logic_->takeCity(city_temp_);
     takeCity(city_temp_);
     city_temp_=nullptr;
-    logic_->finalizeGameStart();
     city_->takeScene(scene);
+    logic_->finalizeGameStart();
+
 }
 
 void GameWindow::takeCity(std::shared_ptr<Tampere>& city)
@@ -43,27 +44,11 @@ void GameWindow::takeCity(std::shared_ptr<Tampere>& city)
 
 void GameWindow::drawNysses()
 {
-    for(auto loc : city_->nysses){
-        //CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(loc.first,loc.second,255);
-        //scene->addItem(nysse);
-    }
 }
 
 
 void GameWindow::drawStops()
 {
-    for(auto loc : city_->stopList){
-        std::cout << loc.first << "asd:D" << std::endl;
-        CourseSide::SimpleActorItem* stop = new CourseSide::SimpleActorItem(loc.first,loc.second,0);
-        scene->addItem(stop);
-    }
-}
-
-
-
-void GameWindow::moveNysse()
-{
-
 }
 
 GameWindow::~GameWindow()
