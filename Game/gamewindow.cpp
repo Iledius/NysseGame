@@ -16,7 +16,7 @@ GameWindow::GameWindow(QWidget *parent) :
 
     ui->setupUi(this);
     QBrush backGround(*backImg);
-    scene->setSceneRect(0,0,500,500);
+    scene->setSceneRect(0,0,1000,500);
     scene->setBackgroundBrush(backGround);
     gameView = new QGraphicsView();
     gameView->setParent(this);
