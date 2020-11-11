@@ -9,14 +9,14 @@ GameWindow::GameWindow(QWidget *parent) :
 {
     std::vector<CourseSide::SimpleActorItem*> nysses;
     scene = new QGraphicsScene(this);
-    QImage* backImg = new QImage(":/offlinedata/offlinedata/kartta_pieni_500x500.png");
+    QImage* backImg = new QImage(":/offlinedata/offlinedata/kartta_iso_1095x592.png");
     logic_ = new CourseSide::Logic(this);
 
     std::shared_ptr<Tampere> city_temp_ = std::make_shared<Tampere>();
 
     ui->setupUi(this);
     QBrush backGround(*backImg);
-    scene->setSceneRect(-100,-100,1095,592);
+    scene->setSceneRect(0,0,1095,592);
     scene->setBackgroundBrush(backGround);
     gameView = new QGraphicsView();
     gameView->setParent(this);
@@ -41,18 +41,17 @@ void GameWindow::takeCity(std::shared_ptr<Tampere>& city)
 void GameWindow::drawNysses()
 {
     for(auto loc : city_->nysseList){
-        CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(loc.first,loc.second,1);
+        CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(loc.first,loc.second,255);
         scene->addItem(nysse);
     }
 }
 
 void GameWindow::drawStops()
 {
-    //std::cout << city_ << std::endl;
     for(auto loc : city_->stopList){
-        std::cout << loc.first << std::endl;
-        CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(loc.first,loc.second,0);
-        scene->addItem(nysse);
+        std::cout << loc.first << "asd:D" << std::endl;
+        CourseSide::SimpleActorItem* stop = new CourseSide::SimpleActorItem(loc.first,loc.second,0);
+        scene->addItem(stop);
     }
 }
 

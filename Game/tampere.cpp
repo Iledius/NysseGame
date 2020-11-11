@@ -20,12 +20,13 @@ void Tampere::addStop(std::shared_ptr<Interface::IStop> stop)
     int x = stop->getLocation().giveX();
     int y = stop->getLocation().giveY();
     std::pair<int,int> coords = {x,y};
+    std::cout << coords.first << std::endl;
     stopList.push_back(coords);
 }
 void Tampere::addActor(std::shared_ptr<Interface::IActor> newactor)
 {
-    int x = newactor->giveLocation().giveX();
-    int y = newactor->giveLocation().giveY();
+    int x = newactor->giveLocation().giveX()*1.3;
+    int y = newactor->giveLocation().giveY()*1.2;
     std::pair<int,int> coords = {x,y};
     nysseList.push_back(coords);
 }
