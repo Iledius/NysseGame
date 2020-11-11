@@ -39,12 +39,12 @@ void Tampere::addActor(std::shared_ptr<Interface::IActor> newactor)
 
 void Tampere::removeActor(std::shared_ptr<Interface::IActor> actor)
 {
-//    std::map<std::shared_ptr<Interface::IActor>,CourseSide::SimpleActorItem*>::iterator it;
-//    it=nysse_graphic_pairs.begin();
-//    if(it != nysse_graphic_pairs.end()){
-//         scene->removeItem(it->second);
-//         nysse_graphic_pairs.erase(it);
-//    }
+    std::map<std::shared_ptr<Interface::IActor>,CourseSide::SimpleActorItem*>::iterator it;
+    it=nysse_graphic_pairs.begin();
+    if(it != nysse_graphic_pairs.end()){
+         scene->removeItem(it->second);
+         nysse_graphic_pairs.erase(it);
+    }
 }
 
 void Tampere::actorRemoved(std::shared_ptr<Interface::IActor> actor){
