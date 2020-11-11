@@ -35,7 +35,6 @@ GameWindow::GameWindow(QWidget *parent) :
     city_temp_=nullptr;
     city_->takeScene(scene);
     logic_->finalizeGameStart();
-
 }
 
 void GameWindow::takeCity(std::shared_ptr<Tampere>& city)
