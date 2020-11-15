@@ -63,21 +63,24 @@
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QRadioButton" name="EasyRadioButton">
       <property name="text">
        <string>Easy</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QRadioButton" name="mediumRadioButton">
       <property name="text">
        <string>Medium</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton_3">
+     <widget class="QRadioButton" name="hardRadioButton">
       <property name="text">
        <string>Hard</string>
       </property>

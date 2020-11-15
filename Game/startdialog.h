@@ -22,6 +22,12 @@ private slots:
 
     void on_buttonBox_2_rejected();
 
+    void on_EasyRadioButton_clicked();
+
+    void on_mediumRadioButton_clicked();
+
+    void on_hardRadioButton_clicked();
+
 private:
     Ui::startDialog *ui;
 };

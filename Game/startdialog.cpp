@@ -29,3 +29,17 @@ void startDialog::on_buttonBox_2_rejected()
 {
 
 }
+
+void startDialog::on_EasyRadioButton_clicked()
+{
+    std::cout << "Easy" << std::endl;
+}
+void startDialog::on_mediumRadioButton_clicked()
+{
+    std::cout << "Medium" << std::endl;
+}
+
+void startDialog::on_hardRadioButton_clicked()
+{
+    std::cout << "Hard" << std::endl;
+}
