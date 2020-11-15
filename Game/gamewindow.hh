@@ -25,9 +25,10 @@ public:
     void takeCity(std::shared_ptr<Tampere>& city);
     void drawStops();
     void setPlayerName(QString s);
-    void setDifficulty();
+    void setDifficulty(int d);
     QString player_name;
-    std::string difficulty;
+    int difficulty;
+
 
 private:
     Ui::GameWindow *ui;

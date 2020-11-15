@@ -28,6 +28,8 @@ private slots:
 
     void on_hardRadioButton_clicked();
 
+    void setDifficulty(int d);
+
 private:
     Ui::startDialog *ui;
 };

@@ -60,9 +60,10 @@ void GameWindow::setPlayerName(QString s)
     ui->playerNameLabel->setText(player_name);
 }
 
-void GameWindow::setDifficulty()
+void GameWindow::setDifficulty(int d)
 {
-
+    this->difficulty = d;
+    std::cout << "Diff in gamewindow is " << this->difficulty << std::endl;
 }
 
 GameWindow::~GameWindow()

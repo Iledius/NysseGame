@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
         gameWindow.show();
     }
     gameWindow.setPlayerName(s.player_name);
+    gameWindow.setDifficulty(s.difficulty);
     if(s.result() == 0)
     {
         //TODO: Sulje ohjelma
