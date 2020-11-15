@@ -9,6 +9,8 @@
 #include "core/logic.hh"
 #include "core/location.hh"
 #include "tampere.hh"
+#include "player.hh"
+#include <QTimer>
 
 namespace Ui {
 class GameWindow;
@@ -21,11 +23,12 @@ class GameWindow : public QMainWindow
 public:
     explicit GameWindow(QWidget *parent = nullptr);
     ~GameWindow();
-    void drawNysses();
+    void movePlayer(int x_diff, int y_diff);
     void takeCity(std::shared_ptr<Tampere>& city);
     void drawStops();
     void setPlayerName(QString s);
     void setDifficulty(int d);
+    bool eventFilter(QObject *target, QEvent *event);
     QString player_name;
     int difficulty;
 
@@ -36,6 +39,7 @@ private:
     CourseSide::Logic* logic_;
     std::shared_ptr<Tampere> city_;
     QGraphicsView *gameView;
+    std::shared_ptr<Player> player_;
 };
 
 #endif // GAMEWINDOW_HH

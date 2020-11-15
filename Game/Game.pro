@@ -8,6 +8,7 @@ CONFIG += c++14
 SOURCES += \
     gamewindow.cpp \
     main.cc \
+    player.cpp \
     startdialog.cpp \
     tampere.cpp
 
@@ -37,6 +38,7 @@ else:unix: PRE_TARGETDEPS += \
 
 HEADERS += \
     gamewindow.hh \
+    player.hh \
     startdialog.h \
     tampere.hh
 

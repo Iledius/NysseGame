@@ -16,7 +16,7 @@ void Tampere::setClock(QTime clock)
 
 void Tampere::startGame()
 {
-    std::cout << "starting game, size of nysselsit" << nysses.size() << std::endl;
+    std::cout << "starting game, size of nysselist " << nysses.size() << std::endl;
     drawNysses();
 }
 
@@ -79,10 +79,10 @@ void Tampere::drawNysses(){
 
     for(std::shared_ptr<Interface::IActor> bus : nysses){
         QPoint coords = QPoint(bus->giveLocation().giveX(),bus->giveLocation().giveY());
-        CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(0,0,0);
-        nysse_graphic_pairs.insert({bus, nysse});
-        scene->addItem(nysse);
-        nysse->setPos(coords);
+        CourseSide::SimpleActorItem* actor = new CourseSide::SimpleActorItem(0,0,0);
+        nysse_graphic_pairs.insert({bus, actor});
+        scene->addItem(actor);
+        actor->setPos(coords);
     }
 }
 
