@@ -12,7 +12,7 @@ GameWindow::GameWindow(QWidget *parent) :
     scene = new QGraphicsScene(this);
     QImage* backImg = new QImage(":/offlinedata/offlinedata/kartta_pieni_500x500.png");
     logic_ = new CourseSide::Logic(this);
-    gameView = new QGraphicsView();
+    gameView = new GameView();
 
     std::shared_ptr<Tampere> city_temp_ = std::make_shared<Tampere>();
 
@@ -26,8 +26,8 @@ GameWindow::GameWindow(QWidget *parent) :
     scene->setBackgroundBrush(backGround);
     gameView->setParent(this);
     gameView->setScene(scene);
-
     logic_->setTime(8, 0);
+
 
     QString buses_string = ":/offlinedata/offlinedata/final_bus_liteN.json";
     QString stops_string = ":/offlinedata/offlinedata/full_stations_kkj3.json";
@@ -43,25 +43,6 @@ GameWindow::GameWindow(QWidget *parent) :
     // pelaaja
     player_ = std::make_shared<Player>();
     city_->addActor(player_);
-    installEventFilter(this);
-}
-
-bool GameWindow::eventFilter(QObject *target, QEvent *event) {
-
-    if (event->type() == QEvent::KeyPress) {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-        std::cout << (keyEvent->key()) << std::endl;
-
-        switch (keyEvent->key())
-        {
-             case Qt::Key_W:
-                std::cout << "up pressed" << std::endl;
-                movePlayer(0,3);
-                return true;
-        }
-         return QObject::eventFilter(target, event);
-     }
-        return true;
 }
 
 void GameWindow::takeCity(std::shared_ptr<Tampere>& city)

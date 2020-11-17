@@ -6,6 +6,7 @@ QT += core gui widgets network multimedia testlib
 CONFIG += c++14
 
 SOURCES += \
+    gameview.cpp \
     gamewindow.cpp \
     main.cc \
     player.cpp \
@@ -37,6 +38,7 @@ else:unix: PRE_TARGETDEPS += \
     $$OUT_PWD/../Course/CourseLib/libCourseLib.a
 
 HEADERS += \
+    gameview.hh \
     gamewindow.hh \
     player.hh \
     startdialog.h \

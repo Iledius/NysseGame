@@ -11,6 +11,7 @@
 #include "tampere.hh"
 #include "player.hh"
 #include <QTimer>
+#include "gameview.hh"
 
 namespace Ui {
 class GameWindow;
