@@ -10,6 +10,9 @@
 #include <algorithm>    // std::find
 #include <map>
 #include "player.hh"
+#include <QGraphicsItemAnimation>
+#include <QTimeLine>
+#include <QPointF>
 
 class Tampere : public Interface::ICity
 {
@@ -43,7 +46,8 @@ public:
 private:
     QTime time_;
     QGraphicsScene* scene;
-
+    QTimeLine *timer_;
+    QGraphicsItemAnimation *animation_;
     CourseSide::SimpleActorItem* player_graphic_;
     std::map<std::shared_ptr<Interface::IActor>,CourseSide::SimpleActorItem*> nysse_graphic_pairs;
 };

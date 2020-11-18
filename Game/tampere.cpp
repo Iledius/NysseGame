@@ -1,6 +1,7 @@
 #include "tampere.hh"
 #include "iostream"
 
+
 Tampere::Tampere() :
     time_(QTime::currentTime().hour(), QTime::currentTime().minute(), QTime::currentTime().second())
 {
@@ -20,8 +21,11 @@ void Tampere::startGame()
     std::cout << "starting game, size of nysselist " << nysses.size() << std::endl;
     drawNysses();
     player_ = new Player;
+    animation_ = new QGraphicsItemAnimation;
     std::cout << player_->getPos().first<< std::endl;
     player_graphic_ = new CourseSide::SimpleActorItem(0,0,255);
+    animation_->setItem(player_graphic_);
+    timer_ = new QTimeLine(5000); // timer for animation
     scene->addItem(player_graphic_);
     player_graphic_->setPos(QPoint(0,0));
     player_graphic_->setZValue(1);
@@ -51,8 +55,8 @@ void Tampere::addStop(std::shared_ptr<Interface::IStop> stop)
     stopList.push_back(stop);
     CourseSide::SimpleActorItem* stop_interf = new CourseSide::SimpleActorItem(stop->getLocation().giveX(),
                                                                           stop->getLocation().giveY(),255);
-    //scene->addItem(stop_interf);
-    //stop_interf->setPos(QPoint(x,y));
+    scene->addItem(stop_interf);
+    stop_interf->setPos(QPoint(x,y));
 }
 
 void Tampere::addActor(std::shared_ptr<Interface::IActor> newactor)
@@ -99,7 +103,6 @@ std::vector<std::shared_ptr<Interface::IActor>> Tampere::getNearbyActors(Interfa
 bool Tampere::isGameOver() const {
     return false;
 }
-
 
 
 void Tampere::drawNysses(){

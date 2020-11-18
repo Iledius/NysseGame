@@ -10,15 +10,16 @@ GameWindow::GameWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::GameWindow)
 {
-    std::vector<CourseSide::SimpleActorItem*> nysses;
-    scene = new QGraphicsScene(this);
     QImage* backImg = new QImage(":/offlinedata/offlinedata/kartta_pieni_500x500.png");
+    QString buses_string = ":/offlinedata/offlinedata/final_bus_liteN.json";
+    QString stops_string = ":/offlinedata/offlinedata/full_stations_kkj3.json";
     logic_ = new CourseSide::Logic(this);
     gameView = new GameView();
+    scene = new QGraphicsScene(this);
+    ui->setupUi(this);
 
     std::shared_ptr<Tampere> city_temp_ = std::make_shared<Tampere>();
 
-    ui->setupUi(this);
     QBrush backGround(*backImg);
     // asetetaan gameview oikeaan kokoon, ei tule scrollbareja
     QRect rcontent = gameView->contentsRect();
@@ -26,21 +27,21 @@ GameWindow::GameWindow(QWidget *parent) :
 
     scene->setSceneRect(0,0,rcontent.width(),rcontent.height());
     scene->setBackgroundBrush(backGround);
+
+
     gameView->setParent(this);
     gameView->setScene(scene);
 
+
+    takeCity(city_temp_);
+    gameView->takeCity(city_temp_);
+    logic_->takeCity(city_temp_);
+
     logic_->setTime(8, 0);
-    gameView->scale(-1,-1);
-
-
-    QString buses_string = ":/offlinedata/offlinedata/final_bus_liteN.json";
-    QString stops_string = ":/offlinedata/offlinedata/full_stations_kkj3.json";
     logic_->readOfflineData(buses_string,stops_string);
     // tää cityn säätä pointterista referenssiks saa aikaan mystisiä ongelmia
     // https://manski.net/2012/02/cpp-references-and-inheritance/ tuolla selitetty
-    logic_->takeCity(city_temp_);
-    takeCity(city_temp_);
-    gameView->takeCity(city_temp_);
+
     city_temp_=nullptr;
     city_->takeScene(scene);
     logic_->finalizeGameStart();
