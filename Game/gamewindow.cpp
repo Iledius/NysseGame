@@ -4,6 +4,7 @@
 #include "startdialog.h"
 #include <QString>
 
+#include <QKeyEvent>
 
 GameWindow::GameWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -11,20 +12,25 @@ GameWindow::GameWindow(QWidget *parent) :
 {
     std::vector<CourseSide::SimpleActorItem*> nysses;
     scene = new QGraphicsScene(this);
-    QImage* backImg = new QImage(":/offlinedata/offlinedata/kartta_iso_1095x592.png");
+    QImage* backImg = new QImage(":/offlinedata/offlinedata/kartta_pieni_500x500.png");
     logic_ = new CourseSide::Logic(this);
+    gameView = new GameView();
 
     std::shared_ptr<Tampere> city_temp_ = std::make_shared<Tampere>();
 
     ui->setupUi(this);
     QBrush backGround(*backImg);
-    scene->setSceneRect(0,-0,500,500);
+    // asetetaan gameview oikeaan kokoon, ei tule scrollbareja
+    QRect rcontent = gameView->contentsRect();
+
+
+    scene->setSceneRect(0,0,rcontent.width(),rcontent.height());
     scene->setBackgroundBrush(backGround);
-    gameView = new QGraphicsView();
     gameView->setParent(this);
     gameView->setScene(scene);
-
     logic_->setTime(8, 0);
+
+
 
     QString buses_string = ":/offlinedata/offlinedata/final_bus_liteN.json";
     QString stops_string = ":/offlinedata/offlinedata/full_stations_kkj3.json";
@@ -43,10 +49,6 @@ void GameWindow::takeCity(std::shared_ptr<Tampere>& city)
     city_ = city;
 }
 
-void GameWindow::drawNysses()
-{
-
-}
 
 
 void GameWindow::drawStops()

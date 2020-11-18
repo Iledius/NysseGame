@@ -4,6 +4,7 @@
 Tampere::Tampere() :
     time_(QTime::currentTime().hour(), QTime::currentTime().minute(), QTime::currentTime().second())
 {
+    player_ = std::make_shared<Player>();
 }
 
 void Tampere::setBackground(QImage &basicbackground, QImage &bigbackground)
@@ -16,8 +17,19 @@ void Tampere::setClock(QTime clock)
 
 void Tampere::startGame()
 {
-    std::cout << "starting game, size of nysselsit" << nysses.size() << std::endl;
+    std::cout << "starting game, size of nysselist " << nysses.size() << std::endl;
     drawNysses();
+    player_graphic_ = new CourseSide::SimpleActorItem(0,0,0);
+}
+
+void Tampere::movePlayer(int x_diff, int y_diff)
+{
+    Interface::Location loc = player_->giveLocation();
+    int x = loc.giveX();
+    int y = loc.giveY();
+    loc.setXY(x+x_diff, y+y_diff);
+    player_->move(loc);
+    player_graphic_->setPos(x,y);
 }
 
 void Tampere::addStop(std::shared_ptr<Interface::IStop> stop)
@@ -71,18 +83,21 @@ void Tampere::actorMoved(std::shared_ptr<Interface::IActor> actor){
 std::vector<std::shared_ptr<Interface::IActor>> Tampere::getNearbyActors(Interface::Location loc) const {
 
 }
+
 bool Tampere::isGameOver() const {
     return false;
 }
+
+
 
 void Tampere::drawNysses(){
 
     for(std::shared_ptr<Interface::IActor> bus : nysses){
         QPoint coords = QPoint(bus->giveLocation().giveX(),bus->giveLocation().giveY());
-        CourseSide::SimpleActorItem* nysse = new CourseSide::SimpleActorItem(0,0,0);
-        nysse_graphic_pairs.insert({bus, nysse});
-        scene->addItem(nysse);
-        nysse->setPos(coords);
+        CourseSide::SimpleActorItem* actor = new CourseSide::SimpleActorItem(0,0,0);
+        nysse_graphic_pairs.insert({bus, actor});
+        scene->addItem(actor);
+        actor->setPos(coords);
     }
 }
 
