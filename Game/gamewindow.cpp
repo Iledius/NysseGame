@@ -29,6 +29,7 @@ GameWindow::GameWindow(QWidget *parent) :
     logic_->setTime(8, 0);
 
 
+
     QString buses_string = ":/offlinedata/offlinedata/final_bus_liteN.json";
     QString stops_string = ":/offlinedata/offlinedata/full_stations_kkj3.json";
     logic_->readOfflineData(buses_string,stops_string);
@@ -39,10 +40,6 @@ GameWindow::GameWindow(QWidget *parent) :
     city_temp_=nullptr;
     city_->takeScene(scene);
     logic_->finalizeGameStart();
-
-    // pelaaja
-    player_ = std::make_shared<Player>();
-    city_->addActor(player_);
 }
 
 void GameWindow::takeCity(std::shared_ptr<Tampere>& city)
@@ -50,14 +47,6 @@ void GameWindow::takeCity(std::shared_ptr<Tampere>& city)
     city_ = city;
 }
 
-void GameWindow::movePlayer(int x_diff, int y_diff)
-{
-    Interface::Location loc = player_->giveLocation();
-    int x = loc.giveX();
-    int y = loc.giveY();
-    loc.setXY(x+x_diff, y+y_diff);
-    player_->move(loc);
-}
 
 
 void GameWindow::drawStops()

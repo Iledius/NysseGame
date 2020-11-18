@@ -29,7 +29,7 @@ public:
     void drawStops();
     void setPlayerName(QString s);
     void setDifficulty(int d);
-    bool eventFilter(QObject *target, QEvent *event);
+
     QString player_name;
     int difficulty;
 
