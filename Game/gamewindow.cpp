@@ -2,6 +2,7 @@
 #include <iostream>
 #include "ui_gamewindow.h"
 #include "startdialog.h"
+#include <QString>
 
 
 GameWindow::GameWindow(QWidget *parent) :
@@ -56,14 +57,14 @@ void GameWindow::drawStops()
 void GameWindow::setPlayerName(QString s)
 {
     player_name = s;
-    std::cout << "player name changed to " << s.toStdString() <<std::endl;
     ui->playerNameLabel->setText(player_name);
 }
 
 void GameWindow::setDifficulty(int d)
 {
     this->difficulty = d;
-    std::cout << "Diff in gamewindow is " << this->difficulty << std::endl;
+    std::vector<std::string> diffs = {"Easy", "Medium", "Hard"};
+    ui->difficultyLabel->setText(QString::fromStdString(diffs.at(d)));
 }
 
 GameWindow::~GameWindow()

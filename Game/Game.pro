@@ -9,6 +9,7 @@ SOURCES += \
     gamewindow.cpp \
     main.cc \
     startdialog.cpp \
+    statistics.cpp \
     tampere.cpp
 
 win32:CONFIG(release, debug|release): LIBS += \
@@ -38,6 +39,7 @@ else:unix: PRE_TARGETDEPS += \
 HEADERS += \
     gamewindow.hh \
     startdialog.h \
+    statistics.h \
     tampere.hh
 
 FORMS += \

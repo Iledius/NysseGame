@@ -29,14 +29,17 @@
   <widget class="QDialogButtonBox" name="buttonBox_2">
    <property name="geometry">
     <rect>
-     <x>260</x>
+     <x>280</x>
      <y>110</y>
-     <width>166</width>
-     <height>28</height>
+     <width>161</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+    <set>QDialogButtonBox::Close|QDialogButtonBox::Ok</set>
+   </property>
+   <property name="centerButtons">
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="QWidget" name="horizontalLayoutWidget">

@@ -36,6 +36,8 @@ private:
     CourseSide::Logic* logic_;
     std::shared_ptr<Tampere> city_;
     QGraphicsView *gameView;
+    std::vector<std::string> diffs;
+    int score;
 };
 
 #endif // GAMEWINDOW_HH
