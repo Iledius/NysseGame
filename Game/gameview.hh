@@ -5,6 +5,7 @@
 #include <QGraphicsView>
 #include <QGraphicsScale>
 #include <tampere.hh>
+#include <iostream>
 
 class GameView : public QGraphicsView
 {
@@ -12,6 +13,7 @@ class GameView : public QGraphicsView
 public:
     explicit GameView(QWidget *parent = nullptr);
     GameView(QGraphicsScene *scene, QWidget *parent = nullptr);
+    ~GameView();
     void takeCity(std::shared_ptr<Tampere> city);
 private:
     std::shared_ptr<Tampere> city_;

@@ -1,7 +1,9 @@
 #include "player.hh"
+#include <iostream>
 
 Player::Player()
 {
+    pos_ = {0,0};
 }
 
 Player::~Player(){
@@ -14,8 +16,16 @@ bool Player::isRemoved() const{
     return false;
 }
 void Player::move(Interface::Location loc) {
-    location_ = loc;
+    pos_={loc.giveX(),loc.giveY()};
 }
+
+void Player::changePos(int x, int y){
+    pos_={x,y};
+}
+
 Interface::Location Player::giveLocation() const {
-    return location_;
+}
+
+std::pair<int,int> Player::getPos() {
+    return pos_;
 }

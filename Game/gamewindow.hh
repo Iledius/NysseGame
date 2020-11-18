@@ -39,7 +39,7 @@ private:
     QGraphicsScene *scene;
     CourseSide::Logic* logic_;
     std::shared_ptr<Tampere> city_;
-    QGraphicsView *gameView;
+    GameView *gameView;
     std::vector<std::string> diffs;
     int score;
     std::shared_ptr<Player> player_;

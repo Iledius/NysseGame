@@ -4,7 +4,7 @@
 Tampere::Tampere() :
     time_(QTime::currentTime().hour(), QTime::currentTime().minute(), QTime::currentTime().second())
 {
-    player_ = std::make_shared<Player>();
+
 }
 
 void Tampere::setBackground(QImage &basicbackground, QImage &bigbackground)
@@ -19,17 +19,29 @@ void Tampere::startGame()
 {
     std::cout << "starting game, size of nysselist " << nysses.size() << std::endl;
     drawNysses();
-    player_graphic_ = new CourseSide::SimpleActorItem(0,0,0);
+    player_ = new Player;
+    std::cout << player_->getPos().first<< std::endl;
+    player_graphic_ = new CourseSide::SimpleActorItem(0,0,255);
+    scene->addItem(player_graphic_);
+    player_graphic_->setPos(QPoint(0,0));
+    player_graphic_->setZValue(1);
+    //jos halutaan hyödyntää drawNysses ja actorMoved funktioita pelaajalle
+    //nysse_graphic_pairs.insert({player_,player_graphic_})
 }
 
 void Tampere::movePlayer(int x_diff, int y_diff)
 {
-    Interface::Location loc = player_->giveLocation();
-    int x = loc.giveX();
-    int y = loc.giveY();
-    loc.setXY(x+x_diff, y+y_diff);
-    player_->move(loc);
-    player_graphic_->setPos(x,y);
+    int x = player_->getPos().first;
+    int y = player_->getPos().second;
+    player_->changePos(x+x_diff,y+y_diff);
+    int x_new = player_->getPos().first;
+    int y_new = player_->getPos().second;
+    player_graphic_->setPos(QPoint(x_new,y_new));
+}
+
+std::string Tampere::debug(int x){
+    std::cout << x << std::endl;
+    return "debug: got out of tampere";
 }
 
 void Tampere::addStop(std::shared_ptr<Interface::IStop> stop)
@@ -39,8 +51,8 @@ void Tampere::addStop(std::shared_ptr<Interface::IStop> stop)
     stopList.push_back(stop);
     CourseSide::SimpleActorItem* stop_interf = new CourseSide::SimpleActorItem(stop->getLocation().giveX(),
                                                                           stop->getLocation().giveY(),255);
-    scene->addItem(stop_interf);
-    stop_interf->setPos(QPoint(x,y));
+    //scene->addItem(stop_interf);
+    //stop_interf->setPos(QPoint(x,y));
 }
 
 void Tampere::addActor(std::shared_ptr<Interface::IActor> newactor)

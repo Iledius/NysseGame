@@ -28,8 +28,9 @@ GameWindow::GameWindow(QWidget *parent) :
     scene->setBackgroundBrush(backGround);
     gameView->setParent(this);
     gameView->setScene(scene);
-    logic_->setTime(8, 0);
 
+    logic_->setTime(8, 0);
+    gameView->scale(-1,-1);
 
 
     QString buses_string = ":/offlinedata/offlinedata/final_bus_liteN.json";
@@ -39,6 +40,7 @@ GameWindow::GameWindow(QWidget *parent) :
     // https://manski.net/2012/02/cpp-references-and-inheritance/ tuolla selitetty
     logic_->takeCity(city_temp_);
     takeCity(city_temp_);
+    gameView->takeCity(city_temp_);
     city_temp_=nullptr;
     city_->takeScene(scene);
     logic_->finalizeGameStart();
@@ -49,11 +51,8 @@ void GameWindow::takeCity(std::shared_ptr<Tampere>& city)
     city_ = city;
 }
 
-
-
 void GameWindow::drawStops()
 {
-
 }
 
 void GameWindow::setPlayerName(QString s)

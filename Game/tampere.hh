@@ -33,15 +33,17 @@ public:
     std::vector<std::shared_ptr<Interface::IActor>> nysses;
     bool moved_since_update;
     void drawNysses();
+    std::string debug(int x);
     void movePlayer(int x_diff, int y_diff);
     void takeScene(QGraphicsScene* sceneToTake);
     std::vector<std::pair<int,int>> nysseList;
+    Player* player_;
 
 
 private:
     QTime time_;
     QGraphicsScene* scene;
-    std::shared_ptr<Player> player_;
+
     CourseSide::SimpleActorItem* player_graphic_;
     std::map<std::shared_ptr<Interface::IActor>,CourseSide::SimpleActorItem*> nysse_graphic_pairs;
 };
