@@ -43,6 +43,7 @@ private:
     std::vector<std::string> diffs;
     int score;
     std::shared_ptr<Player> player_;
+    void mouseMoveEvent(QMouseEvent *event) override;
 };
 
 #endif // GAMEWINDOW_HH

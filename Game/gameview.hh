@@ -19,6 +19,7 @@ private:
     std::shared_ptr<Tampere> city_;
 protected:
     void keyPressEvent(QKeyEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
 };
 
 #endif

@@ -10,7 +10,10 @@ GameWindow::GameWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::GameWindow)
 {
-    QImage* backImg = new QImage(":/offlinedata/offlinedata/kartta_pieni_500x500.png");
+    //:/offlinedata/offlinedata/kartta_iso_1095x592.png
+    //:/offlinedata/offlinedata/kartta_pieni_500x500.png
+
+    QImage backImg = QImage(":/offlinedata/offlinedata/kartta_iso_1095x592.png");
     QString buses_string = ":/offlinedata/offlinedata/final_bus_liteN.json";
     QString stops_string = ":/offlinedata/offlinedata/full_stations_kkj3.json";
     logic_ = new CourseSide::Logic(this);
@@ -18,15 +21,22 @@ GameWindow::GameWindow(QWidget *parent) :
     scene = new QGraphicsScene(this);
     ui->setupUi(this);
 
+    //mouse tracking
+    centralWidget()->setAttribute(Qt::WA_TransparentForMouseEvents);
+    setMouseTracking(true);
+
+
     std::shared_ptr<Tampere> city_temp_ = std::make_shared<Tampere>();
 
-    QBrush backGround(*backImg);
+    QBrush backGround(backImg);
     // asetetaan gameview oikeaan kokoon, ei tule scrollbareja
+
     QRect rcontent = gameView->contentsRect();
-
-
     scene->setSceneRect(0,0,rcontent.width(),rcontent.height());
+    // 638, 478
+
     scene->setBackgroundBrush(backGround);
+
 
 
     gameView->setParent(this);
@@ -39,8 +49,8 @@ GameWindow::GameWindow(QWidget *parent) :
 
     logic_->setTime(8, 0);
     logic_->readOfflineData(buses_string,stops_string);
-    // tää cityn säätä pointterista referenssiks saa aikaan mystisiä ongelmia
-    // https://manski.net/2012/02/cpp-references-and-inheritance/ tuolla selitetty
+    // tää säätö koska joku shared pointer ongelma joka korjautu kun annetaan referenssinä tälle luokalle se
+    // https://manski.net/2012/02/cpp-references-and-inheritance/ tuolla selitetty muistaakseni
 
     city_temp_=nullptr;
     city_->takeScene(scene);
@@ -50,6 +60,10 @@ GameWindow::GameWindow(QWidget *parent) :
 void GameWindow::takeCity(std::shared_ptr<Tampere>& city)
 {
     city_ = city;
+}
+
+void GameWindow::mouseMoveEvent(QMouseEvent *event){
+    // TOIMII VAAN MAINWINDOWIN ALUEELLA; EI PELIALUEUELLL
 }
 
 void GameWindow::drawStops()
@@ -72,4 +86,7 @@ void GameWindow::setDifficulty(int d)
 GameWindow::~GameWindow()
 {
     delete ui;
+    delete scene;
+    delete logic_;
+    delete gameView;
 }

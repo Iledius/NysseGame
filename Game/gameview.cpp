@@ -4,11 +4,13 @@
 GameView::GameView(QWidget *parent)
     : QGraphicsView(parent)
 {
+    setMouseTracking(true);
 }
 
 GameView::GameView(QGraphicsScene *scene, QWidget *parent)
     : QGraphicsView(scene, parent)
 {
+
 }
 
 GameView::~GameView(){
@@ -29,4 +31,8 @@ void GameView::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Space: {}
     default: { qDebug() << "Unhandled"; break; }
     }
+}
+
+void GameView::mouseMoveEvent(QMouseEvent *event){
+      std::cout << "xpos: " << event->x() << std::endl;
 }
