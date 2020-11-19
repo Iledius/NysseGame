@@ -21,14 +21,16 @@ void Tampere::startGame()
     std::cout << "starting game, size of nysselist " << nysses.size() << std::endl;
     drawNysses();
     player_ = new Player;
-    animation_ = new QGraphicsItemAnimation;
-    std::cout << player_->getPos().first<< std::endl;
+    playerArrow_ = scene->addPolygon(player_->createArrow());
+    //animation_ = new QGraphicsItemAnimation;
     player_graphic_ = new CourseSide::SimpleActorItem(0,0,255);
-    animation_->setItem(player_graphic_);
-    timer_ = new QTimeLine(5000); // timer for animation
+    //animation_->setItem(player_graphic_);
+    //timer_ = new QTimeLine(5000); // timer for animation
     scene->addItem(player_graphic_);
     player_graphic_->setPos(QPoint(250,250));
+    playerArrow_->setPos(player_->getPos().first+8, player_->getPos().second+8);
     player_graphic_->setZValue(1);
+    playerArrow_->setScale(3);
     //jos halutaan hyödyntää drawNysses ja actorMoved funktioita pelaajalle
     //nysse_graphic_pairs.insert({player_,player_graphic_})
 }
@@ -41,6 +43,7 @@ void Tampere::movePlayer(int x_diff, int y_diff)
     int x_new = player_->getPos().first;
     int y_new = player_->getPos().second;
     player_graphic_->setPos(QPoint(x_new,y_new));
+    playerArrow_->setPos(player_->getPos().first+8, player_->getPos().second+8);
 }
 
 std::string Tampere::debug(int x){
@@ -57,6 +60,7 @@ void Tampere::addStop(std::shared_ptr<Interface::IStop> stop)
                                                                           stop->getLocation().giveY(),255);
     scene->addItem(stop_interf);
     stop_interf->setPos(QPoint(x,490-y));
+    stop_interf->setScale(0.4);
 }
 
 void Tampere::addActor(std::shared_ptr<Interface::IActor> newactor)
@@ -96,8 +100,8 @@ void Tampere::actorMoved(std::shared_ptr<Interface::IActor> actor){
         it->second->setPos(QPoint(actor.get()->giveLocation().giveX(),490-actor.get()->giveLocation().giveY()));
    }
 }
-std::vector<std::shared_ptr<Interface::IActor>> Tampere::getNearbyActors(Interface::Location loc) const {
 
+std::vector<std::shared_ptr<Interface::IActor>> Tampere::getNearbyActors(Interface::Location loc) const {
 }
 
 bool Tampere::isGameOver() const {
@@ -113,6 +117,7 @@ void Tampere::drawNysses(){
         nysse_graphic_pairs.insert({bus, actor});
         scene->addItem(actor);
         actor->setPos(coords);
+        actor->setScale(0.3);
     }
 }
 
@@ -120,6 +125,13 @@ void Tampere::takeScene(QGraphicsScene* sceneToTake){
     scene=sceneToTake;
 }
 
+void Tampere::setArrowAngle(qreal angle){
+    playerArrow_->setRotation(angle);
+}
+
+void Tampere::setArrowPos(QPointF pos){
+    playerArrow_->setPos(pos.x(),pos.y());
+}
 
 Tampere::~Tampere(){
 

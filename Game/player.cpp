@@ -32,9 +32,8 @@ std::pair<int,int> Player::getPos() {
 
 QPolygonF Player::createArrow(){
     QPolygonF arrowCorners;
-    arrowCorners.append(QPointF(-10.,0));
-    arrowCorners.append(QPointF(0.,-10));
-    arrowCorners.append(QPointF(10.,0));
-    arrowCorners.append(QPointF(-10.,10));
+    arrowCorners.append(QPointF(-2.,0));
+    arrowCorners.append(QPointF(0.,-5));
+    arrowCorners.append(QPointF(2.,0));
     return arrowCorners;
 }
