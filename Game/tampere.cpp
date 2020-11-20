@@ -68,7 +68,7 @@ void Tampere::addActor(std::shared_ptr<Interface::IActor> newactor)
 
 void Tampere::removeActor(std::shared_ptr<Interface::IActor> actor)
 {
-    std::map<std::shared_ptr<Interface::IActor>,CourseSide::SimpleActorItem*>::iterator it;
+    std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*>::iterator it;
     it=nysse_graphic_pairs.begin();
     if(it != nysse_graphic_pairs.end()){
          scene->removeItem(it->second);
@@ -81,7 +81,7 @@ void Tampere::actorRemoved(std::shared_ptr<Interface::IActor> actor){
 }
 
 bool Tampere::findActor(std::shared_ptr<Interface::IActor> actor) const {
-   std::map<std::shared_ptr<Interface::IActor>,CourseSide::SimpleActorItem*>::const_iterator it;
+   std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*>::const_iterator it;
    it=nysse_graphic_pairs.begin();
    if(it != nysse_graphic_pairs.end())
         return true;
@@ -89,10 +89,11 @@ bool Tampere::findActor(std::shared_ptr<Interface::IActor> actor) const {
 }
 
 void Tampere::actorMoved(std::shared_ptr<Interface::IActor> actor){
-   std::map<std::shared_ptr<Interface::IActor>,CourseSide::SimpleActorItem*>::iterator it;
+   std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*>::iterator it;
    it = nysse_graphic_pairs.find(actor);
    if(it != nysse_graphic_pairs.end()){
-        it->second->setPos(QPoint(actor.get()->giveLocation().giveX(),490-actor.get()->giveLocation().giveY()));
+        //it->second->setAng(QPoint(it->second->x(), it->second->y()), QPoint(actor.get()->giveLocation().giveX(), 490-actor.get()->giveLocation().giveY()));
+        it->second->setPos(QPoint(actor.get()->giveLocation().giveX(),500-actor.get()->giveLocation().giveY()));
    }
 }
 
@@ -108,7 +109,8 @@ void Tampere::drawNysses(){
 
     for(std::shared_ptr<Interface::IActor> bus : nysses){
         QPoint coords = QPoint(bus->giveLocation().giveX(),bus->giveLocation().giveY());
-        CourseSide::SimpleActorItem* actor = new CourseSide::SimpleActorItem(0,0,0);
+        QImage image("/home/ilari/Desktop/nyssepeli_main/etkot-software/Game/images/bussi.png");
+        BetterActorItem* actor = new BetterActorItem(image);
         nysse_graphic_pairs.insert({bus, actor});
         scene->addItem(actor);
         actor->setPos(coords);

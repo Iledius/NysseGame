@@ -29,19 +29,17 @@ GameWindow::GameWindow(QWidget *parent) :
     std::shared_ptr<Tampere> city_temp_ = std::make_shared<Tampere>();
 
     QBrush backGround(backImg);
-    // asetetaan gameview oikeaan kokoon, ei tule scrollbareja
-
-    QRect rcontent = gameView->contentsRect();
-    scene->setSceneRect(0,0,rcontent.width(),rcontent.height());
-    // 638, 478
-
-    scene->setBackgroundBrush(backGround);
-
-
 
     gameView->setParent(this);
+    gameView->resize(1095,592);
     gameView->setScene(scene);
 
+    // asetetaan scene oikeaan kokoon, ei tule scrollbareja
+    QRect rcontent = gameView->contentsRect();
+    scene->setSceneRect(0,0,rcontent.width(),rcontent.height());
+    scene->setBackgroundBrush(backGround);
+
+    this->resize(1295,592);
 
     takeCity(city_temp_);
     gameView->takeCity(city_temp_);

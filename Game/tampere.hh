@@ -13,6 +13,7 @@
 #include <QGraphicsItemAnimation>
 #include <QTimeLine>
 #include <QPointF>
+#include "betteractoritem.h"
 
 class Tampere : public Interface::ICity
 {
@@ -50,7 +51,7 @@ private:
     //QTimeLine *timer_;
     //QGraphicsItemAnimation *animation_;
     CourseSide::SimpleActorItem* player_graphic_;
-    std::map<std::shared_ptr<Interface::IActor>,CourseSide::SimpleActorItem*> nysse_graphic_pairs;
+    std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*> nysse_graphic_pairs;
     QGraphicsPolygonItem* playerArrow_;
 };
 
