@@ -6,6 +6,7 @@ QT += core gui widgets network multimedia testlib
 CONFIG += c++14
 
 SOURCES += \
+    betteractoritem.cpp \
     gameview.cpp \
     gamewindow.cpp \
     main.cc \
@@ -39,6 +40,7 @@ else:unix: PRE_TARGETDEPS += \
     $$OUT_PWD/../Course/CourseLib/libCourseLib.a
 
 HEADERS += \
+    betteractoritem.h \
     gameview.hh \
     gamewindow.hh \
     player.hh \

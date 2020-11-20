@@ -46,11 +46,6 @@ void Tampere::movePlayer(int x_diff, int y_diff)
     playerArrow_->setPos(player_->getPos().first+8, player_->getPos().second+8);
 }
 
-std::string Tampere::debug(int x){
-    std::cout << x << std::endl;
-    return "debug: got out of tampere";
-}
-
 void Tampere::addStop(std::shared_ptr<Interface::IStop> stop)
 {
     int x = stop->getLocation().giveX();
@@ -129,8 +124,11 @@ void Tampere::setArrowAngle(qreal angle){
     playerArrow_->setRotation(angle);
 }
 
-void Tampere::setArrowPos(QPointF pos){
-    playerArrow_->setPos(pos.x(),pos.y());
+void Tampere::drawShot(){
+    QGraphicsRectItem* shot = new QGraphicsRectItem;
+    scene->addItem(shot);
+    shot->setRect(player_->getPos().first, player_->getPos().second, 10, 1);
+    shot->setRotation(playerArrow_->rotation()+90);
 }
 
 Tampere::~Tampere(){

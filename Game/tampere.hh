@@ -31,18 +31,17 @@ public:
     void actorMoved(std::shared_ptr<Interface::IActor> actor) override;
     std::vector<std::shared_ptr<Interface::IActor>> getNearbyActors(Interface::Location loc) const override;
     bool isGameOver() const override;
-    //std::vector<std::pair<int,int>> nysseList;
+
+    void takeScene(QGraphicsScene* sceneToTake);
+    void drawNysses();
+    void movePlayer(int x_diff, int y_diff);
+    void setArrowAngle(qreal angle);
+    void drawShot();
+
     std::vector<std::shared_ptr<Interface::IStop>> stopList;
     std::vector<std::shared_ptr<Interface::IActor>> nysses;
-    bool moved_since_update;
-    void drawNysses();
-    std::string debug(int x);
-    void movePlayer(int x_diff, int y_diff);
-    void takeScene(QGraphicsScene* sceneToTake);
     std::vector<std::pair<int,int>> nysseList;
     Player* player_;
-    void setArrowAngle(qreal angle);
-    void setArrowPos(QPointF pos);
 
 
 private:
