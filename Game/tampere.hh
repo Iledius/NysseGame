@@ -44,12 +44,13 @@ public:
     std::vector<std::shared_ptr<Interface::IStop>> stops;
     std::vector<std::shared_ptr<Interface::IActor>> actors;
     Player* player_;
-    int left, right, up, down, aimUp, aimDown, aimLeft, aimRight;
+    int left, right, up, down, aimUp, aimDown, aimLeft=0, aimRight=0;
 
 
 private:
     QTime time_;
     QGraphicsScene* scene;
+    void checkCollison(QGraphicsItem* item);
     //QTimeLine *timer_;
     //QGraphicsItemAnimation *animation_;
     BetterActorItem* player_graphic_;

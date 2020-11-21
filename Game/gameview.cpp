@@ -39,6 +39,8 @@ void GameView::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Left: {city_->aimLeft=1; break; }
     case Qt::Key_Right: {city_->aimRight=1; break; }
 
+    case Qt::Key_Space: {city_->drawShot();break;}
+
     }
 }
 

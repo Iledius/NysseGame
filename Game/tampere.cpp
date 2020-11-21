@@ -23,17 +23,22 @@ void Tampere::setClock(QTime clock)
 
 void Tampere::startGame()
 {
-    std::cout << "starting game, size of nysselist " << actors.size() << std::endl;
     drawNysses();
     player_ = new Player;
-    playerArrow_ = scene->addPolygon(player_->createArrow());
     player_graphic_ = new BetterActorItem(PLAYER_IMAGE);
+
+    playerArrow_ = scene->addPolygon(player_->createArrow());
     scene->addItem(player_graphic_);
-    player_graphic_->setScale(0.5);
+
     player_graphic_->setPos(QPoint(250,250));
     playerArrow_->setPos(player_->getPos().first+16, player_->getPos().second+16);
-    player_graphic_->setZValue(1);
+
+    player_graphic_->setZValue(4);  // player always on top
+    playerArrow_->setZValue(3); // aimingarrow under player
+
+    player_graphic_->setScale(0.5);
     playerArrow_->setScale(3);
+
     //jos halutaan hyödyntää drawNysses ja actorMoved funktioita pelaajalle
     //nysse_graphic_pairs.insert({player_,player_graphic_})
 }
@@ -45,13 +50,14 @@ void Tampere::movePlayer()
     if(up==1) {player_->changePos(0,-2);}
     if(down==1) {player_->changePos(0,2);}
 
-    if(aimUp && aimLeft) {playerArrow_->setRotation(-45);}
+    // Had to be done in this very manual way because of qt:s way of processing keypresses.
+    if(aimUp && aimLeft) {playerArrow_->setRotation(315);}
     else if(aimUp && aimRight){playerArrow_->setRotation(45);}
     else if(aimDown && aimLeft){playerArrow_->setRotation(225);}
     else if(aimDown && aimRight){playerArrow_->setRotation(135);}
     else if(aimUp){playerArrow_->setRotation(0);}
     else if(aimDown){playerArrow_->setRotation(180);}
-    else if(aimLeft){playerArrow_->setRotation(-90);}
+    else if(aimLeft){playerArrow_->setRotation(270);}
     else if(aimRight){playerArrow_->setRotation(90);}
 
     int x_new = player_->getPos().first;
@@ -130,6 +136,7 @@ void Tampere::drawNysses(){
             scene->addItem(actor);
             actor->setPos(coords);
             actor->setScale(0.3);
+            actor->setZValue(2);
         }
         else {  BetterActorItem* actor = new BetterActorItem(PASSENGER_IMAGE);
             nysse_graphic_pairs.insert({bus, actor});
@@ -152,15 +159,37 @@ void Tampere::setArrowAngle(qreal angle){
 void Tampere::drawShot(){
     BetterActorItem* shot = new BetterActorItem(PLAYER_IMAGE);
     scene->addItem(shot);
-    shot->setRect(player_->getPos().first, player_->getPos().second, 10, 1);
-    shot->setRotation(playerArrow_->rotation()+90);
+    //shot->setRect(player_->getPos().first, player_->getPos().second, 10, 1);
+    shot->setRotation(playerArrow_->rotation()+270);
+    shot->setPos(player_->getPos().first+15,player_->getPos().second+15);
+    shot->setScale(0.2);
     shots_.insert({shot, 0});
 }
 
 void Tampere::moveShots(){
     for(auto shot: shots_){
-        //shot.first
+        qreal ang = (qDegreesToRadians(shot.first->rotation()));
+        shot.first->rotation();
+        shot.first->moveBy(qCos(ang)*3, qSin(ang)*3);
+        shot.second++;
+        checkCollison(shot.first);
+        if(shot.second >= 10){
+            scene->removeItem(shot.first);
+            delete shot.first;
+            shots_.erase(shot.first);
+        }
     }
+}
+
+void Tampere::checkCollison(QGraphicsItem* item){
+    if (!item->collidingItems().empty()){
+        for (auto collidingitem : scene->collidingItems(item)){
+          if(collidingitem->zValue()==2){
+                scene->removeItem(collidingitem);
+            }
+        }
+    }
+
 }
 
 Tampere::~Tampere(){
