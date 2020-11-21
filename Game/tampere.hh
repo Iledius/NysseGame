@@ -15,6 +15,7 @@
 #include <QPointF>
 #include "betteractoritem.h"
 #include <QtDebug>
+#include <vector>
 
 class Tampere : public Interface::ICity
 {
@@ -50,7 +51,7 @@ public:
 private:
     QTime time_;
     QGraphicsScene* scene;
-    void checkCollison(QGraphicsItem* item);
+    void checkCollison(BetterActorItem* item);
     //QTimeLine *timer_;
     //QGraphicsItemAnimation *animation_;
     BetterActorItem* player_graphic_;

@@ -1,9 +1,10 @@
 #include "tampere.hh"
 #include "iostream"
 
-QImage BUS_IMAGE("../../etkot-software/Game/images/bussi.png");
+QImage BUS_IMAGE("../../etkot-software/Game/images/tank.png");
 QImage PASSENGER_IMAGE("../../etkot-software/Game/images/elon.png");
 QImage PLAYER_IMAGE("../../etkot-software/Game/images/ufo.png");
+QImage SHOT_IMAGE("../../etkot-software/Game/images/laser.png");
 
 
 
@@ -33,8 +34,8 @@ void Tampere::startGame()
     player_graphic_->setPos(QPoint(250,250));
     playerArrow_->setPos(player_->getPos().first+16, player_->getPos().second+16);
 
-    player_graphic_->setZValue(4);  // player always on top
-    playerArrow_->setZValue(3); // aimingarrow under player
+    player_graphic_->setZValue(5);  // player always on top
+    playerArrow_->setZValue(4); // aimingarrow under player
 
     player_graphic_->setScale(0.5);
     playerArrow_->setScale(3);
@@ -96,7 +97,8 @@ void Tampere::removeActor(std::shared_ptr<Interface::IActor> actor)
     }
 }
 
-void Tampere::actorRemoved(std::shared_ptr<Interface::IActor> actor){
+void Tampere::actorRemoved(std::shared_ptr<Interface::IActor> actor)
+{
 
 }
 
@@ -135,14 +137,14 @@ void Tampere::drawNysses(){
             nysse_graphic_pairs.insert({bus, actor});
             scene->addItem(actor);
             actor->setPos(coords);
-            actor->setScale(0.3);
+            actor->setScale(0.4);
             actor->setZValue(2);
         }
         else {  BetterActorItem* actor = new BetterActorItem(PASSENGER_IMAGE);
             nysse_graphic_pairs.insert({bus, actor});
             scene->addItem(actor);
             actor->setPos(coords);
-            actor->setScale(0.3);
+            actor->setScale(0.4);
         }
 
     }
@@ -157,23 +159,26 @@ void Tampere::setArrowAngle(qreal angle){
 }
 
 void Tampere::drawShot(){
-    BetterActorItem* shot = new BetterActorItem(PLAYER_IMAGE);
+    BetterActorItem* shot = new BetterActorItem(SHOT_IMAGE);
     scene->addItem(shot);
     //shot->setRect(player_->getPos().first, player_->getPos().second, 10, 1);
     shot->setRotation(playerArrow_->rotation()+270);
     shot->setPos(player_->getPos().first+15,player_->getPos().second+15);
-    shot->setScale(0.2);
-    shots_.insert({shot, 0});
+    shot->setScale(0.9);
+    shot->setZValue(3);
+    shots_.insert({shot, 1});
 }
 
 void Tampere::moveShots(){
     for(auto shot: shots_){
+        shots_.at(shot.first)++;
         qreal ang = (qDegreesToRadians(shot.first->rotation()));
         shot.first->rotation();
-        shot.first->moveBy(qCos(ang)*3, qSin(ang)*3);
-        shot.second++;
+        shot.first->moveBy(qCos(ang)*6, qSin(ang)*6);
         checkCollison(shot.first);
-        if(shot.second >= 10){
+        shot.first->setOpacity(0.8);
+        if(shot.second >= 3000){
+            // TODO: korjaa panoksen poisto
             scene->removeItem(shot.first);
             delete shot.first;
             shots_.erase(shot.first);
@@ -181,11 +186,17 @@ void Tampere::moveShots(){
     }
 }
 
-void Tampere::checkCollison(QGraphicsItem* item){
+void Tampere::checkCollison(BetterActorItem* item){
     if (!item->collidingItems().empty()){
         for (auto collidingitem : scene->collidingItems(item)){
           if(collidingitem->zValue()==2){
                 scene->removeItem(collidingitem);
+                scene->removeItem(item);
+                shots_.erase(shots_.find(item));
+                //nysse_graphic_pairs.at(collidingitem);
+                break;
+
+                // TODO: poista bussit ilman kaatumista
             }
         }
     }
