@@ -34,11 +34,16 @@ public:
     int difficulty;
 
 
+public Q_SLOTS:
+    void advance();
+
+
 private:
     Ui::GameWindow *ui;
     QGraphicsScene *scene;
     CourseSide::Logic* logic_;
     std::shared_ptr<Tampere> city_;
+    QTimer *timer;
     GameView *gameView;
     std::vector<std::string> diffs;
     int score;

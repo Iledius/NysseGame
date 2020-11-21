@@ -14,6 +14,7 @@
 #include <QTimeLine>
 #include <QPointF>
 #include "betteractoritem.h"
+#include <QtDebug>
 
 class Tampere : public Interface::ICity
 {
@@ -35,14 +36,15 @@ public:
 
     void takeScene(QGraphicsScene* sceneToTake);
     void drawNysses();
-    void movePlayer(int x_diff, int y_diff);
+    void movePlayer();
     void setArrowAngle(qreal angle);
     void drawShot();
+    void moveShots();
 
-    std::vector<std::shared_ptr<Interface::IStop>> stopList;
-    std::vector<std::shared_ptr<Interface::IActor>> nysses;
-    std::vector<std::pair<int,int>> nysseList;
+    std::vector<std::shared_ptr<Interface::IStop>> stops;
+    std::vector<std::shared_ptr<Interface::IActor>> actors;
     Player* player_;
+    int left, right, up, down, aimUp, aimDown, aimLeft, aimRight;
 
 
 private:
@@ -50,9 +52,10 @@ private:
     QGraphicsScene* scene;
     //QTimeLine *timer_;
     //QGraphicsItemAnimation *animation_;
-    CourseSide::SimpleActorItem* player_graphic_;
+    BetterActorItem* player_graphic_;
     std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*> nysse_graphic_pairs;
     QGraphicsPolygonItem* playerArrow_;
+    std::map<BetterActorItem*, int> shots_;
 };
 
 #endif // TAMPERE_HH

@@ -20,7 +20,7 @@ void Player::move(Interface::Location loc) {
 }
 
 void Player::changePos(int x, int y){
-    pos_={x,y};
+    pos_={pos_.first+x,pos_.second+y};
 }
 
 Interface::Location Player::giveLocation() const {
@@ -32,8 +32,8 @@ std::pair<int,int> Player::getPos() {
 
 QPolygonF Player::createArrow(){
     QPolygonF arrowCorners;
-    arrowCorners.append(QPointF(-2.,0));
-    arrowCorners.append(QPointF(0.,-5));
-    arrowCorners.append(QPointF(2.,0));
+    arrowCorners.append(QPointF(-1.,0));
+    arrowCorners.append(QPointF(0.,-9));
+    arrowCorners.append(QPointF(1.,0));
     return arrowCorners;
 }

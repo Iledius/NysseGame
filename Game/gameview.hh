@@ -15,6 +15,7 @@ public:
     GameView(QGraphicsScene *scene, QWidget *parent = nullptr);
     ~GameView();
     void takeCity(std::shared_ptr<Tampere> city);
+
 private:
     std::shared_ptr<Tampere> city_;
     std::map<std::string, bool> pressed_;

@@ -28,6 +28,10 @@ GameWindow::GameWindow(QWidget *parent) :
 
     std::shared_ptr<Tampere> city_temp_ = std::make_shared<Tampere>();
 
+    timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &GameWindow::advance);
+    timer->start(10);
+
     QBrush backGround(backImg);
 
     gameView->setParent(this);
@@ -79,6 +83,12 @@ void GameWindow::setDifficulty(int d)
     this->difficulty = d;
     std::vector<std::string> diffs = {"Easy", "Medium", "Hard"};
     ui->difficultyLabel->setText(QString::fromStdString(diffs.at(d)));
+}
+
+void GameWindow::advance()
+{
+    city_->movePlayer();
+    city_->moveShots();
 }
 
 GameWindow::~GameWindow()
