@@ -7,7 +7,6 @@ BetterActorItem::BetterActorItem(QImage image): image_(image)
 void BetterActorItem::setImage(QImage image)
 {
     image_ = image;
-
 }
 
 void BetterActorItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -18,6 +17,7 @@ void BetterActorItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     r.setRect(0,0,image_.width(), image_.height());
     painter->drawImage(r,image_);
     this->setRect(0,0,image_.width(), image_.height());
+    // this->setTransformOriginPoint(-30,-30);
 }
 
 void BetterActorItem::setAng(QPoint oldpos, QPoint newpos)
@@ -37,4 +37,11 @@ void BetterActorItem::setAng(QPoint oldpos, QPoint newpos)
 //        }
 //    }
 //    setRotation(-angAvg/amount*57);
+    if(oldpos.x()-newpos.x()>0){angHistory.push_back(1);}
+    else{angHistory.push_back(-1);}
+
+    if(accumulate(angHistory.begin(),angHistory.end(),0)<1){setTransform(QTransform::fromScale(1,1));}
+    else{setTransform(QTransform::fromScale(-1,1));}
+
+    if(angHistory.size()>10){angHistory.erase(angHistory.begin());}
 }

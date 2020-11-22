@@ -7,6 +7,7 @@
 #include <QtDebug>
 #include "iostream"
 
+
 class BetterActorItem : public QGraphicsRectItem
 {
 public:

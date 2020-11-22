@@ -6,6 +6,9 @@
 
 #include <QKeyEvent>
 
+QImage TAMPERE_MAP = QImage(":/offlinedata/offlinedata/kartta_iso_1095x592.png");
+QImage SATELLITE_MAP = QImage("../../etkot-software/Game/images/satellitemap.png");
+
 GameWindow::GameWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::GameWindow)
@@ -13,7 +16,7 @@ GameWindow::GameWindow(QWidget *parent) :
     //:/offlinedata/offlinedata/kartta_iso_1095x592.png
     //:/offlinedata/offlinedata/kartta_pieni_500x500.png
 
-    QImage backImg = QImage(":/offlinedata/offlinedata/kartta_iso_1095x592.png");
+
     QString buses_string = ":/offlinedata/offlinedata/final_bus_liteN.json";
     QString stops_string = ":/offlinedata/offlinedata/full_stations_kkj3.json";
     logic_ = new CourseSide::Logic(this);
@@ -32,7 +35,7 @@ GameWindow::GameWindow(QWidget *parent) :
     connect(timer, &QTimer::timeout, this, &GameWindow::advance);
     timer->start(10);
 
-    QBrush backGround(backImg);
+    QBrush backGround(SATELLITE_MAP);
 
     gameView->setParent(this);
     gameView->resize(1095,592);
@@ -54,7 +57,7 @@ GameWindow::GameWindow(QWidget *parent) :
     // tää säätö koska joku shared pointer ongelma joka korjautu kun annetaan referenssinä tälle luokalle se
     // https://manski.net/2012/02/cpp-references-and-inheritance/ tuolla selitetty muistaakseni
 
-    city_temp_=nullptr;
+    //city_temp_=nullptr;
     city_->takeScene(scene);
     logic_->finalizeGameStart();
 }
@@ -89,6 +92,8 @@ void GameWindow::advance()
 {
     city_->movePlayer();
     city_->moveShots();
+    score = city_->score;
+    ui->scoreDisplay->display(score);
 }
 
 GameWindow::~GameWindow()

@@ -13,7 +13,8 @@ SOURCES += \
     player.cpp \
     startdialog.cpp \
     statistics.cpp \
-    tampere.cpp
+    tampere.cpp \
+    zoom.cpp
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib
@@ -46,7 +47,8 @@ HEADERS += \
     player.hh \
     startdialog.h \
     statistics.h \
-    tampere.hh
+    tampere.hh \
+    zoom.hh
 
 FORMS += \
     gamewindow.ui \

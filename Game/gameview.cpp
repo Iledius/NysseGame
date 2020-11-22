@@ -80,5 +80,7 @@ void GameView::mouseMoveEvent(QMouseEvent *event){
 
 void GameView::mousePressEvent(QMouseEvent *event){
    city_->drawShot();
+}
 
+void GameView::focus(){
 }

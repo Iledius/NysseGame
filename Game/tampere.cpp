@@ -91,7 +91,7 @@ void Tampere::removeActor(std::shared_ptr<Interface::IActor> actor)
 {
     std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*>::iterator it;
     it=nysse_graphic_pairs.begin();
-    if(it != nysse_graphic_pairs.end()){
+    if(it != nysse_graphic_pairs.end() && it->second->scene() != nullptr){
          scene->removeItem(it->second);
          nysse_graphic_pairs.erase(it);
     }
@@ -114,7 +114,7 @@ void Tampere::actorMoved(std::shared_ptr<Interface::IActor> actor){
    std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*>::iterator it;
    it = nysse_graphic_pairs.find(actor);
    if(it != nysse_graphic_pairs.end()){
-        //it->second->setAng(QPoint(it->second->x(), it->second->y()), QPoint(actor.get()->giveLocation().giveX(), 490-actor.get()->giveLocation().giveY()));
+        it->second->setAng(QPoint(it->second->x(), it->second->y()), QPoint(actor.get()->giveLocation().giveX(), 490-actor.get()->giveLocation().giveY()));
         it->second->setPos(QPoint(actor.get()->giveLocation().giveX(),500-actor.get()->giveLocation().giveY()));
    }
 }
@@ -194,6 +194,7 @@ void Tampere::checkCollison(BetterActorItem* item){
                 scene->removeItem(item);
                 shots_.erase(shots_.find(item));
                 //nysse_graphic_pairs.at(collidingitem);
+                score+=10;
                 break;
 
                 // TODO: poista bussit ilman kaatumista
