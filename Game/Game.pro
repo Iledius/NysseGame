@@ -6,13 +6,15 @@ QT += core gui widgets network multimedia testlib
 CONFIG += c++14
 
 SOURCES += \
+    betteractoritem.cpp \
     gameview.cpp \
     gamewindow.cpp \
     main.cc \
     player.cpp \
     startdialog.cpp \
     statistics.cpp \
-    tampere.cpp
+    tampere.cpp \
+    zoom.cpp
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib
@@ -39,12 +41,14 @@ else:unix: PRE_TARGETDEPS += \
     $$OUT_PWD/../Course/CourseLib/libCourseLib.a
 
 HEADERS += \
+    betteractoritem.h \
     gameview.hh \
     gamewindow.hh \
     player.hh \
     startdialog.h \
     statistics.h \
-    tampere.hh
+    tampere.hh \
+    zoom.hh
 
 FORMS += \
     gamewindow.ui \

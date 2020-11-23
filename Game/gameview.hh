@@ -5,6 +5,7 @@
 #include <QGraphicsView>
 #include <QGraphicsScale>
 #include <tampere.hh>
+#include <iostream>
 
 class GameView : public QGraphicsView
 {
@@ -12,11 +13,18 @@ class GameView : public QGraphicsView
 public:
     explicit GameView(QWidget *parent = nullptr);
     GameView(QGraphicsScene *scene, QWidget *parent = nullptr);
+    ~GameView();
     void takeCity(std::shared_ptr<Tampere> city);
+
 private:
     std::shared_ptr<Tampere> city_;
+    std::map<std::string, bool> pressed_;
+    void focus();
 protected:
     void keyPressEvent(QKeyEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void keyReleaseEvent(QKeyEvent *event) override;
 };
 
 #endif

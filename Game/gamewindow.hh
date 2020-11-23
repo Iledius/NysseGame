@@ -38,18 +38,23 @@ public:
 
 private slots:
     void on_pushButton_released();
+public Q_SLOTS:
+    void advance();
+
 
 private:
     Ui::GameWindow *ui;
     QGraphicsScene *scene;
     CourseSide::Logic* logic_;
     std::shared_ptr<Tampere> city_;
-    QGraphicsView *gameView;
+    QTimer *timer;
+    GameView *gameView;
     std::vector<std::string> diffs;
     int score;
     std::shared_ptr<Player> player_;
     Statistics stat;
     void incrementScore();
+    void mouseMoveEvent(QMouseEvent *event) override;
 };
 
 #endif // GAMEWINDOW_HH

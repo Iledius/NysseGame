@@ -10,6 +10,12 @@
 #include <algorithm>    // std::find
 #include <map>
 #include "player.hh"
+#include <QGraphicsItemAnimation>
+#include <QTimeLine>
+#include <QPointF>
+#include "betteractoritem.h"
+#include <QtDebug>
+#include <vector>
 
 class Tampere : public Interface::ICity
 {
@@ -28,22 +34,32 @@ public:
     void actorMoved(std::shared_ptr<Interface::IActor> actor) override;
     std::vector<std::shared_ptr<Interface::IActor>> getNearbyActors(Interface::Location loc) const override;
     bool isGameOver() const override;
-    //std::vector<std::pair<int,int>> nysseList;
-    std::vector<std::shared_ptr<Interface::IStop>> stopList;
-    std::vector<std::shared_ptr<Interface::IActor>> nysses;
-    bool moved_since_update;
-    void drawNysses();
-    void movePlayer(int x_diff, int y_diff);
+
     void takeScene(QGraphicsScene* sceneToTake);
-    std::vector<std::pair<int,int>> nysseList;
+    void drawNysses();
+    void movePlayer();
+    void setArrowAngle(qreal angle);
+    void drawShot();
+    void moveShots();
+
+    std::vector<std::shared_ptr<Interface::IStop>> stops;
+    std::vector<std::shared_ptr<Interface::IActor>> actors;
+    Player* player_;
+    int left, right, up, down, aimUp, aimDown, aimLeft=0, aimRight=0;
+    int score = 0;
 
 
 private:
     QTime time_;
     QGraphicsScene* scene;
-    std::shared_ptr<Player> player_;
-    CourseSide::SimpleActorItem* player_graphic_;
-    std::map<std::shared_ptr<Interface::IActor>,CourseSide::SimpleActorItem*> nysse_graphic_pairs;
+    void checkCollison(BetterActorItem* item);
+    //QTimeLine *timer_;
+    //QGraphicsItemAnimation *animation_;
+    BetterActorItem* player_graphic_;
+    std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*> nysse_graphic_pairs;
+    QGraphicsPolygonItem* playerArrow_;
+    std::map<BetterActorItem*, int> shots_;
+
 };
 
 #endif // TAMPERE_HH
