@@ -12,6 +12,7 @@
 #include "player.hh"
 #include <QTimer>
 #include "gameview.hh"
+#include "statistics.h"
 
 namespace Ui {
 class GameWindow;
@@ -29,10 +30,14 @@ public:
     void drawStops();
     void setPlayerName(QString s);
     void setDifficulty(int d);
+    void busHit();
 
     QString player_name;
     int difficulty;
 
+
+private slots:
+    void on_pushButton_released();
 
 private:
     Ui::GameWindow *ui;
@@ -43,6 +48,8 @@ private:
     std::vector<std::string> diffs;
     int score;
     std::shared_ptr<Player> player_;
+    Statistics stat;
+    void incrementScore();
 };
 
 #endif // GAMEWINDOW_HH

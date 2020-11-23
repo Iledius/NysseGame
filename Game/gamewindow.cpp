@@ -3,6 +3,7 @@
 #include "ui_gamewindow.h"
 #include "startdialog.h"
 #include <QString>
+#include "statistics.h"
 
 #include <QKeyEvent>
 
@@ -15,7 +16,6 @@ GameWindow::GameWindow(QWidget *parent) :
     QImage* backImg = new QImage(":/offlinedata/offlinedata/kartta_pieni_500x500.png");
     logic_ = new CourseSide::Logic(this);
     gameView = new GameView();
-
     std::shared_ptr<Tampere> city_temp_ = std::make_shared<Tampere>();
 
     ui->setupUi(this);
@@ -29,8 +29,6 @@ GameWindow::GameWindow(QWidget *parent) :
     gameView->setParent(this);
     gameView->setScene(scene);
     logic_->setTime(8, 0);
-
-
 
     QString buses_string = ":/offlinedata/offlinedata/final_bus_liteN.json";
     QString stops_string = ":/offlinedata/offlinedata/full_stations_kkj3.json";
@@ -69,7 +67,26 @@ void GameWindow::setDifficulty(int d)
     ui->difficultyLabel->setText(QString::fromStdString(diffs.at(d)));
 }
 
+void GameWindow::busHit()
+{
+    //Bussiin osuu, tehään eka vaan pisteiden lisäystä varten
+    incrementScore();
+    stat.nyssesDestroyed = stat.nyssesDestroyed + 1;
+}
+
 GameWindow::~GameWindow()
 {
     delete ui;
+}
+
+void GameWindow::on_pushButton_released()
+{
+    //Kutsutaan bus hit silloin kun bussiin osuu, täs vaan tällänen väliaikapaska
+    busHit();
+}
+
+void GameWindow::incrementScore()
+{
+    stat.incrementScore(5);
+    std::cout << stat.currentScore << std::endl;
 }
