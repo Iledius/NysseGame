@@ -4,11 +4,12 @@
 QImage BUS_IMAGE("../../etkot-software/Game/images/tank.png");
 QImage PASSENGER_IMAGE("../../etkot-software/Game/images/elon.png");
 QImage PLAYER_IMAGE("../../etkot-software/Game/images/ufo.png");
-QImage SHOT_IMAGE("../../etkot-software/Game/images/laser.png");
+QImage SHOT_IMAGE("../../etkot-software/Game/images/laser2.png");
 QImage SHUTTLE_IMAGE("../../etkot-software/Game/images/shuttle.png");
 
 const int SHOT_RANGE = 50;
-
+const int BUS_HEALTH = 2;
+int AMMO = 5;
 
 
 Tampere::Tampere() :
@@ -47,6 +48,7 @@ void Tampere::startGame()
     scene->addItem(shuttle_);
     shuttle_->setPos(300,0);
     shuttle_->setScale(0.5);
+    ammo = AMMO;
     //jos halutaan hyödyntää drawNysses ja actorMoved funktioita pelaajalle
     //nysse_graphic_pairs.insert({player_,player_graphic_})
 }
@@ -100,18 +102,19 @@ void Tampere::removeActor(std::shared_ptr<Interface::IActor> actor)
     it=nysse_graphic_pairs.find(actor);
     if(it != nysse_graphic_pairs.end() && it->second->scene() != nullptr){
          scene->removeItem(it->second);
+         delete it->second;
          nysse_graphic_pairs.erase(it);
     }
 }
 
 void Tampere::actorRemoved(std::shared_ptr<Interface::IActor> actor)
 {
-
+    removeActor(actor);
 }
 
 bool Tampere::findActor(std::shared_ptr<Interface::IActor> actor) const {
    std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*>::const_iterator it;
-   it=nysse_graphic_pairs.begin();
+   it=nysse_graphic_pairs.find(actor);
    if(it != nysse_graphic_pairs.end())
         return true;
    return false;
@@ -123,7 +126,18 @@ void Tampere::actorMoved(std::shared_ptr<Interface::IActor> actor){
    if(it != nysse_graphic_pairs.end()){
         it->second->setAng(QPoint(it->second->x(), it->second->y()), QPoint(actor.get()->giveLocation().giveX(), 490-actor.get()->giveLocation().giveY()));
         it->second->setPos(QPoint(actor.get()->giveLocation().giveX(),500-actor.get()->giveLocation().giveY()));
+        return;
    }
+//   std::shared_ptr<CourseSide::Passenger> pass = std::dynamic_pointer_cast<CourseSide::Passenger>(actor);
+//   if(pass){
+//        if(findActor(pass->getVehicle())){
+//            passenger_graphic_pairs.find(actor);
+//            if(it != passenger_graphic_pairs.end()){
+//                it->second->setPos(QPoint(actor.get()->giveLocation().giveX(),500-actor.get()->giveLocation().giveY()));
+//            }
+//        }
+//   }
+
 }
 
 std::vector<std::shared_ptr<Interface::IActor>> Tampere::getNearbyActors(Interface::Location loc) const {
@@ -137,23 +151,22 @@ bool Tampere::isGameOver() const {
 void Tampere::drawNysses(){
 
     for(std::shared_ptr<Interface::IActor> bus : actors){
-        QPoint coords = QPoint(bus->giveLocation().giveX(),bus->giveLocation().giveY());
+        QPoint bus_coords = QPoint(bus->giveLocation().giveX(),bus->giveLocation().giveY());
         std::shared_ptr<Interface::IVehicle> isBus = std::dynamic_pointer_cast<Interface::IVehicle>(bus);
         if(isBus){
-            BetterActorItem* actor = new BetterActorItem(BUS_IMAGE);
+            BetterActorItem* actor = new BetterActorItem(BUS_IMAGE,BUS_HEALTH);
             nysse_graphic_pairs.insert({bus, actor});
             scene->addItem(actor);
-            actor->setPos(coords);
+            actor->setPos(bus_coords);
             actor->setScale(0.4);
             actor->setZValue(2);
         }
         else {  BetterActorItem* actor = new BetterActorItem(PASSENGER_IMAGE);
-            nysse_graphic_pairs.insert({bus, actor});
+            passenger_graphic_pairs.insert({bus, actor});
             scene->addItem(actor);
-            actor->setPos(coords);
+            actor->setPos(bus_coords);
             actor->setScale(0.4);
         }
-
     }
 }
 
@@ -166,6 +179,8 @@ void Tampere::setArrowAngle(qreal angle){
 }
 
 void Tampere::drawShot(){
+    if(ammo!=0){
+    qDebug() << "AMMO LEFT: ", std::to_string(ammo);
     BetterActorItem* shot = new BetterActorItem(SHOT_IMAGE);
     scene->addItem(shot);
     //shot->setRect(player_->getPos().first, player_->getPos().second, 10, 1);
@@ -174,6 +189,8 @@ void Tampere::drawShot(){
     shot->setScale(0.9);
     shot->setZValue(3);
     shots_.insert({shot, 1});
+    ammo--;
+    }
 }
 
 void Tampere::moveShots(){
@@ -197,18 +214,21 @@ void Tampere::checkCollison(BetterActorItem* item){
     if (!item->collidingItems().empty()){
         for (auto collidingitem : scene->collidingItems(item)){
           if(collidingitem->zValue()==2){
-
-                // Remove nysse
+            BetterActorItem* hit_nysse = static_cast<BetterActorItem*>(collidingitem);
+            // Remove nysse if HP = 0
+            if(hit_nysse->getHealth()==0){
                 for(auto it = nysse_graphic_pairs.begin(); it != nysse_graphic_pairs.end(); ++it)
                     if(it->second==collidingitem)
                        removeActor(it->first);
 
-                scene->removeItem(item);
-                shots_.erase(shots_.find(item));
+
                 //nysse_graphic_pairs.at(collidingitem);
                 score+=10;
-                break;
-
+            }
+            hit_nysse->lowerHealth();
+            scene->removeItem(item);
+            shots_.erase(shots_.find(item));
+            break;
                 // TODO: poista bussit ilman kaatumista
             }
         }

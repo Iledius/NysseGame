@@ -57,7 +57,9 @@ private:
     //QGraphicsItemAnimation *animation_;
     BetterActorItem* player_graphic_;
     std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*> nysse_graphic_pairs;
+    std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*> passenger_graphic_pairs;
     QGraphicsPolygonItem* playerArrow_;
+    int ammo;
     std::map<BetterActorItem*, int> shots_;
     BetterActorItem* shuttle_;
 

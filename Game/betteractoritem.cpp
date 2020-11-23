@@ -1,6 +1,6 @@
 #include "betteractoritem.h"
 
-BetterActorItem::BetterActorItem(QImage image): image_(image)
+BetterActorItem::BetterActorItem(QImage image, int health): image_(image), health_(health)
 {
 }
 
@@ -44,3 +44,15 @@ void BetterActorItem::setAng(QPoint oldpos, QPoint newpos)
 
     if(angHistory.size()>10){angHistory.erase(angHistory.begin());}
 }
+
+void BetterActorItem::lowerHealth()
+{
+    health_--;
+}
+
+int BetterActorItem::getHealth()
+{
+    return health_;
+}
+
+
