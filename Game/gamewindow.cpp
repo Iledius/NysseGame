@@ -17,19 +17,16 @@ GameWindow::GameWindow(QWidget *parent) :
     //:/offlinedata/offlinedata/kartta_iso_1095x592.png
     //:/offlinedata/offlinedata/kartta_pieni_500x500.png
 
-
     QString buses_string = ":/offlinedata/offlinedata/final_bus_liteN.json";
     QString stops_string = ":/offlinedata/offlinedata/full_stations_kkj3.json";
     logic_ = new CourseSide::Logic(this);
-    gameView = new GameView();
+    gameView = new GameView(this);
     scene = new QGraphicsScene(this);
     ui->setupUi(this);
 
-    //mouse tracking
+    // Mouse tracking for GameView
     centralWidget()->setAttribute(Qt::WA_TransparentForMouseEvents);
     setMouseTracking(true);
-
-    std::shared_ptr<Tampere> city_temp_ = std::make_shared<Tampere>();
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &GameWindow::advance);
@@ -41,8 +38,7 @@ GameWindow::GameWindow(QWidget *parent) :
     gameView->resize(1095,592);
     gameView->setScene(scene);
 
-    // tää cityn säätä pointterista referenssiks saa aikaan mystisiä ongelmia
-    // https://manski.net/2012/02/cpp-references-and-inheritance/ tuolla selitetty
+
     // asetetaan scene oikeaan kokoon, ei tule scrollbareja
     QRect rcontent = gameView->contentsRect();
     scene->setSceneRect(0,0,rcontent.width(),rcontent.height());
@@ -50,11 +46,12 @@ GameWindow::GameWindow(QWidget *parent) :
 
     this->resize(1295,592);
 
+    std::shared_ptr<Tampere> city_temp_ = std::make_shared<Tampere>();
     takeCity(city_temp_);
     gameView->takeCity(city_temp_);
     logic_->takeCity(city_temp_);
 
-    logic_->setTime(8, 0);
+    logic_->setTime(7, 30);
     logic_->readOfflineData(buses_string,stops_string);
     // tää säätö koska joku shared pointer ongelma joka korjautu kun annetaan referenssinä tälle luokalle se
     // https://manski.net/2012/02/cpp-references-and-inheritance/ tuolla selitetty muistaakseni
@@ -111,6 +108,7 @@ GameWindow::~GameWindow()
     delete scene;
     delete logic_;
     delete gameView;
+    delete timer;
 }
 
 void GameWindow::on_pushButton_released()

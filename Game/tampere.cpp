@@ -5,6 +5,9 @@ QImage BUS_IMAGE("../../etkot-software/Game/images/tank.png");
 QImage PASSENGER_IMAGE("../../etkot-software/Game/images/elon.png");
 QImage PLAYER_IMAGE("../../etkot-software/Game/images/ufo.png");
 QImage SHOT_IMAGE("../../etkot-software/Game/images/laser.png");
+QImage SHUTTLE_IMAGE("../../etkot-software/Game/images/shuttle.png");
+
+const int SHOT_RANGE = 50;
 
 
 
@@ -40,6 +43,10 @@ void Tampere::startGame()
     player_graphic_->setScale(0.5);
     playerArrow_->setScale(3);
 
+    shuttle_ = new BetterActorItem(SHUTTLE_IMAGE);
+    scene->addItem(shuttle_);
+    shuttle_->setPos(300,0);
+    shuttle_->setScale(0.5);
     //jos halutaan hyödyntää drawNysses ja actorMoved funktioita pelaajalle
     //nysse_graphic_pairs.insert({player_,player_graphic_})
 }
@@ -90,7 +97,7 @@ void Tampere::addActor(std::shared_ptr<Interface::IActor> newactor)
 void Tampere::removeActor(std::shared_ptr<Interface::IActor> actor)
 {
     std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*>::iterator it;
-    it=nysse_graphic_pairs.begin();
+    it=nysse_graphic_pairs.find(actor);
     if(it != nysse_graphic_pairs.end() && it->second->scene() != nullptr){
          scene->removeItem(it->second);
          nysse_graphic_pairs.erase(it);
@@ -177,7 +184,7 @@ void Tampere::moveShots(){
         shot.first->moveBy(qCos(ang)*6, qSin(ang)*6);
         checkCollison(shot.first);
         shot.first->setOpacity(0.8);
-        if(shot.second >= 3000){
+        if(shot.second >= SHOT_RANGE){
             // TODO: korjaa panoksen poisto
             scene->removeItem(shot.first);
             delete shot.first;
@@ -190,7 +197,12 @@ void Tampere::checkCollison(BetterActorItem* item){
     if (!item->collidingItems().empty()){
         for (auto collidingitem : scene->collidingItems(item)){
           if(collidingitem->zValue()==2){
-                scene->removeItem(collidingitem);
+
+                // Remove nysse
+                for(auto it = nysse_graphic_pairs.begin(); it != nysse_graphic_pairs.end(); ++it)
+                    if(it->second==collidingitem)
+                       removeActor(it->first);
+
                 scene->removeItem(item);
                 shots_.erase(shots_.find(item));
                 //nysse_graphic_pairs.at(collidingitem);

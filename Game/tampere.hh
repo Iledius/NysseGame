@@ -45,7 +45,7 @@ public:
     std::vector<std::shared_ptr<Interface::IStop>> stops;
     std::vector<std::shared_ptr<Interface::IActor>> actors;
     Player* player_;
-    int left, right, up, down, aimUp, aimDown, aimLeft=0, aimRight=0;
+    int left, right, up, down, aimUp=0, aimDown=0, aimLeft=0, aimRight=0;
     int score = 0;
 
 
@@ -59,6 +59,7 @@ private:
     std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*> nysse_graphic_pairs;
     QGraphicsPolygonItem* playerArrow_;
     std::map<BetterActorItem*, int> shots_;
+    BetterActorItem* shuttle_;
 
 };
 

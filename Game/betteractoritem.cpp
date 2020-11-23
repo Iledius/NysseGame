@@ -22,7 +22,6 @@ void BetterActorItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 
 void BetterActorItem::setAng(QPoint oldpos, QPoint newpos)
 {
-
 //    qreal ang = qAtan2((oldpos.y()-newpos.y()), (oldpos.x()-newpos.x()));
 //    angHistory.push_back(ang);
 //    qreal angAvg = 0;
