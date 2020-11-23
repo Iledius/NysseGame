@@ -48,17 +48,28 @@ void Tampere::startGame()
     scene->addItem(shuttle_);
     shuttle_->setPos(300,0);
     shuttle_->setScale(0.5);
-    ammo = AMMO;
+    ammo_ = AMMO;
     //jos halutaan hyödyntää drawNysses ja actorMoved funktioita pelaajalle
     //nysse_graphic_pairs.insert({player_,player_graphic_})
 }
 
 void Tampere::movePlayer()
 {
-    if(left==1) {player_->changePos(-2,0);}
-    if(right==1) {player_->changePos(2,0);}
-    if(up==1) {player_->changePos(0,-2);}
-    if(down==1) {player_->changePos(0,2);}
+    if(left==1) {player_->changePos(-0.1*leftAcc,0);leftAcc++;}
+    if(right==1) {player_->changePos(0.1*rightAcc,0);rightAcc++;}
+    if(up==1) {player_->changePos(0,-0.1*upAcc);upAcc++;}
+    if(down==1) {player_->changePos(0,0.1*downAcc);downAcc++;}
+
+    if(!left&&!right&&!up&&!down){
+       leftAcc=0;
+       rightAcc=0;
+       upAcc=0;
+       downAcc=0;
+    }
+    else{
+        if(acceleration_ < 20)
+            acceleration_++;
+    }
 
     // Had to be done in this very manual way because of qt:s way of processing keypresses.
     if(aimUp && aimLeft) {playerArrow_->setRotation(315);}
@@ -179,8 +190,8 @@ void Tampere::setArrowAngle(qreal angle){
 }
 
 void Tampere::drawShot(){
-    if(ammo!=0){
-    qDebug() << "AMMO LEFT: ", std::to_string(ammo);
+    if(ammo_!=0){
+    qDebug() << "AMMO LEFT: ", std::to_string(ammo_);
     BetterActorItem* shot = new BetterActorItem(SHOT_IMAGE);
     scene->addItem(shot);
     //shot->setRect(player_->getPos().first, player_->getPos().second, 10, 1);
@@ -189,7 +200,7 @@ void Tampere::drawShot(){
     shot->setScale(0.9);
     shot->setZValue(3);
     shots_.insert({shot, 1});
-    ammo--;
+    ammo_--;
     }
 }
 
@@ -208,6 +219,11 @@ void Tampere::moveShots(){
             shots_.erase(shot.first);
         }
     }
+}
+
+void Tampere::resetAcceleration()
+{
+    acceleration_= 0;
 }
 
 void Tampere::checkCollison(BetterActorItem* item){
