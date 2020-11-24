@@ -54,7 +54,7 @@ private:
     std::shared_ptr<Player> player_;
     Statistics stats;
     void incrementScore();
-    void mouseMoveEvent(QMouseEvent *event) override;
+
 };
 
 #endif // GAMEWINDOW_HH

@@ -66,9 +66,6 @@ void GameWindow::takeCity(std::shared_ptr<Tampere>& city)
     city_ = city;
 }
 
-void GameWindow::mouseMoveEvent(QMouseEvent *event){
-    // TOIMII VAAN MAINWINDOWIN ALUEELLA; EI PELIALUEUELLL
-}
 
 void GameWindow::drawStops()
 {
