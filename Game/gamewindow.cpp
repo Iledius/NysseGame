@@ -38,7 +38,6 @@ GameWindow::GameWindow(QWidget *parent) :
     gameView->resize(1095,592);
     gameView->setScene(scene);
 
-
     // asetetaan scene oikeaan kokoon, ei tule scrollbareja
     QRect rcontent = gameView->contentsRect();
     scene->setSceneRect(0,0,rcontent.width(),rcontent.height());
@@ -53,6 +52,7 @@ GameWindow::GameWindow(QWidget *parent) :
 
     logic_->setTime(7, 30);
     logic_->readOfflineData(buses_string,stops_string);
+
     // tää säätö koska joku shared pointer ongelma joka korjautu kun annetaan referenssinä tälle luokalle se
     // https://manski.net/2012/02/cpp-references-and-inheritance/ tuolla selitetty muistaakseni
 
@@ -64,7 +64,6 @@ void GameWindow::takeCity(std::shared_ptr<Tampere>& city)
 {
     city_ = city;
 }
-
 
 void GameWindow::drawStops()
 {

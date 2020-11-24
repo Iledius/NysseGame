@@ -8,15 +8,15 @@
 #include "interfaces/iactor.hh"
 #include "core/location.hh"
 #include <algorithm>    // std::find
-#include <map>
+#include <map>  // ei ehkä tarvii
 #include "player.hh"
-#include <QGraphicsItemAnimation>
-#include <QTimeLine>
-#include <QPointF>
+#include <QTimeLine> // ei ehkä tarvii
+#include <QPointF> // ei ehkä tarvii
 #include "betteractoritem.h"
 #include <QtDebug>
 #include <vector>
 #include "statistics.h"
+#include <QTimer>
 
 class Tampere : public Interface::ICity
 {
@@ -42,7 +42,7 @@ public:
     void setArrowAngle(qreal angle);
     void drawShot();
     void moveShots();
-    void reloadShots();
+    void reloadPressed();
 
     std::vector<std::shared_ptr<Interface::IStop>> stops;
     std::vector<std::shared_ptr<Interface::IActor>> actors;
@@ -52,22 +52,22 @@ public:
     int score = 0;
     Statistics stats;
 
-
 private:
     QTime time_;
-    QGraphicsScene* scene;
-    void check_shot_collison(BetterActorItem* item);
-    //QTimeLine *timer_;
-    //QGraphicsItemAnimation *animation_;
-    BetterActorItem* player_graphic_;
-    std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*> nysse_graphic_pairs;
-    std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*> passenger_graphic_pairs;
+    QGraphicsScene* scene_;
+    void checkShotCollison(BetterActorItem* item);
+    BetterActorItem* playerGraphic_;
+    std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*> nysseGraphicPairs_;
+    std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*> passengerGraphicPairs_;
     QGraphicsPolygonItem* playerArrow_;
     int ammo_;
     std::map<BetterActorItem*, int> shots_;
     BetterActorItem* shuttle_;
+    BetterActorItem* ammoGraphic_;
     int acceleration_ = 0;
-    QTimer *reload_timer_;
+    int reloadTime_ = 0;
+
+
 };
 
 #endif // TAMPERE_HH
