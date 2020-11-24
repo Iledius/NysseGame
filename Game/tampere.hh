@@ -42,11 +42,13 @@ public:
     void setArrowAngle(qreal angle);
     void drawShot();
     void moveShots();
+    void resetAcceleration();
 
     std::vector<std::shared_ptr<Interface::IStop>> stops;
     std::vector<std::shared_ptr<Interface::IActor>> actors;
     Player* player_;
-    int left, right, up, down, aimUp, aimDown, aimLeft=0, aimRight=0;
+    int left, right, up, down, aimUp=0, aimDown=0, aimLeft=0, aimRight=0;
+    int leftAcc=0, rightAcc=0, upAcc=0, downAcc=0;
     int score = 0;
     Statistics stats;
 
@@ -59,9 +61,12 @@ private:
     //QGraphicsItemAnimation *animation_;
     BetterActorItem* player_graphic_;
     std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*> nysse_graphic_pairs;
+    std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*> passenger_graphic_pairs;
     QGraphicsPolygonItem* playerArrow_;
+    int ammo_;
     std::map<BetterActorItem*, int> shots_;
-
+    BetterActorItem* shuttle_;
+    int acceleration_ = 0;
 };
 
 #endif // TAMPERE_HH
