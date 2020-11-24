@@ -13,11 +13,12 @@ QImage EXPLOSION_IMAGE("../../etkot-software/Game/images/explosion.png");
 QImage AMMO_6("../../etkot-software/Game/images/6ammo.png");
 
 // Z-levels for different items:
-const int PLAYER_Z = 5;
-const int BUS_Z = 3;
-const int PASSENGER_Z = 2;
+const int PLAYER_Z = 6;
+const int BUS_Z = 4;
+const int PASSENGER_Z = 3;
+const int SHUTTLE_Z = 2;
 
-const int SHOT_RANGE = 50;
+const int SHOT_RANGE = 100;
 const int BUS_HEALTH = 2;
 const float SPEED = 0.1;
 int AMMO = 5;
@@ -66,6 +67,7 @@ void Tampere::startGame()
 
 
     scene_->addItem(shuttle_);
+    shuttle_->setZValue(SHUTTLE_Z);
     shuttle_->setPos(300,0);
     shuttle_->setScale(0.5);
     ammo_ = AMMO;
@@ -311,47 +313,53 @@ void Tampere::checkShotCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
                 BetterActorItem* hit_nysse = static_cast<BetterActorItem*>(collidingitem);
 
 
-                BetterActorItem* hit_image = new BetterActorItem(EXPLOSION_IMAGE);
-                hit_image->setTransform(collidingitem->transform());
-                hit_image->setPos(hit_nysse->pos());
-                hit_image->setZValue(BUS_Z+1);
-                scene_->addItem(hit_image);
+            BetterActorItem* hit_image = new BetterActorItem(EXPLOSION_IMAGE);
+            hit_image->setTransform(collidingitem->transform());
+            hit_image->setPos(hit_nysse->pos());
+            hit_image->setZValue(BUS_Z+1);
+            scene_->addItem(hit_image);
 
-                hit_image->setDestructTimer(100);
+            hit_image->setDestructTimer(100);
 
-                // Remove nysse if HP = 0
-                if(hit_nysse->getHealth()==0){
-                    for(auto it = nysseGraphicPairs_.begin(); it != nysseGraphicPairs_.end(); ++it)
-                        if(it->second==collidingitem)
-                           removeActor(it->first);
+            // Remove nysse if HP = 0
+            if(hit_nysse->getHealth()==0){
+                for(auto it = nysseGraphicPairs_.begin(); it != nysseGraphicPairs_.end(); ++it)
+                    if(it->second==collidingitem)
+                       removeActor(it->first);
 
-                    int scoreForBus = 10;
-                    stats.incrementScore(scoreForBus);
-                    QString asd = "Martti";
-                    //stats.saveScores(asd);
-                    score+=10;
-                }
-                hit_nysse->lowerHealth();
-                scene_->removeItem(item);
-                shots_.erase(shots_.find(item));
-                break;
+                int scoreForBus = 10;
+                stats.incrementScore(scoreForBus);
+                QString asd = "Martti";
+                //stats.saveScores(asd);
+                score+=10;
             }
-          if(collidingitem->zValue()==PASSENGER_Z&&Z_VALUE==PASSENGER_Z){
-              BetterActorItem* passenger = static_cast<BetterActorItem*>(passenger);
-              passengers_picked_++;
-              qDebug() <<passengers_picked_;
-              for(auto it = passengerGraphicPairs_.begin(); it != passengerGraphicPairs_.end(); ++it)
-                  if(it->second==collidingitem)
-                     removeActor(it->first);
-
-          }
+            hit_nysse->lowerHealth();
+            scene_->removeItem(item);
+            shots_.erase(shots_.find(item));
+            break;
         }
-    }
+      if(collidingitem->zValue()==PASSENGER_Z&&Z_VALUE==PASSENGER_Z&&passengers_picked_<10){
+          BetterActorItem* passenger = static_cast<BetterActorItem*>(passenger);
+          passengers_picked_++;
+          qDebug() <<passengers_picked_;
+          for(auto it = passengerGraphicPairs_.begin(); it != passengerGraphicPairs_.end(); ++it)
+              if(it->second==collidingitem)
+                 removeActor(it->first);
+      }
+
+      if(passengers_picked_>=10 && collidingitem->zValue()==SHUTTLE_Z && Z_VALUE==SHUTTLE_Z){
+          stats.incrementScore(passengers_picked_*10);
+          passengers_picked_=0;
+
+         }
+      }
+   }
 }
 
 void Tampere::pickPassengers()
 {
     checkShotCollison(playerGraphic_, PASSENGER_Z);
+    checkShotCollison(playerGraphic_, SHUTTLE_Z);
 }
 
 
