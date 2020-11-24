@@ -193,21 +193,19 @@ bool Tampere::findActor(std::shared_ptr<Interface::IActor> actor) const {
 }
 
 void Tampere::actorMoved(std::shared_ptr<Interface::IActor> actor){
-   std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*>::iterator it;
-   it = nysseGraphicPairs_.find(actor);
-   if(it != nysseGraphicPairs_.end()){
-        it->second->setAng(QPoint(it->second->x(), it->second->y()), QPoint(actor.get()->giveLocation().giveX(), 490-actor.get()->giveLocation().giveY()));
-        it->second->setPos(QPoint(actor.get()->giveLocation().giveX(),500-actor.get()->giveLocation().giveY()));
-        return;
-   }
+    std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*>::iterator it;
+      it = nysseGraphicPairs_.find(actor);
+      if(it != nysseGraphicPairs_.end()){
+           it->second->setAng(QPoint(it->second->x(), it->second->y()), QPoint(actor.get()->giveLocation().giveX(), 490-actor.get()->giveLocation().giveY()));
+           it->second->setPos(QPoint(actor.get()->giveLocation().giveX(),500-actor.get()->giveLocation().giveY()));
+           return;
+      }
 
-   // TODO: passengerit liikuu vaan kun ne on nyssessä, nyt kaatuu tällä koska ????
-
-//   std::shared_ptr<CourseSide::Passenger> pass = std::dynamic_pointer_cast<CourseSide::Passenger>(actor);
+//   std::shared_ptr<Interface::IPassenger> pass = std::dynamic_pointer_cast<Interface::IPassenger>(actor);
 //   if(pass){
 //        if(findActor(pass->getVehicle())){
-//            passenger_graphic_pairs.find(actor);
-//            if(it != passenger_graphic_pairs.end()){
+//            passengerGraphicPairs_.find(actor);
+//            if(it != passengerGraphicPairs_.end()){
 //                it->second->setPos(QPoint(actor.get()->giveLocation().giveX(),500-actor.get()->giveLocation().giveY()));
 //            }
 //        }
@@ -216,6 +214,10 @@ void Tampere::actorMoved(std::shared_ptr<Interface::IActor> actor){
 }
 
 std::vector<std::shared_ptr<Interface::IActor>> Tampere::getNearbyActors(Interface::Location loc) const {
+    // halusin vaan varotukset pois
+    qDebug() << loc.giveX();
+    std::vector<std::shared_ptr<Interface::IActor>> asd;
+    return asd;
 }
 
 bool Tampere::isGameOver() const {
@@ -224,30 +226,30 @@ bool Tampere::isGameOver() const {
 
 
 void Tampere::drawActors(){
-
     for(std::shared_ptr<Interface::IActor> iactor : actors){
-        QPoint bus_coords = QPoint(iactor->giveLocation().giveX(),iactor->giveLocation().giveY());
-        std::shared_ptr<Interface::IVehicle> isBus = std::dynamic_pointer_cast<Interface::IVehicle>(iactor);
+           QPoint bus_coords = QPoint(iactor->giveLocation().giveX(),iactor->giveLocation().giveY());
+           std::shared_ptr<Interface::IVehicle> isBus = std::dynamic_pointer_cast<Interface::IVehicle>(iactor);
 
-        // If actor is a bus
-        if(isBus){
-            BetterActorItem* actor_graphic = new BetterActorItem(BUS_IMAGE,BUS_HEALTH);
-            nysseGraphicPairs_.insert({iactor, actor_graphic});
-            scene_->addItem(actor_graphic);
-            actor_graphic->setPos(bus_coords);
-            actor_graphic->setScale(0.4);
-            actor_graphic->setZValue(BUS_Z);
-        }
+           // If actor is a bus
+           if(isBus){
+               BetterActorItem* actor_graphic = new BetterActorItem(BUS_IMAGE,BUS_HEALTH);
+               nysseGraphicPairs_.insert({iactor, actor_graphic});
+               scene_->addItem(actor_graphic);
+               actor_graphic->setPos(bus_coords);
+               actor_graphic->setScale(0.4);
+               actor_graphic->setZValue(BUS_Z);
+           }
 
-        // If actor is a passenger
-        else {  BetterActorItem* actor_graphic = new BetterActorItem(PASSENGER_IMAGE);
-            passengerGraphicPairs_.insert({iactor, actor_graphic});
-            scene_->addItem(actor_graphic);
-            actor_graphic->setPos(bus_coords);
-            actor_graphic->setZValue(PASSENGER_Z);
-            actor_graphic->setScale(0.4);
-        }
-    }
+           // If actor is a passenger
+           else {  BetterActorItem* actor_graphic = new BetterActorItem(PASSENGER_IMAGE);
+               passengerGraphicPairs_.insert({iactor, actor_graphic});
+               scene_->addItem(actor_graphic);
+               actor_graphic->setPos(bus_coords);
+               actor_graphic->setZValue(PASSENGER_Z);
+               actor_graphic->setScale(0.4);
+           }
+       }
+
 }
 
 void Tampere::takeScene(QGraphicsScene* sceneToTake){
@@ -266,11 +268,10 @@ void Tampere::drawShot(){
         scene_->addItem(shot);
 
         shot->setRotation(playerArrow_->rotation()+270);
-        shot->setPos(player_->getPos().first+13,player_->getPos().second+13);
+        shot->setPos(player_->getPos().first+16,player_->getPos().second+16);
         shot->setScale(0.9);
         shot->setZValue(BUS_Z);
         shots_.insert({shot, 1});
-
 
         std::string imgname = "../../etkot-software/Game/images/"+std::to_string(ammo_)+"ammo.png";
         ammoGraphic_->setImage(QImage(QString::fromStdString(imgname)));
