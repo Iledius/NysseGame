@@ -37,7 +37,7 @@ public:
     bool isGameOver() const override;
 
     void takeScene(QGraphicsScene* sceneToTake);
-    void drawNysses();
+    void drawActors();
     void movePlayer();
     void setArrowAngle(qreal angle);
     void drawShot();
@@ -51,11 +51,14 @@ public:
     int leftAcc=0, rightAcc=0, upAcc=0, downAcc=0;
     int score = 0;
     Statistics stats;
+    void pickPassengers();
+    std::vector<BetterActorItem*> hit_items;
 
 private:
+    void checkShotCollison(BetterActorItem* item, int Z_VALUE);
+
     QTime time_;
     QGraphicsScene* scene_;
-    void checkShotCollison(BetterActorItem* item);
     BetterActorItem* playerGraphic_;
     std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*> nysseGraphicPairs_;
     std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*> passengerGraphicPairs_;
@@ -66,6 +69,8 @@ private:
     BetterActorItem* ammoGraphic_;
     int acceleration_ = 0;
     int reloadTime_ = 0;
+
+    int passengers_picked_=0;
 
 
 };

@@ -6,6 +6,7 @@
 #include <QtMath>
 #include <QtDebug>
 #include "iostream"
+#include <QTimer>
 
 
 class BetterActorItem : public QGraphicsRectItem
@@ -17,10 +18,13 @@ public:
     void setAng(QPoint oldpos, QPoint newpos);
     void lowerHealth();
     int getHealth();
+    void setDestructTimer(int time);
+
 private:
     QImage image_;
     std::vector<qreal> angHistory;
     int health_;
+    QTimer* destruct_timer_;
 };
 
 #endif // BETTERACTORITEM_H

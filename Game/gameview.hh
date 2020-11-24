@@ -18,7 +18,6 @@ public:
 
 private:
     std::shared_ptr<Tampere> city_;
-    std::map<std::string, bool> pressed_;
     void focus();
 protected:
     void keyPressEvent(QKeyEvent *event) override;

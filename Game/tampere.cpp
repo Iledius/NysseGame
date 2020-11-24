@@ -7,6 +7,7 @@ QImage PASSENGER_IMAGE("../../etkot-software/Game/images/elon.png");
 QImage PLAYER_IMAGE("../../etkot-software/Game/images/ufo.png");
 QImage SHOT_IMAGE("../../etkot-software/Game/images/laser2.png");
 QImage SHUTTLE_IMAGE("../../etkot-software/Game/images/shuttle.png");
+QImage EXPLOSION_IMAGE("../../etkot-software/Game/images/explosion.png");
 
 
 QImage AMMO_6("../../etkot-software/Game/images/6ammo.png");
@@ -43,7 +44,7 @@ void Tampere::setClock(QTime clock)
 
 void Tampere::startGame()
 {
-    drawNysses();
+    drawActors();
 
     // Player cannon visual
     playerArrow_ = scene_->addPolygon(player_->createArrow());
@@ -166,6 +167,13 @@ void Tampere::removeActor(std::shared_ptr<Interface::IActor> actor)
          scene_->removeItem(it->second);
          delete it->second;
          nysseGraphicPairs_.erase(it);
+         return;
+    }
+    it=passengerGraphicPairs_.find(actor);
+    if(it != passengerGraphicPairs_.end() && it->second->scene() != nullptr){
+         scene_->removeItem(it->second);
+         delete it->second;
+         passengerGraphicPairs_.erase(it);
     }
 }
 
@@ -213,25 +221,29 @@ bool Tampere::isGameOver() const {
 }
 
 
-void Tampere::drawNysses(){
+void Tampere::drawActors(){
 
-    for(std::shared_ptr<Interface::IActor> bus : actors){
-        QPoint bus_coords = QPoint(bus->giveLocation().giveX(),bus->giveLocation().giveY());
-        std::shared_ptr<Interface::IVehicle> isBus = std::dynamic_pointer_cast<Interface::IVehicle>(bus);
+    for(std::shared_ptr<Interface::IActor> iactor : actors){
+        QPoint bus_coords = QPoint(iactor->giveLocation().giveX(),iactor->giveLocation().giveY());
+        std::shared_ptr<Interface::IVehicle> isBus = std::dynamic_pointer_cast<Interface::IVehicle>(iactor);
+
+        // If actor is a bus
         if(isBus){
-            BetterActorItem* actor = new BetterActorItem(BUS_IMAGE,BUS_HEALTH);
-            nysseGraphicPairs_.insert({bus, actor});
-            scene_->addItem(actor);
-            actor->setPos(bus_coords);
-            actor->setScale(0.4);
-            actor->setZValue(BUS_Z);
+            BetterActorItem* actor_graphic = new BetterActorItem(BUS_IMAGE,BUS_HEALTH);
+            nysseGraphicPairs_.insert({iactor, actor_graphic});
+            scene_->addItem(actor_graphic);
+            actor_graphic->setPos(bus_coords);
+            actor_graphic->setScale(0.4);
+            actor_graphic->setZValue(BUS_Z);
         }
-        else {  BetterActorItem* actor = new BetterActorItem(PASSENGER_IMAGE);
-            passengerGraphicPairs_.insert({bus, actor});
-            scene_->addItem(actor);
-            actor->setPos(bus_coords);
-            actor->setZValue(PASSENGER_Z);
-            actor->setScale(0.4);
+
+        // If actor is a passenger
+        else {  BetterActorItem* actor_graphic = new BetterActorItem(PASSENGER_IMAGE);
+            passengerGraphicPairs_.insert({iactor, actor_graphic});
+            scene_->addItem(actor_graphic);
+            actor_graphic->setPos(bus_coords);
+            actor_graphic->setZValue(PASSENGER_Z);
+            actor_graphic->setScale(0.4);
         }
     }
 }
@@ -261,7 +273,6 @@ void Tampere::drawShot(){
         std::string imgname = "../../etkot-software/Game/images/"+std::to_string(ammo_)+"ammo.png";
         ammoGraphic_->setImage(QImage(QString::fromStdString(imgname)));
         ammoGraphic_->update();
-        qDebug() << QString::fromStdString(imgname);
     }
 }
 
@@ -272,7 +283,7 @@ void Tampere::moveShots(){
         qreal ang = (qDegreesToRadians(shot.first->rotation()));
         shot.first->rotation();
         shot.first->moveBy(qCos(ang)*6, qSin(ang)*6);
-        checkShotCollison(shot.first);
+        checkShotCollison(shot.first,BUS_Z);
         shot.first->setOpacity(0.8);
         if(shot.second >= SHOT_RANGE){
             // TODO: korjaa panoksen poisto
@@ -290,32 +301,57 @@ void Tampere::reloadPressed()
 }
 
 
-void Tampere::checkShotCollison(BetterActorItem* item){
+
+
+
+void Tampere::checkShotCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
     if (!item->collidingItems().empty()){
         for (auto collidingitem : scene_->collidingItems(item)){
-          if(collidingitem->zValue()==BUS_Z){
-            BetterActorItem* hit_nysse = static_cast<BetterActorItem*>(collidingitem);
-            // Remove nysse if HP = 0
-            if(hit_nysse->getHealth()==0){
-                for(auto it = nysseGraphicPairs_.begin(); it != nysseGraphicPairs_.end(); ++it)
-                    if(it->second==collidingitem)
-                       removeActor(it->first);
+          if(collidingitem->zValue()==BUS_Z&&Z_VALUE==BUS_Z){
+                BetterActorItem* hit_nysse = static_cast<BetterActorItem*>(collidingitem);
 
-                int scoreForBus = 10;
-                stats.incrementScore(scoreForBus);
-                QString asd = "Martti";
-                //stats.saveScores(asd);
-                score+=10;
-            }
-            hit_nysse->lowerHealth();
-            scene_->removeItem(item);
-            shots_.erase(shots_.find(item));
-            break;
-                // TODO: poista bussit ilman kaatumista
 
+                BetterActorItem* hit_image = new BetterActorItem(EXPLOSION_IMAGE);
+                hit_image->setTransform(collidingitem->transform());
+                hit_image->setPos(hit_nysse->pos());
+                hit_image->setZValue(BUS_Z+1);
+                scene_->addItem(hit_image);
+
+                hit_image->setDestructTimer(100);
+
+                // Remove nysse if HP = 0
+                if(hit_nysse->getHealth()==0){
+                    for(auto it = nysseGraphicPairs_.begin(); it != nysseGraphicPairs_.end(); ++it)
+                        if(it->second==collidingitem)
+                           removeActor(it->first);
+
+                    int scoreForBus = 10;
+                    stats.incrementScore(scoreForBus);
+                    QString asd = "Martti";
+                    //stats.saveScores(asd);
+                    score+=10;
+                }
+                hit_nysse->lowerHealth();
+                scene_->removeItem(item);
+                shots_.erase(shots_.find(item));
+                break;
             }
+          if(collidingitem->zValue()==PASSENGER_Z&&Z_VALUE==PASSENGER_Z){
+              BetterActorItem* passenger = static_cast<BetterActorItem*>(passenger);
+              passengers_picked_++;
+              qDebug() <<passengers_picked_;
+              for(auto it = passengerGraphicPairs_.begin(); it != passengerGraphicPairs_.end(); ++it)
+                  if(it->second==collidingitem)
+                     removeActor(it->first);
+
+          }
         }
     }
+}
+
+void Tampere::pickPassengers()
+{
+    checkShotCollison(playerGraphic_, PASSENGER_Z);
 }
 
 
