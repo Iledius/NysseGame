@@ -56,7 +56,6 @@ GameWindow::GameWindow(QWidget *parent) :
     // tää säätö koska joku shared pointer ongelma joka korjautu kun annetaan referenssinä tälle luokalle se
     // https://manski.net/2012/02/cpp-references-and-inheritance/ tuolla selitetty muistaakseni
 
-    //city_temp_=nullptr;
     city_->takeScene(scene);
     logic_->finalizeGameStart();
 }
@@ -101,10 +100,11 @@ void GameWindow::advance()
 GameWindow::~GameWindow()
 {
     delete ui;
-    delete scene;
-    delete logic_;
-    delete gameView;
-    delete timer;
+    // TODO: kokeile tarviiko deletee kaikki erikseen
+//    delete scene;
+//    delete logic_;
+//    delete gameView;
+//    delete timer;
 }
 
 void GameWindow::on_pushButton_released()
