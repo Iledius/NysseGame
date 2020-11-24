@@ -10,6 +10,7 @@ QImage SHUTTLE_IMAGE("../../etkot-software/Game/images/shuttle.png");
 
 const int SHOT_RANGE = 50;
 const int BUS_HEALTH = 2;
+const float SPEED = 0.1;
 int AMMO = 5;
 
 
@@ -55,21 +56,37 @@ void Tampere::startGame()
 
 void Tampere::movePlayer()
 {
-    if(left==1) {player_->changePos(-0.1*leftAcc,0);leftAcc++;}
-    if(right==1) {player_->changePos(0.1*rightAcc,0);rightAcc++;}
-    if(up==1) {player_->changePos(0,-0.1*upAcc);upAcc++;}
-    if(down==1) {player_->changePos(0,0.1*downAcc);downAcc++;}
+    int ACC_LIMIT = 30;
+    if(left==1) {player_->changePos(-SPEED*leftAcc,0);leftAcc=(leftAcc>ACC_LIMIT) ? leftAcc+1:ACC_LIMIT;}
+    if(right==1) {player_->changePos(SPEED*rightAcc,0);rightAcc=(rightAcc>ACC_LIMIT) ? rightAcc+1:ACC_LIMIT;}
+    if(up==1) {player_->changePos(0,-SPEED*upAcc);upAcc=(upAcc>ACC_LIMIT) ? upAcc+1:ACC_LIMIT;}
+    if(down==1) {player_->changePos(0,SPEED*downAcc);downAcc=(downAcc>ACC_LIMIT) ? downAcc+1:ACC_LIMIT;}
 
-    if(!left&&!right&&!up&&!down){
-       leftAcc=0;
-       rightAcc=0;
-       upAcc=0;
-       downAcc=0;
-    }
-    else{
-        if(acceleration_ < 20)
-            acceleration_++;
-    }
+   if(left==0&&leftAcc>0){
+       leftAcc--;
+       if(leftAcc>0){
+           player_->changePos(-0.1*leftAcc,0);
+       }else leftAcc=0;
+   }
+   if(right==0&&rightAcc>0){
+       rightAcc--;
+       if(rightAcc>0){
+           player_->changePos(0.1*rightAcc,0);
+       }else rightAcc=0;
+   }
+   if(up==0&&upAcc>0){
+       upAcc--;
+       if(upAcc>0){
+           player_->changePos(0,-0.1*upAcc);
+       }else upAcc=0;
+   }
+   if(down==0&&downAcc>0){
+       downAcc--;
+       if(downAcc>0){
+           player_->changePos(0,0.1*downAcc);
+       }else downAcc=0;
+   }
+
 
     // Had to be done in this very manual way because of qt:s way of processing keypresses.
     if(aimUp && aimLeft) {playerArrow_->setRotation(315);}
@@ -85,6 +102,7 @@ void Tampere::movePlayer()
     int y_new = player_->getPos().second;
     player_graphic_->setPos(QPoint(x_new,y_new));
     playerArrow_->setPos(player_->getPos().first+16, player_->getPos().second+16);
+
 }
 
 void Tampere::addStop(std::shared_ptr<Interface::IStop> stop)
