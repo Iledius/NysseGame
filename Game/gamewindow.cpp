@@ -12,23 +12,23 @@ QImage SATELLITE_MAP = QImage("../../etkot-software/Game/images/satellitemap.png
 
 GameWindow::GameWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::GameWindow)
+    ui(new Ui::GameWindow),
+    scene(new QGraphicsScene(this)),
+    logic_(new CourseSide::Logic(this)),
+    timer(new QTimer(this)),
+    gameView(new GameView(this))
 {
     //:/offlinedata/offlinedata/kartta_iso_1095x592.png
     //:/offlinedata/offlinedata/kartta_pieni_500x500.png
 
     QString buses_string = ":/offlinedata/offlinedata/final_bus_liteN.json";
     QString stops_string = ":/offlinedata/offlinedata/full_stations_kkj3.json";
-    logic_ = new CourseSide::Logic(this);
-    gameView = new GameView(this);
-    scene = new QGraphicsScene(this);
     ui->setupUi(this);
 
     // Mouse tracking for GameView
     centralWidget()->setAttribute(Qt::WA_TransparentForMouseEvents);
     setMouseTracking(true);
 
-    timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &GameWindow::advance);
     timer->start(10);
 

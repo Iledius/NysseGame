@@ -8,6 +8,11 @@ QImage PLAYER_IMAGE("../../etkot-software/Game/images/ufo.png");
 QImage SHOT_IMAGE("../../etkot-software/Game/images/laser2.png");
 QImage SHUTTLE_IMAGE("../../etkot-software/Game/images/shuttle.png");
 
+// Z-levels for different items:
+const int PLAYER_Z = 5;
+const int BUS_Z = 3;
+const int PASSENGER_Z = 2;
+
 const int SHOT_RANGE = 50;
 const int BUS_HEALTH = 2;
 const float SPEED = 0.1;
@@ -39,8 +44,8 @@ void Tampere::startGame()
     player_graphic_->setPos(QPoint(250,250));
     playerArrow_->setPos(player_->getPos().first+16, player_->getPos().second+16);
 
-    player_graphic_->setZValue(5);  // player always on top
-    playerArrow_->setZValue(4); // aimingarrow under player
+    player_graphic_->setZValue(PLAYER_Z);  // player always on top
+    playerArrow_->setZValue(PLAYER_Z-1); // aimingarrow under player
 
     player_graphic_->setScale(0.5);
     playerArrow_->setScale(3);
@@ -57,6 +62,8 @@ void Tampere::startGame()
 void Tampere::movePlayer()
 {
     int ACC_LIMIT = 30;
+
+    //
     if(left==1) {player_->changePos(-SPEED*leftAcc,0);leftAcc=(leftAcc>ACC_LIMIT) ? leftAcc+1:ACC_LIMIT;}
     if(right==1) {player_->changePos(SPEED*rightAcc,0);rightAcc=(rightAcc>ACC_LIMIT) ? rightAcc+1:ACC_LIMIT;}
     if(up==1) {player_->changePos(0,-SPEED*upAcc);upAcc=(upAcc>ACC_LIMIT) ? upAcc+1:ACC_LIMIT;}
@@ -188,12 +195,13 @@ void Tampere::drawNysses(){
             scene->addItem(actor);
             actor->setPos(bus_coords);
             actor->setScale(0.4);
-            actor->setZValue(2);
+            actor->setZValue(BUS_Z);
         }
         else {  BetterActorItem* actor = new BetterActorItem(PASSENGER_IMAGE);
             passenger_graphic_pairs.insert({bus, actor});
             scene->addItem(actor);
             actor->setPos(bus_coords);
+            actor->setZValue(PASSENGER_Z);
             actor->setScale(0.4);
         }
     }
@@ -228,7 +236,7 @@ void Tampere::moveShots(){
         qreal ang = (qDegreesToRadians(shot.first->rotation()));
         shot.first->rotation();
         shot.first->moveBy(qCos(ang)*6, qSin(ang)*6);
-        checkCollison(shot.first);
+        check_shot_collison(shot.first);
         shot.first->setOpacity(0.8);
         if(shot.second >= SHOT_RANGE){
             // TODO: korjaa panoksen poisto
@@ -239,15 +247,15 @@ void Tampere::moveShots(){
     }
 }
 
-void Tampere::resetAcceleration()
+void Tampere::reloadShots()
 {
-    acceleration_= 0;
+    //reload_timer_.
 }
 
-void Tampere::checkCollison(BetterActorItem* item){
+void Tampere::check_shot_collison(BetterActorItem* item){
     if (!item->collidingItems().empty()){
         for (auto collidingitem : scene->collidingItems(item)){
-          if(collidingitem->zValue()==2){
+          if(collidingitem->zValue()==BUS_Z){
             BetterActorItem* hit_nysse = static_cast<BetterActorItem*>(collidingitem);
             // Remove nysse if HP = 0
             if(hit_nysse->getHealth()==0){
@@ -272,8 +280,9 @@ void Tampere::checkCollison(BetterActorItem* item){
             }
         }
     }
-
 }
+
+
 
 Tampere::~Tampere(){
 

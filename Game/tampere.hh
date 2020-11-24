@@ -42,7 +42,7 @@ public:
     void setArrowAngle(qreal angle);
     void drawShot();
     void moveShots();
-    void resetAcceleration();
+    void reloadShots();
 
     std::vector<std::shared_ptr<Interface::IStop>> stops;
     std::vector<std::shared_ptr<Interface::IActor>> actors;
@@ -56,7 +56,7 @@ public:
 private:
     QTime time_;
     QGraphicsScene* scene;
-    void checkCollison(BetterActorItem* item);
+    void check_shot_collison(BetterActorItem* item);
     //QTimeLine *timer_;
     //QGraphicsItemAnimation *animation_;
     BetterActorItem* player_graphic_;
@@ -67,6 +67,7 @@ private:
     std::map<BetterActorItem*, int> shots_;
     BetterActorItem* shuttle_;
     int acceleration_ = 0;
+    QTimer *reload_timer_;
 };
 
 #endif // TAMPERE_HH
