@@ -94,15 +94,14 @@ void GameWindow::busHit()
 {
     //Bussiin osuu, tehään eka vaan pisteiden lisäystä varten
     incrementScore();
-    stat.nyssesDestroyed = stat.nyssesDestroyed + 1;
+    stats.nyssesDestroyed = stats.nyssesDestroyed + 1;
 }
 
 void GameWindow::advance()
 {
     city_->movePlayer();
     city_->moveShots();
-    score = city_->score;
-    ui->scoreDisplay->display(score);
+    ui->scoreDisplay->display(city_->stats.currentScore);
 }
 
 GameWindow::~GameWindow()
@@ -115,12 +114,14 @@ GameWindow::~GameWindow()
 
 void GameWindow::on_pushButton_released()
 {
-    //Kutsutaan bus hit silloin kun bussiin osuu, täs vaan tällänen väliaikapaska
-    busHit();
+    //Tallennetaan pelaajan tiedot
+    std::cout << "ASD" << std::endl;
+    city_->stats.saveScores(player_name);
+
 }
 
 void GameWindow::incrementScore()
 {
-    stat.incrementScore(5);
-    std::cout << stat.currentScore << std::endl;
+    stats.incrementScore(5);
+    std::cout << stats.currentScore << std::endl;
 }

@@ -52,7 +52,7 @@ private:
     std::vector<std::string> diffs;
     int score;
     std::shared_ptr<Player> player_;
-    Statistics stat;
+    Statistics stats;
     void incrementScore();
     void mouseMoveEvent(QMouseEvent *event) override;
 };

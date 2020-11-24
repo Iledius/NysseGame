@@ -16,6 +16,7 @@
 #include "betteractoritem.h"
 #include <QtDebug>
 #include <vector>
+#include "statistics.h"
 
 class Tampere : public Interface::ICity
 {
@@ -47,6 +48,7 @@ public:
     Player* player_;
     int left, right, up, down, aimUp, aimDown, aimLeft=0, aimRight=0;
     int score = 0;
+    Statistics stats;
 
 
 private:

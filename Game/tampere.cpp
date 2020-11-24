@@ -1,5 +1,6 @@
 #include "tampere.hh"
 #include "iostream"
+#include "statistics.h"
 
 QImage BUS_IMAGE("../../etkot-software/Game/images/tank.png");
 QImage PASSENGER_IMAGE("../../etkot-software/Game/images/elon.png");
@@ -11,7 +12,6 @@ QImage SHOT_IMAGE("../../etkot-software/Game/images/laser.png");
 Tampere::Tampere() :
     time_(QTime::currentTime().hour(), QTime::currentTime().minute(), QTime::currentTime().second())
 {
-
 }
 
 void Tampere::setBackground(QImage &basicbackground, QImage &bigbackground)
@@ -194,10 +194,14 @@ void Tampere::checkCollison(BetterActorItem* item){
                 scene->removeItem(item);
                 shots_.erase(shots_.find(item));
                 //nysse_graphic_pairs.at(collidingitem);
-                score+=10;
+                int scoreForBus = 10;
+                stats.incrementScore(scoreForBus);
+                QString asd = "Martti";
+                //stats.saveScores(asd);
                 break;
 
                 // TODO: poista bussit ilman kaatumista
+
             }
         }
     }
