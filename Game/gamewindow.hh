@@ -30,14 +30,12 @@ public:
     void drawStops();
     void setPlayerName(QString s);
     void setDifficulty(int d);
-    void busHit();
+
 
     QString player_name;
     int difficulty;
 
 
-private slots:
-    void on_pushButton_released();
 public Q_SLOTS:
     void advance();
 
@@ -53,7 +51,6 @@ private:
     int score;
     std::shared_ptr<Player> player_;
     Statistics stats;
-    void incrementScore();
 
 };
 

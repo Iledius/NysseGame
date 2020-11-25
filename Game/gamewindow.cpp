@@ -82,13 +82,6 @@ void GameWindow::setDifficulty(int d)
     ui->difficultyLabel->setText(QString::fromStdString(diffs.at(d)));
 }
 
-void GameWindow::busHit()
-{
-    //Bussiin osuu, tehään eka vaan pisteiden lisäystä varten
-    incrementScore();
-    stats.nyssesDestroyed = stats.nyssesDestroyed + 1;
-}
-
 void GameWindow::advance()
 {
     city_->movePlayer();
@@ -106,16 +99,3 @@ GameWindow::~GameWindow()
 //    delete timer;
 }
 
-void GameWindow::on_pushButton_released()
-{
-    //Tallennetaan pelaajan tiedot
-    std::cout << "ASD" << std::endl;
-    city_->stats.saveScores(player_name);
-
-}
-
-void GameWindow::incrementScore()
-{
-    stats.incrementScore(5);
-    std::cout << stats.currentScore << std::endl;
-}

@@ -42,18 +42,17 @@ void Statistics::saveScores(QString name)
 
     bool scoreInserted = false;
     std::multimap<int, QString>::iterator i;
+    //Insert the new score and fill the newList with old scores
     for (i = highScores.begin(); i != highScores.end(); i++)
     {
         if (currentScore > i->first && !scoreInserted)
         {
             newList.insert(newHS);
             scoreInserted = true;
-            std::cout << "lisätty uusi score" << std::endl;
         }
         if (newList.size() <= 10)
         {
             newList.insert(std::make_pair(i->first, i->second));
-            std::cout << "insert " << i->first << " " << i->second.toStdString() << std::endl;
         }
     }
 
@@ -62,6 +61,7 @@ void Statistics::saveScores(QString name)
         std::cout << i->second.toStdString() << i->first << std::endl;
     }
 
+    //Save new scores to scores.txt
     QFile file("scores.txt");
     if(file.open(QIODevice::WriteOnly))
     {
@@ -76,8 +76,6 @@ void Statistics::saveScores(QString name)
         file.close();
         std::cout << "scores saved!"<<  std::endl;
     }
-    file.close();
-
 }
 
 std::multimap<int, QString> Statistics::readScores()
@@ -103,8 +101,8 @@ std::multimap<int, QString> Statistics::readScores()
         instance = std::make_pair(std::stoi(score),QString::fromStdString(name));
         highScores.insert(instance);
     }
-    //High scores are now in low to high order
-
+    //High scores are in low to high order!
+    file.close();
     return highScores;
 }
 
