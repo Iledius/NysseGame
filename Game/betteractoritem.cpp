@@ -18,14 +18,16 @@ void BetterActorItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 }
 
 void BetterActorItem::setDestructTimer(int time){
-    //connect(destruct_timer_, &QTimer::timeout, this, &BetterActorItem::deleteThis);
     QTimer::singleShot(time,[=](){delete this;});
-    //destruct_timer_->start(time);
+
 }
 
 
 void BetterActorItem::setAng(QPoint oldpos, QPoint newpos)
 {
+
+    // Tällä actorin saa kääntymään liikkumissuuntaan, anghistory tasottamassa rajuja muutoksia
+
 //    qreal ang = qAtan2((oldpos.y()-newpos.y()), (oldpos.x()-newpos.x()));
 //    angHistory.push_back(ang);
 //    qreal angAvg = 0;

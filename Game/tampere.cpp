@@ -52,11 +52,11 @@ void Tampere::startGame()
 {
     drawActors();
 
-    // Player cannon visual
+    // Player cannon and player visuals
     playerArrow_ = scene_->addPolygon(player_->createArrow());
     scene_->addItem(playerGraphic_);
 
-    // Ammo visuals
+    // Visual that displays how much ammo left
     scene_->addItem(ammoGraphic_);
     ammoGraphic_->setParentItem(playerGraphic_);
     ammoGraphic_->setScale(2);
@@ -70,15 +70,12 @@ void Tampere::startGame()
     playerGraphic_->setScale(0.5);
     playerArrow_->setScale(3);
 
-
+    // Shuttle visual, where we drop our Elon clones
     scene_->addItem(shuttle_);
     shuttle_->setZValue(SHUTTLE_Z);
     shuttle_->setPos(300,0);
     shuttle_->setScale(0.5);
     ammo_ = AMMO;
-
-    //jos halutaan hyödyntää drawNysses ja actorMoved funktioita pelaajalle
-    //nysse_graphic_pairs.insert({player_,player_graphic_})
 }
 
 void Tampere::movePlayer()
@@ -206,6 +203,7 @@ void Tampere::actorMoved(std::shared_ptr<Interface::IActor> actor){
            return;
       }
 
+    // TODO: korjaa passengerit kulkemaan!!
 //   std::shared_ptr<Interface::IPassenger> pass = std::dynamic_pointer_cast<Interface::IPassenger>(actor);
 //   if(pass){
 //        if(findActor(pass->getVehicle())){
@@ -219,7 +217,7 @@ void Tampere::actorMoved(std::shared_ptr<Interface::IActor> actor){
 }
 
 std::vector<std::shared_ptr<Interface::IActor>> Tampere::getNearbyActors(Interface::Location loc) const {
-    // halusin vaan varotukset pois
+    // TODO:: käytä jotenkin? halusin tällä vaan varotukset pois
     qDebug() << loc.giveX();
     std::vector<std::shared_ptr<Interface::IActor>> asd;
     return asd;

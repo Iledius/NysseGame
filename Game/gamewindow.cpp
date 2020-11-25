@@ -40,7 +40,6 @@ GameWindow::GameWindow(QWidget *parent) :
     gameView->setParent(this);
     gameView->resize(1095,592);
     gameView->setScene(scene);
-
     // asetetaan scene oikeaan kokoon, ei tule scrollbareja
     QRect rcontent = gameView->contentsRect();
     scene->setSceneRect(0,0,rcontent.width(),rcontent.height());
@@ -74,6 +73,7 @@ GameWindow::GameWindow(QWidget *parent) :
 
     city_->takeScene(scene);
     logic_->finalizeGameStart();
+
 }
 
 void GameWindow::takeCity(std::shared_ptr<Tampere>& city)
@@ -110,6 +110,8 @@ void GameWindow::advance()
     city_->movePlayer();
     city_->moveShots();
     ui->scoreDisplay->display(city_->stats.currentScore);
+
+    gameView->centerOn(QPoint(city_->player_->getPos().first, city_->player_->getPos().second));
 }
 
 GameWindow::~GameWindow()
