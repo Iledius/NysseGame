@@ -6,7 +6,6 @@ GameView::GameView(QWidget *parent)
     : QGraphicsView(parent)
 {
     setMouseTracking(true);
-    pressed_={{"w",0},{"a",0},{"s",0},{"d",0}};
 }
 
 GameView::GameView(QGraphicsScene *scene, QWidget *parent)
@@ -24,7 +23,7 @@ void GameView::takeCity(std::shared_ptr<Tampere> city){
 
 void GameView::keyPressEvent(QKeyEvent *event)
 {
-    if(event->isAutoRepeat()) {event->ignore();}
+    //if(event->isAutoRepeat()) {event->ignore();}
 
 
     switch(event->key())
@@ -40,6 +39,9 @@ void GameView::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Right: {city_->aimRight=1; break; }
 
     case Qt::Key_Space: {city_->drawShot();break;}
+    case Qt::Key_R: {city_->reloadPressed(); break; }
+
+    case Qt::Key_Q: {city_->pickPassengers(); break; }
 
     }
 }

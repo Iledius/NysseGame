@@ -8,15 +8,15 @@
 #include "interfaces/iactor.hh"
 #include "core/location.hh"
 #include <algorithm>    // std::find
-#include <map>
+#include <map>  // ei ehkä tarvii
 #include "player.hh"
-#include <QGraphicsItemAnimation>
-#include <QTimeLine>
-#include <QPointF>
+#include <QTimeLine> // ei ehkä tarvii
+#include <QPointF> // ei ehkä tarvii
 #include "betteractoritem.h"
 #include <QtDebug>
 #include <vector>
 #include "statistics.h"
+#include <QTimer>
 
 class Tampere : public Interface::ICity
 {
@@ -37,12 +37,12 @@ public:
     bool isGameOver() const override;
 
     void takeScene(QGraphicsScene* sceneToTake);
-    void drawNysses();
+    void drawActors();
     void movePlayer();
     void setArrowAngle(qreal angle);
     void drawShot();
     void moveShots();
-    void resetAcceleration();
+    void reloadPressed();
 
     std::vector<std::shared_ptr<Interface::IStop>> stops;
     std::vector<std::shared_ptr<Interface::IActor>> actors;
@@ -51,22 +51,28 @@ public:
     int leftAcc=0, rightAcc=0, upAcc=0, downAcc=0;
     int score = 0;
     Statistics stats;
-
+    void pickPassengers();
+    std::vector<BetterActorItem*> hit_items;
 
 private:
+    void checkShotCollison(BetterActorItem* item, int Z_VALUE);
+
     QTime time_;
-    QGraphicsScene* scene;
-    void checkCollison(BetterActorItem* item);
-    //QTimeLine *timer_;
-    //QGraphicsItemAnimation *animation_;
-    BetterActorItem* player_graphic_;
-    std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*> nysse_graphic_pairs;
-    std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*> passenger_graphic_pairs;
+    QGraphicsScene* scene_;
+    BetterActorItem* playerGraphic_;
+    std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*> nysseGraphicPairs_;
+    std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*> passengerGraphicPairs_;
     QGraphicsPolygonItem* playerArrow_;
     int ammo_;
     std::map<BetterActorItem*, int> shots_;
     BetterActorItem* shuttle_;
+    BetterActorItem* ammoGraphic_;
     int acceleration_ = 0;
+    int reloadTime_ = 0;
+
+    int passengers_picked_=0;
+
+
 };
 
 #endif // TAMPERE_HH

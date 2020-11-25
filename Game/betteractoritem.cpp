@@ -1,6 +1,6 @@
 #include "betteractoritem.h"
 
-BetterActorItem::BetterActorItem(QImage image, int health): image_(image), health_(health)
+BetterActorItem::BetterActorItem(QImage image, int health): image_(image), health_(health), destruct_timer_(new QTimer)
 {
 }
 
@@ -11,14 +11,18 @@ void BetterActorItem::setImage(QImage image)
 
 void BetterActorItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    //QPen pen(Qt::black, 3);
     painter->setPen(Qt::NoPen);
-    QRectF r;
-    r.setRect(0,0,image_.width(), image_.height());
+    QRectF r(0,0,image_.width(), image_.height());
     painter->drawImage(r,image_);
-    this->setRect(0,0,image_.width(), image_.height());
-    // this->setTransformOriginPoint(-30,-30);
+    setRect(0,0,image_.width(), image_.height());
 }
+
+void BetterActorItem::setDestructTimer(int time){
+    //connect(destruct_timer_, &QTimer::timeout, this, &BetterActorItem::deleteThis);
+    QTimer::singleShot(time,[=](){delete this;});
+    //destruct_timer_->start(time);
+}
+
 
 void BetterActorItem::setAng(QPoint oldpos, QPoint newpos)
 {

@@ -66,19 +66,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>1120</x>
-      <y>530</y>
-      <width>141</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Väliaikanen pisteen lisäys nappi</string>
-    </property>
-   </widget>
+
    <widget class="QTextBrowser" name="textBrowser">
     <property name="geometry">
      <rect>
