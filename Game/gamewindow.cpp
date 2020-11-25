@@ -10,6 +10,9 @@
 QImage TAMPERE_MAP = QImage(":/offlinedata/offlinedata/kartta_iso_1095x592.png");
 QImage SATELLITE_MAP = QImage("../../etkot-software/Game/images/satellitemap.png");
 
+const int GAME_TIME = 4280;
+const int UPDATE_RATE = 10;
+
 GameWindow::GameWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::GameWindow),
@@ -30,7 +33,7 @@ GameWindow::GameWindow(QWidget *parent) :
     setMouseTracking(true);
 
     connect(timer, &QTimer::timeout, this, &GameWindow::advance);
-    timer->start(10);
+    timer->start(UPDATE_RATE);
 
     QBrush backGround(SATELLITE_MAP);
 
@@ -97,6 +100,13 @@ void GameWindow::setDifficulty(int d)
 
 void GameWindow::advance()
 {
+    if(current_time>GAME_TIME){
+        timer->stop();
+        qDebug() << "GAME FINISHED";
+        delete logic_;
+    }
+    current_time++;
+    ui->timeDisplay->display((GAME_TIME-current_time)/(700/UPDATE_RATE));
     city_->movePlayer();
     city_->moveShots();
     ui->scoreDisplay->display(city_->stats.currentScore);

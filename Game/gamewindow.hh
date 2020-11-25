@@ -47,6 +47,7 @@ private:
     int score;
     std::shared_ptr<Player> player_;
     Statistics stats;
+    int current_time = 0;
 };
 
 #endif // GAMEWINDOW_HH
