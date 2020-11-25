@@ -50,6 +50,7 @@ GameWindow::GameWindow(QWidget *parent) :
     gameView->takeCity(city_temp_);
     logic_->takeCity(city_temp_);
 
+    //Set highscore display
     std::multimap<int, QString>::reverse_iterator it;
     int n = 1;
     for(it = stats.highScores.rbegin(); it != stats.highScores.rend(); it++)

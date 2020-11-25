@@ -13,11 +13,6 @@ Statistics::Statistics()
 {
 highScores = readScores();
 std::multimap<int, QString>::iterator i;
-//for (i = highScores.begin(); i != highScores.end(); i++)
-//{
-//    std::cout << i->second.toStdString() << i->first << std::endl;
-//}
-//std::cout << isNewHighScore(100) << std::endl;
 }
 
 Statistics::~Statistics()
@@ -46,23 +41,26 @@ void Statistics::saveScores(QString name)
     std::multimap<int, QString>::iterator i;
 
     //Insert the new score and fill the newList with old scores
-    for (ir = highScores.rbegin(); ir != highScores.rend(); ir++)
+    if(highScores.size() > 0)
     {
-        if (currentScore >= ir->first && !scoreInserted)
+        for (ir = highScores.rbegin(); ir != highScores.rend(); ir++)
         {
-            newList.insert(newHS);
-            scoreInserted = true;
-        }
-        if (newList.size() < 10)
-        {
-            newList.insert(std::make_pair(ir->first, ir->second));
+            if (currentScore >= ir->first && !scoreInserted)
+            {
+                newList.insert(newHS);
+                scoreInserted = true;
+            }
+            if (newList.size() < 10)
+            {
+                newList.insert(std::make_pair(ir->first, ir->second));
+            }
         }
     }
+    else
+    {
+        newList.insert(newHS);
+    }
 
-//    for (i = newList.begin(); i != newList.end(); i++)
-//    {
-//        std::cout << i->second.toStdString() << i->first << std::endl;
-//    }
 
     //Save new scores to scores.txt
     QFile file("scores.txt");
@@ -112,7 +110,7 @@ std::multimap<int, QString> Statistics::readScores()
 bool Statistics::isNewHighScore(int score)
 {
     std::multimap<int, QString>::iterator it = highScores.end();
-    if(it->second < score)
+    if(it->second < score || highScores.size() == 0)
     {
         return true;
     }
