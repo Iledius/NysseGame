@@ -21,7 +21,12 @@ const int SHUTTLE_Z = 2;
 const int SHOT_RANGE = 100;
 const int BUS_HEALTH = 2;
 const float SPEED = 0.1;
-int AMMO = 5;
+
+const int PASSENGER_STORAGE = 30;
+const int SCORE_FOR_BUS = 100;
+const int SCORE_FOR_PASSENGER = 3;
+
+int AMMO = 6;
 
 
 Tampere::Tampere() :
@@ -267,8 +272,9 @@ void Tampere::drawShot(){
         BetterActorItem* shot = new BetterActorItem(SHOT_IMAGE);
         scene_->addItem(shot);
 
+        // Set shot to the right angle
         shot->setRotation(playerArrow_->rotation()+270);
-        shot->setPos(player_->getPos().first+16,player_->getPos().second+16);
+        shot->setPos(player_->getPos().first+13,player_->getPos().second+13);
         shot->setScale(0.9);
         shot->setZValue(BUS_Z);
         shots_.insert({shot, 1});
@@ -287,9 +293,8 @@ void Tampere::moveShots(){
         shot.first->rotation();
         shot.first->moveBy(qCos(ang)*6, qSin(ang)*6);
         checkShotCollison(shot.first,BUS_Z);
-        shot.first->setOpacity(0.8);
+
         if(shot.second >= SHOT_RANGE){
-            // TODO: korjaa panoksen poisto
             scene_->removeItem(shot.first);
             delete shot.first;
             shots_.erase(shot.first);
@@ -299,12 +304,12 @@ void Tampere::moveShots(){
 
 void Tampere::reloadPressed()
 {
-    reloadTime_=80;
-    qDebug() << "reloading....";
+    // If not already reloading and not max ammo, start reloading.
+    if(reloadTime_==0&&ammo_!=AMMO){
+        reloadTime_=80;
+        qDebug() << "reloading....";
+    }
 }
-
-
-
 
 
 void Tampere::checkShotCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
@@ -313,24 +318,22 @@ void Tampere::checkShotCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
           if(collidingitem->zValue()==BUS_Z&&Z_VALUE==BUS_Z){
                 BetterActorItem* hit_nysse = static_cast<BetterActorItem*>(collidingitem);
 
-
+            // Add explosion image to scene, and set destruct timer to 0.1 seconds
             BetterActorItem* hit_image = new BetterActorItem(EXPLOSION_IMAGE);
             hit_image->setTransform(collidingitem->transform());
             hit_image->setPos(hit_nysse->pos());
             hit_image->setZValue(BUS_Z+1);
             scene_->addItem(hit_image);
-
             hit_image->setDestructTimer(100);
 
-            // Remove nysse if HP = 0
+
+            // Remove nysse if HP = 0. If not, lower hp by 1
             if(hit_nysse->getHealth()==0){
                 for(auto it = nysseGraphicPairs_.begin(); it != nysseGraphicPairs_.end(); ++it)
                     if(it->second==collidingitem)
                        removeActor(it->first);
 
-                int scoreForBus = 10;
-
-                stats.incrementScore(scoreForBus);
+                stats.incrementScore(SCORE_FOR_BUS);
                 QString asd = "Martti";
                 score+=10;
                 stats.saveScores(asd);
@@ -340,7 +343,9 @@ void Tampere::checkShotCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
             shots_.erase(shots_.find(item));
             break;
         }
-      if(collidingitem->zValue()==PASSENGER_Z&&Z_VALUE==PASSENGER_Z&&passengers_picked_<10){
+
+      // if Q pressed while on passengers(elons) remove them from scene and increase passengers_picked
+      if(collidingitem->zValue()==PASSENGER_Z&&Z_VALUE==PASSENGER_Z&&passengers_picked_<PASSENGER_STORAGE){
           BetterActorItem* passenger = static_cast<BetterActorItem*>(passenger);
           passengers_picked_++;
           qDebug() <<passengers_picked_;
@@ -349,8 +354,9 @@ void Tampere::checkShotCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
                  removeActor(it->first);
       }
 
-      if(passengers_picked_>=10 && collidingitem->zValue()==SHUTTLE_Z && Z_VALUE==SHUTTLE_Z){
-          stats.incrementScore(passengers_picked_*10);
+      // If Q pressed while on shuttle, add score and empty passengers to shuttle
+      if(passengers_picked_>=PASSENGER_STORAGE && collidingitem->zValue()==SHUTTLE_Z && Z_VALUE==SHUTTLE_Z){
+          stats.incrementScore(passengers_picked_*SCORE_FOR_PASSENGER);
           passengers_picked_=0;
 
          }
