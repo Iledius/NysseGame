@@ -30,15 +30,11 @@ public:
     void drawStops();
     void setPlayerName(QString s);
     void setDifficulty(int d);
-
-
     QString player_name;
     int difficulty;
 
-
 public Q_SLOTS:
     void advance();
-
 
 private:
     Ui::GameWindow *ui;
@@ -51,7 +47,6 @@ private:
     int score;
     std::shared_ptr<Player> player_;
     Statistics stats;
-
 };
 
 #endif // GAMEWINDOW_HH

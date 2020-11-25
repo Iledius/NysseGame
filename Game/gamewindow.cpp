@@ -50,6 +50,18 @@ GameWindow::GameWindow(QWidget *parent) :
     gameView->takeCity(city_temp_);
     logic_->takeCity(city_temp_);
 
+    std::multimap<int, QString>::reverse_iterator it;
+    int n = 1;
+    for(it = stats.highScores.rbegin(); it != stats.highScores.rend(); it++)
+    {
+        QString name = it->second;
+        QString qstScore = QString::number(it->first);
+        QString delimitter = " - ";
+        QString toAppend= QString::number(n) + ". " + name + delimitter + qstScore;
+        n++;
+        ui->highScoreBrowser->append(toAppend);
+    }
+
     logic_->setTime(7, 30);
     logic_->readOfflineData(buses_string,stops_string);
 

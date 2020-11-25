@@ -41,25 +41,28 @@ void Statistics::saveScores(QString name)
     std::multimap<int, QString> newList;
 
     bool scoreInserted = false;
+
+    std::multimap<int, QString>::reverse_iterator ir;
     std::multimap<int, QString>::iterator i;
+
     //Insert the new score and fill the newList with old scores
-    for (i = highScores.begin(); i != highScores.end(); i++)
+    for (ir = highScores.rbegin(); ir != highScores.rend(); ir++)
     {
-        if (currentScore > i->first && !scoreInserted)
+        if (currentScore >= ir->first && !scoreInserted)
         {
             newList.insert(newHS);
             scoreInserted = true;
         }
-        if (newList.size() <= 10)
+        if (newList.size() < 10)
         {
-            newList.insert(std::make_pair(i->first, i->second));
+            newList.insert(std::make_pair(ir->first, ir->second));
         }
     }
 
-    for (i = newList.begin(); i != newList.end(); i++)
-    {
-        std::cout << i->second.toStdString() << i->first << std::endl;
-    }
+//    for (i = newList.begin(); i != newList.end(); i++)
+//    {
+//        std::cout << i->second.toStdString() << i->first << std::endl;
+//    }
 
     //Save new scores to scores.txt
     QFile file("scores.txt");
