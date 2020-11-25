@@ -42,11 +42,12 @@ GameWindow::GameWindow(QWidget *parent) :
     gameView->setScene(scene);
     // asetetaan scene oikeaan kokoon, ei tule scrollbareja
     QRect rcontent = gameView->contentsRect();
-    scene->setSceneRect(0,0,rcontent.width()*4,rcontent.height()*4);
+    scene->setSceneRect(0,0,3729,3564);
     gameView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     gameView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scene->setBackgroundBrush(backGround);
 
+    // suunnittelin fullscreeniä, vaatis grafiikoiten siirtelyä
 //    this->resize(1980,1080);
 //    ui->timeDisplay->move(QPoint(1750,ui->timeDisplay->y()));
 //    ui->timeHintText->move(QPoint(1750,ui->timeHintText->y()));

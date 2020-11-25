@@ -14,9 +14,9 @@ QImage AMMO_6("../../etkot-software/Game/images/6ammo.png");
 
 // Z-levels for different items:
 const int PLAYER_Z = 6;
-const int BUS_Z = 4;
-const int PASSENGER_Z = 3;
-const int SHUTTLE_Z = 2;
+const int BUS_Z = 3;
+const int PASSENGER_Z = 2;
+const int SHUTTLE_Z = 4;
 
 const int SHOT_RANGE = 100;
 const int BUS_HEALTH = 2;
@@ -42,10 +42,17 @@ Tampere::Tampere() :
 
 void Tampere::setBackground(QImage &basicbackground, QImage &bigbackground)
 {
+    // FILLEREITÄ VAROTUKSIA VARTEN
+    //TODO: jotain tällä funktiolla?? pitää implementoida ettei oo virtual
+    basicbackground.setColor(1,0);
+    bigbackground.setColor(1,0);
 }
 
 void Tampere::setClock(QTime clock)
 {
+    // FILLEREITÄ VAROTUKSIA VARTEN
+    //TODO: jotain tällä funktiolla?? pitää implementoida ettei oo virtual
+    this->time_.setHMS(clock.hour(),clock.minute(),clock.second());
 }
 
 void Tampere::startGame()
@@ -62,26 +69,26 @@ void Tampere::startGame()
     ammoGraphic_->setScale(2);
 
     playerGraphic_->setPos(QPoint(250,250));
-    playerArrow_->setPos(player_->getPos().first+16, player_->getPos().second+16);
+    playerArrow_->setPos(player_->getPos().first+23, player_->getPos().second+23);
 
     playerGraphic_->setZValue(PLAYER_Z);  // player always on top
     playerArrow_->setZValue(PLAYER_Z-1); // aimingarrow under player
 
-    playerGraphic_->setScale(0.5);
-    playerArrow_->setScale(3);
+    playerGraphic_->setScale(0.75);
+    playerArrow_->setScale(4.5);
 
     // Shuttle visual, where we drop our Elon clones
     scene_->addItem(shuttle_);
     shuttle_->setZValue(SHUTTLE_Z);
-    shuttle_->setPos(300,0);
-    shuttle_->setScale(0.5);
+    shuttle_->setPos(400,400);
+    shuttle_->setScale(1);
     ammo_ = AMMO;
 }
 
 void Tampere::movePlayer()
 {
     // max speed multiplier
-    int ACC_LIMIT = 30;
+    int ACC_LIMIT = 45;
 
     // moving with acceleration
     if(left==1) {player_->changePos(-SPEED*leftAcc,0);leftAcc=(leftAcc>ACC_LIMIT) ? leftAcc+1:ACC_LIMIT;}
@@ -128,7 +135,7 @@ void Tampere::movePlayer()
     int x_new = player_->getPos().first;
     int y_new = player_->getPos().second;
     playerGraphic_->setPos(QPoint(x_new,y_new));
-    playerArrow_->setPos(player_->getPos().first+16, player_->getPos().second+16);
+    playerArrow_->setPos(player_->getPos().first+23, player_->getPos().second+23);
 
     // Reload timer
     if(reloadTime_>0){
@@ -157,9 +164,6 @@ void Tampere::addStop(std::shared_ptr<Interface::IStop> stop)
 
 void Tampere::addActor(std::shared_ptr<Interface::IActor> newactor)
 {
-    int x = newactor->giveLocation().giveX();
-    int y = newactor->giveLocation().giveY();
-    std::pair<int,int> coords = {x,y};
     actors.push_back(newactor);
 }
 
@@ -239,7 +243,7 @@ void Tampere::drawActors(){
                nysseGraphicPairs_.insert({iactor, actor_graphic});
                scene_->addItem(actor_graphic);
                actor_graphic->setPos(bus_coords);
-               actor_graphic->setScale(0.4);
+               actor_graphic->setScale(0.8);
                actor_graphic->setZValue(BUS_Z);
            }
 
@@ -249,7 +253,7 @@ void Tampere::drawActors(){
                scene_->addItem(actor_graphic);
                actor_graphic->setPos(bus_coords);
                actor_graphic->setZValue(PASSENGER_Z);
-               actor_graphic->setScale(0.4);
+               actor_graphic->setScale(0.8);
            }
        }
 
