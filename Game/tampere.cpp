@@ -240,10 +240,11 @@ void Tampere::checkCollison(BetterActorItem* item){
 
                 //nysse_graphic_pairs.at(collidingitem);
                 int scoreForBus = 10;
+
                 stats.incrementScore(scoreForBus);
                 QString asd = "Martti";
-                //stats.saveScores(asd);
                 score+=10;
+                stats.saveScores(asd);
             }
             hit_nysse->lowerHealth();
             scene->removeItem(item);

@@ -2,6 +2,8 @@
 #define STATISTICS_H
 #include "interfaces/istatistics.hh"
 #include <QString>
+#include <map>
+#include <unordered_map>
 
 class Statistics : public Interface::IStatistics
 {
@@ -13,7 +15,10 @@ public:
     void incrementScore(int i);
     int currentScore = 0;
     int nyssesDestroyed = 0;
+    std::multimap<int, QString> highScores;
     void saveScores(QString playerName);
+    std::multimap<int, QString> readScores();
+    bool isNewHighScore(int score);
 
     void newNysse() override;
     void nysseLeft() override;
