@@ -37,6 +37,9 @@ public Q_SLOTS:
     void advance();
 
 private:
+    void centerCamera();
+    void incrementTime();
+
     Ui::GameWindow *ui;
     QGraphicsScene *scene;
     CourseSide::Logic* logic_;
@@ -48,6 +51,7 @@ private:
     std::shared_ptr<Player> player_;
     Statistics stats;
     int current_time = 0;
+
 };
 
 #endif // GAMEWINDOW_HH

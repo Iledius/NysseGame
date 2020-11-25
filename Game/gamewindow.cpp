@@ -8,7 +8,7 @@
 #include <QKeyEvent>
 
 QImage TAMPERE_MAP = QImage(":/offlinedata/offlinedata/kartta_iso_1095x592.png");
-QImage SATELLITE_MAP = QImage("../../etkot-software/Game/images/satellitemap.png");
+QImage SATELLITE_MAP = QImage("../../etkot-software/Game/images/mapUHD.png");
 
 const int GAME_TIME = 4280;
 const int UPDATE_RATE = 10;
@@ -38,14 +38,20 @@ GameWindow::GameWindow(QWidget *parent) :
     QBrush backGround(SATELLITE_MAP);
 
     gameView->setParent(this);
-    gameView->resize(1095,592);
+    gameView->resize(1000,650);
     gameView->setScene(scene);
     // asetetaan scene oikeaan kokoon, ei tule scrollbareja
     QRect rcontent = gameView->contentsRect();
-    scene->setSceneRect(0,0,rcontent.width(),rcontent.height());
+    scene->setSceneRect(0,0,rcontent.width()*4,rcontent.height()*4);
+    gameView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    gameView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scene->setBackgroundBrush(backGround);
 
-    this->resize(1295,592);
+//    this->resize(1980,1080);
+//    ui->timeDisplay->move(QPoint(1750,ui->timeDisplay->y()));
+//    ui->timeHintText->move(QPoint(1750,ui->timeHintText->y()));
+//    ui->scoreDisplay->move(QPoint(1750,ui->scoreDisplay->y()));
+//    ui->highScoreBrowser->move(QPoint(1750,ui->highScoresLabel->y()));
 
     std::shared_ptr<Tampere> city_temp_ = std::make_shared<Tampere>();
     takeCity(city_temp_);
@@ -100,18 +106,30 @@ void GameWindow::setDifficulty(int d)
 
 void GameWindow::advance()
 {
+    incrementTime();
+    ui->timeDisplay->display((GAME_TIME-current_time)/(700/UPDATE_RATE));
+    ui->scoreDisplay->display(city_->stats.currentScore);
+    centerCamera();
+
+    city_->movePlayer();
+    city_->moveShots();
+}
+
+void GameWindow::incrementTime(){
     if(current_time>GAME_TIME){
         timer->stop();
         qDebug() << "GAME FINISHED";
         delete logic_;
     }
     current_time++;
-    ui->timeDisplay->display((GAME_TIME-current_time)/(700/UPDATE_RATE));
-    city_->movePlayer();
-    city_->moveShots();
-    ui->scoreDisplay->display(city_->stats.currentScore);
+}
 
-    gameView->centerOn(QPoint(city_->player_->getPos().first, city_->player_->getPos().second));
+void GameWindow::centerCamera(){
+    QPointF sceneCenter = gameView->mapToScene( gameView->viewport()->rect().center() );
+    qreal delta_x = -sceneCenter.x()+city_->player_->getPos().first;
+    qreal delta_y = -sceneCenter.y()+city_->player_->getPos().second;
+
+    gameView->centerOn(sceneCenter + QPointF(delta_x/8,delta_y/8));
 }
 
 GameWindow::~GameWindow()

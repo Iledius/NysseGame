@@ -86,7 +86,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QTextBrowser" name="textBrowser">
+   <widget class="QTextBrowser" name="timeHintText">
     <property name="geometry">
      <rect>
       <x>1190</x>
