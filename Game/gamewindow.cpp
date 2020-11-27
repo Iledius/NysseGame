@@ -104,7 +104,7 @@ void GameWindow::setDifficulty(int d)
 
 void GameWindow::advance()
 {
-    if(!city_->paused){
+    if(!city_->isGameOver()){
         incrementTime();
         ui->timeDisplay->display((GAME_TIME-current_time)/(700/UPDATE_RATE));
         ui->scoreDisplay->display(city_->stats.currentScore);
@@ -120,13 +120,16 @@ void GameWindow::advance()
 
 void GameWindow::incrementTime(){
     if(current_time>GAME_TIME){
-        timer->stop();
-        qDebug() << "GAME FINISHED";
-        delete logic_;
+       endGame();
     }
     current_time++;
 }
 
+void GameWindow::endGame(){
+    timer->stop();
+    city_->endGame();
+    qDebug() << "GAME FINISHED";
+}
 
 void GameWindow::centerCamera(){
     QPointF sceneCenter = gameView->mapToScene( gameView->viewport()->rect().center() );

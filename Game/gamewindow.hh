@@ -30,6 +30,7 @@ public:
     void drawStops();
     void setPlayerName(QString s);
     void setDifficulty(int d);
+    void endGame();
     QString player_name;
     int difficulty;
 

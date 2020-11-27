@@ -230,8 +230,12 @@ std::vector<std::shared_ptr<Interface::IActor>> Tampere::getNearbyActors(Interfa
     return asd;
 }
 
+void Tampere::endGame(){
+    gameOver_=true;
+}
+
 bool Tampere::isGameOver() const {
-    if(!paused)return false;
+    if(!gameOver_)return false;
     else return true;
 }
 

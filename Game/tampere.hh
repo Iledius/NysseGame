@@ -44,6 +44,7 @@ public:
     void moveShots();
     void reloadPressed();
     void pauseGame();
+    void endGame();
 
     std::vector<std::shared_ptr<Interface::IStop>> stops;
     std::vector<std::shared_ptr<Interface::IActor>> actors;
@@ -71,6 +72,7 @@ private:
     BetterActorItem* ammoGraphic_;
     int acceleration_ = 0;
     int reloadTime_ = 0;
+    bool gameOver_  = false;
 
     int passengers_picked_=0;
 
