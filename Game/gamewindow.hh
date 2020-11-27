@@ -30,6 +30,7 @@ public:
     void drawStops();
     void setPlayerName(QString s);
     void setDifficulty(int d);
+    void endGame();
     QString player_name;
     int difficulty;
 
@@ -43,6 +44,7 @@ private:
     void centerCamera();
     void incrementTime();
 
+
     Ui::GameWindow *ui;
     QGraphicsScene *scene;
     CourseSide::Logic* logic_;
@@ -54,6 +56,7 @@ private:
     std::shared_ptr<Player> player_;
     Statistics stats;
     int current_time = 0;
+    bool paused = false;
 
 };
 

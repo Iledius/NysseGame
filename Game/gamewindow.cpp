@@ -104,22 +104,31 @@ void GameWindow::setDifficulty(int d)
 
 void GameWindow::advance()
 {
-    incrementTime();
-    ui->timeDisplay->display((GAME_TIME-current_time)/(700/UPDATE_RATE));
-    ui->scoreDisplay->display(city_->stats.currentScore);
-    centerCamera();
+    if(!city_->isGameOver()){
+        incrementTime();
+        ui->timeDisplay->display((GAME_TIME-current_time)/(700/UPDATE_RATE));
+        ui->scoreDisplay->display(city_->stats.currentScore);
+        centerCamera();
 
-    city_->movePlayer();
-    city_->moveShots();
+        city_->movePlayer();
+        city_->moveShots();
+    }
+    else{
+        setMouseTracking(false);
+    }
 }
 
 void GameWindow::incrementTime(){
     if(current_time>GAME_TIME){
-        timer->stop();
-        qDebug() << "GAME FINISHED";
-        delete logic_;
+       endGame();
     }
     current_time++;
+}
+
+void GameWindow::endGame(){
+    timer->stop();
+    city_->endGame();
+    qDebug() << "GAME FINISHED";
 }
 
 void GameWindow::centerCamera(){

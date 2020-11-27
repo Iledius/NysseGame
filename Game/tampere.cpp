@@ -230,8 +230,13 @@ std::vector<std::shared_ptr<Interface::IActor>> Tampere::getNearbyActors(Interfa
     return asd;
 }
 
+void Tampere::endGame(){
+    gameOver_=true;
+}
+
 bool Tampere::isGameOver() const {
-    return false;
+    if(!gameOver_)return false;
+    else return true;
 }
 
 
@@ -245,7 +250,7 @@ void Tampere::drawActors(){
                BetterActorItem* actor_graphic = new BetterActorItem(BUS_IMAGE,BUS_HEALTH);
                nysseGraphicPairs_.insert({iactor, actor_graphic});
                scene_->addItem(actor_graphic);
-               actor_graphic->setPos(bus_coords);
+               actor_graphic->setPos(bus_coords+QPoint());
                actor_graphic->setScale(0.8);
                actor_graphic->setZValue(BUS_Z);
            }
@@ -314,6 +319,12 @@ void Tampere::reloadPressed()
         reloadTime_=80;
         qDebug() << "reloading....";
     }
+}
+
+void Tampere::pauseGame()
+{
+    if(!paused){paused=true;}
+    else paused=false;
 }
 
 

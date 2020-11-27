@@ -43,6 +43,8 @@ public:
     void drawShot();
     void moveShots();
     void reloadPressed();
+    void pauseGame();
+    void endGame();
 
     std::vector<std::shared_ptr<Interface::IStop>> stops;
     std::vector<std::shared_ptr<Interface::IActor>> actors;
@@ -53,6 +55,7 @@ public:
     Statistics stats;
     void pickPassengers();
     std::vector<BetterActorItem*> hit_items;
+    bool paused=false;
 
 private:
     void checkShotCollison(BetterActorItem* item, int Z_VALUE);
@@ -69,6 +72,7 @@ private:
     BetterActorItem* ammoGraphic_;
     int acceleration_ = 0;
     int reloadTime_ = 0;
+    bool gameOver_  = false;
 
     int passengers_picked_=0;
 
