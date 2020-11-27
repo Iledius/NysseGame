@@ -5,15 +5,17 @@
 QImage BUS_IMAGE("../../etkot-software/Game/images/tank.png");
 QImage PASSENGER_IMAGE("../../etkot-software/Game/images/elon.png");
 QImage PLAYER_IMAGE("../../etkot-software/Game/images/ufo.png");
+QImage RAY("../../etkot-software/Game/images/ray.png");
 QImage SHOT_IMAGE("../../etkot-software/Game/images/laser2.png");
 QImage SHUTTLE_IMAGE("../../etkot-software/Game/images/shuttle.png");
 QImage EXPLOSION_IMAGE("../../etkot-software/Game/images/explosion.png");
 
 
+
 QImage AMMO_6("../../etkot-software/Game/images/6ammo.png");
 
 // Z-levels for different items:
-const int PLAYER_Z = 6;
+const int PLAYER_Z = 7;
 const int BUS_Z = 3;
 const int PASSENGER_Z = 2;
 const int SHUTTLE_Z = 4;
@@ -65,7 +67,6 @@ void Tampere::startGame()
     // Player cannon and player visuals
     playerArrow_ = scene_->addPolygon(player_->createArrow());
     scene_->addItem(playerGraphic_);
-
     // Visual that displays how much ammo left
     scene_->addItem(ammoGraphic_);
     ammoGraphic_->setParentItem(playerGraphic_);
@@ -86,6 +87,12 @@ void Tampere::startGame()
     shuttle_->setPos(400,400);
     shuttle_->setScale(1);
     ammo_ = AMMO;
+
+
+    ray = new BetterActorItem(RAY);
+    scene_->addItem(ray);
+    ray->setOpacity(0);
+    ray->setZValue(PLAYER_Z-2);
 }
 
 void Tampere::movePlayer()
@@ -150,6 +157,8 @@ void Tampere::movePlayer()
         ammoGraphic_->update();
         qDebug()<< "reloaded 6 shots";
     }
+
+    if(ray) ray->setPos(playerGraphic_->pos()+QPointF(-35,-35));
 
 }
 
@@ -285,12 +294,9 @@ void Tampere::drawShot(){
         // Set shot to the right angle
         shot->setRotation(playerArrow_->rotation()+270);
         shot->setPos(player_->getPos().first+13,player_->getPos().second+13);
-        shot->setScale(0.9);
         shot->setZValue(BUS_Z);
         shots_.insert({shot, 1});
-
-        std::string imgname = "../../etkot-software/Game/images/"+std::to_string(ammo_)+"ammo.png";
-        ammoGraphic_->setImage(QImage(QString::fromStdString(imgname)));
+        ammoGraphic_->setImage(QImage(QString::fromStdString("../../etkot-software/Game/images/"+std::to_string(ammo_)+"ammo.png")));
         ammoGraphic_->update();
     }
 }
@@ -369,8 +375,9 @@ void Tampere::checkShotCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
       }
 
       // If Q pressed while on shuttle, add score and empty passengers to shuttle
-      if(passengers_picked_>=PASSENGER_STORAGE && collidingitem->zValue()==SHUTTLE_Z && Z_VALUE==SHUTTLE_Z){
+      if(collidingitem->zValue()==SHUTTLE_Z && Z_VALUE==SHUTTLE_Z){
           stats.incrementScore(passengers_picked_*SCORE_FOR_PASSENGER);
+          qDebug() << "ELONS LOADED";
           passengers_picked_=0;
 
          }
@@ -380,7 +387,11 @@ void Tampere::checkShotCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
 
 void Tampere::pickPassengers()
 {
-    checkShotCollison(playerGraphic_, PASSENGER_Z);
+
+    ray->setOpacity(255);
+    QTimer::singleShot(150,[=](){ray->setOpacity(0);});
+
+    checkShotCollison(ray, PASSENGER_Z);
     checkShotCollison(playerGraphic_, SHUTTLE_Z);
 }
 

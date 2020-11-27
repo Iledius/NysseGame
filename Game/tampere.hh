@@ -72,8 +72,9 @@ private:
     BetterActorItem* ammoGraphic_;
     int acceleration_ = 0;
     int reloadTime_ = 0;
+    QTimer pickingTimer_;
     bool gameOver_  = false;
-
+    BetterActorItem* ray;
     int passengers_picked_=0;
 
 

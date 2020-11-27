@@ -67,10 +67,10 @@ void GameView::keyReleaseEvent(QKeyEvent *event){
 void GameView::mouseMoveEvent(QMouseEvent *event){
 
       // calculate angle to aim to mouse pos
-      // fitted to player sprite, hence -16      vv
-      qreal x = - 540;
-      qreal y = - 365;
-      qreal ang = qAtan2((x+event->x()), (y+event->y()));
+      // (540, 365) is about the center of the game area
+      qreal x = 540;
+      qreal y = 365;
+      qreal ang = qAtan2((event->x()-x), (event->y()-y));
       city_->setArrowAngle(-ang*57+180);
       qDebug() << event->pos();
 
