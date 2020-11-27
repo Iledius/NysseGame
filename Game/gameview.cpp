@@ -43,6 +43,8 @@ void GameView::keyPressEvent(QKeyEvent *event)
 
     case Qt::Key_Q: {city_->pickPassengers(); break; }
 
+    case Qt::Key_Escape: {city_->pauseGame();break;}
+
     }
 }
 

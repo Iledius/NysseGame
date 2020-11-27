@@ -104,13 +104,18 @@ void GameWindow::setDifficulty(int d)
 
 void GameWindow::advance()
 {
-    incrementTime();
-    ui->timeDisplay->display((GAME_TIME-current_time)/(700/UPDATE_RATE));
-    ui->scoreDisplay->display(city_->stats.currentScore);
-    centerCamera();
+    if(!city_->paused){
+        incrementTime();
+        ui->timeDisplay->display((GAME_TIME-current_time)/(700/UPDATE_RATE));
+        ui->scoreDisplay->display(city_->stats.currentScore);
+        centerCamera();
 
-    city_->movePlayer();
-    city_->moveShots();
+        city_->movePlayer();
+        city_->moveShots();
+    }
+    else{
+        setMouseTracking(false);
+    }
 }
 
 void GameWindow::incrementTime(){
@@ -121,6 +126,7 @@ void GameWindow::incrementTime(){
     }
     current_time++;
 }
+
 
 void GameWindow::centerCamera(){
     QPointF sceneCenter = gameView->mapToScene( gameView->viewport()->rect().center() );
