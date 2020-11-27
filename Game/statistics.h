@@ -15,6 +15,7 @@ public:
     void incrementScore(int i);
     int currentScore = 0;
     int nyssesDestroyed = 0;
+    int elonsSaved = 0;
     std::multimap<int, QString> highScores;
     void saveScores(QString playerName);
     std::multimap<int, QString> readScores();

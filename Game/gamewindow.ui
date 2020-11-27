@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1275</width>
+    <width>1167</width>
     <height>644</height>
    </rect>
   </property>
@@ -17,7 +17,7 @@
    <widget class="QLCDNumber" name="scoreDisplay">
     <property name="geometry">
      <rect>
-      <x>1120</x>
+      <x>1020</x>
       <y>30</y>
       <width>131</width>
       <height>31</height>
@@ -27,7 +27,7 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>1120</x>
+      <x>1020</x>
       <y>70</y>
       <width>131</width>
       <height>80</height>
@@ -69,7 +69,7 @@
    <widget class="QTextBrowser" name="highScoreBrowser">
     <property name="geometry">
      <rect>
-      <x>1120</x>
+      <x>1020</x>
       <y>160</y>
       <width>131</width>
       <height>321</height>
@@ -79,7 +79,7 @@
    <widget class="QLCDNumber" name="timeDisplay">
     <property name="geometry">
      <rect>
-      <x>1100</x>
+      <x>1000</x>
       <y>490</y>
       <width>151</width>
       <height>31</height>
@@ -89,7 +89,7 @@
    <widget class="QPushButton" name="quitButton">
     <property name="geometry">
      <rect>
-      <x>1160</x>
+      <x>1060</x>
       <y>560</y>
       <width>89</width>
       <height>25</height>
@@ -102,7 +102,7 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>1100</x>
+      <x>1000</x>
       <y>530</y>
       <width>151</width>
       <height>20</height>
@@ -118,7 +118,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1275</width>
+     <width>1167</width>
      <height>25</height>
     </rect>
    </property>
