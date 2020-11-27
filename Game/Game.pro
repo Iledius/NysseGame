@@ -7,6 +7,7 @@ CONFIG += c++14
 
 SOURCES += \
     betteractoritem.cpp \
+    enddialog.cpp \
     gameview.cpp \
     gamewindow.cpp \
     main.cc \
@@ -42,6 +43,7 @@ else:unix: PRE_TARGETDEPS += \
 
 HEADERS += \
     betteractoritem.h \
+    enddialog.h \
     gameview.hh \
     gamewindow.hh \
     player.hh \
@@ -51,5 +53,6 @@ HEADERS += \
     zoom.hh
 
 FORMS += \
+    enddialog2.ui \
     gamewindow.ui \
     startdialog.ui
