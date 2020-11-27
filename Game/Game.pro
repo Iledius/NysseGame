@@ -53,6 +53,6 @@ HEADERS += \
     zoom.hh
 
 FORMS += \
-    enddialog2.ui \
+    enddialog.ui \
     gamewindow.ui \
     startdialog.ui
