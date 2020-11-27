@@ -346,9 +346,7 @@ void Tampere::checkShotCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
                        removeActor(it->first);
 
                 stats.incrementScore(SCORE_FOR_BUS);
-                QString asd = "Martti";
-                score+=10;
-                stats.saveScores(asd);
+                stats.nyssesDestroyed = stats.nyssesDestroyed + 1;
             }
             hit_nysse->lowerHealth();
             scene_->removeItem(item);
