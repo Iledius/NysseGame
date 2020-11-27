@@ -21,8 +21,6 @@ GameWindow::GameWindow(QWidget *parent) :
     timer(new QTimer(this)),
     gameView(new GameView(this))
 {
-    //:/offlinedata/offlinedata/kartta_iso_1095x592.png
-    //:/offlinedata/offlinedata/kartta_pieni_500x500.png
 
     QString buses_string = ":/offlinedata/offlinedata/final_bus_liteN.json";
     QString stops_string = ":/offlinedata/offlinedata/full_stations_kkj3.json";
@@ -40,8 +38,7 @@ GameWindow::GameWindow(QWidget *parent) :
     gameView->setParent(this);
     gameView->resize(1000,650);
     gameView->setScene(scene);
-    // asetetaan scene oikeaan kokoon, ei tule scrollbareja
-    QRect rcontent = gameView->contentsRect();
+
     scene->setSceneRect(0,0,3729,3564);
     gameView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     gameView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -143,3 +140,8 @@ GameWindow::~GameWindow()
 //    delete timer;
 }
 
+void GameWindow::on_quitButton_pressed()
+{
+    QApplication::closeAllWindows();
+    delete this;
+}

@@ -36,6 +36,9 @@ public:
 public Q_SLOTS:
     void advance();
 
+private slots:
+    void on_quitButton_pressed();
+
 private:
     void centerCamera();
     void incrementTime();

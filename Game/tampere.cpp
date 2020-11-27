@@ -18,11 +18,14 @@ const int BUS_Z = 3;
 const int PASSENGER_Z = 2;
 const int SHUTTLE_Z = 4;
 
+const int ACC_LIMIT = 60;
+const float DECELERATION_MULT = 1.07; // 1 = never slows down
+
 const int SHOT_RANGE = 100;
 const int BUS_HEALTH = 2;
 const float SPEED = 0.1;
 
-const int PASSENGER_STORAGE = 30;
+const int PASSENGER_STORAGE = 100;
 const int SCORE_FOR_BUS = 100;
 const int SCORE_FOR_PASSENGER = 3;
 
@@ -88,7 +91,7 @@ void Tampere::startGame()
 void Tampere::movePlayer()
 {
     // max speed multiplier
-    int ACC_LIMIT = 45;
+
 
     // moving with acceleration
     if(left==1) {player_->changePos(-SPEED*leftAcc,0);leftAcc=(leftAcc>ACC_LIMIT) ? leftAcc+1:ACC_LIMIT;}
@@ -97,25 +100,25 @@ void Tampere::movePlayer()
     if(down==1) {player_->changePos(0,SPEED*downAcc);downAcc=(downAcc>ACC_LIMIT) ? downAcc+1:ACC_LIMIT;}
 
    if(left==0&&leftAcc>0){
-       leftAcc--;
+       leftAcc=leftAcc/DECELERATION_MULT;
        if(leftAcc>0){
            player_->changePos(-0.1*leftAcc,0);
        }else leftAcc=0;
    }
    if(right==0&&rightAcc>0){
-       rightAcc--;
+       rightAcc=rightAcc/DECELERATION_MULT;
        if(rightAcc>0){
            player_->changePos(0.1*rightAcc,0);
        }else rightAcc=0;
    }
    if(up==0&&upAcc>0){
-       upAcc--;
+       upAcc=upAcc/DECELERATION_MULT;
        if(upAcc>0){
            player_->changePos(0,-0.1*upAcc);
        }else upAcc=0;
    }
    if(down==0&&downAcc>0){
-       downAcc--;
+       downAcc=downAcc/DECELERATION_MULT;
        if(downAcc>0){
            player_->changePos(0,0.1*downAcc);
        }else downAcc=0;

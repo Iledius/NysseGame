@@ -48,7 +48,7 @@ public:
     std::vector<std::shared_ptr<Interface::IActor>> actors;
     Player* player_;
     int left, right, up, down, aimUp=0, aimDown=0, aimLeft=0, aimRight=0;
-    int leftAcc=0, rightAcc=0, upAcc=0, downAcc=0;
+    float leftAcc=0, rightAcc=0, upAcc=0, downAcc=0;
     int score = 0;
     Statistics stats;
     void pickPassengers();
