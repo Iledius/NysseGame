@@ -391,13 +391,11 @@ void Tampere::pickPassengers()
 {
 
     ray->setOpacity(255);
-    QTimer::singleShot(150,[=](){ray->setOpacity(0);});
+    QTimer::singleShot(150,[&](){ray->setOpacity(0);});
 
     checkShotCollison(ray, PASSENGER_Z);
     checkShotCollison(playerGraphic_, SHUTTLE_Z);
 }
-
-
 
 Tampere::~Tampere(){
 
