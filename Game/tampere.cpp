@@ -2,7 +2,12 @@
 #include "iostream"
 #include "statistics.h"
 
-QImage BUS_IMAGE("../../etkot-software/Game/images/tank.png");
+QImage BUS_IMAGE_RIGHT("../../etkot-software/Game/images/tank.png");
+QImage BUS_IMAGE_LEFT("../../etkot-software/Game/images/tankLeft.png");
+QImage BUS_IMAGE_RIGHT_HIT("../../etkot-software/Game/images/tankRightHit.png");
+QImage BUS_IMAGE_LEFT_HIT("../../etkot-software/Game/images/tankLeftHit.png");
+
+
 QImage PASSENGER_IMAGE("../../etkot-software/Game/images/elon.png");
 QImage PLAYER_IMAGE("../../etkot-software/Game/images/ufo.png");
 QImage RAY("../../etkot-software/Game/images/ray.png");
@@ -216,6 +221,8 @@ void Tampere::actorMoved(std::shared_ptr<Interface::IActor> actor){
       if(it != nysseGraphicPairs_.end()){
            it->second->setAng(QPoint(it->second->x(), it->second->y()), QPoint(actor.get()->giveLocation().giveX(), 490-actor.get()->giveLocation().giveY()));
            it->second->setPos(QPoint(actor.get()->giveLocation().giveX(),500-actor.get()->giveLocation().giveY()));
+           if(it->second->goingRight()&&it->second->getImage()!=BUS_IMAGE_RIGHT_HIT) it->second->setImage(BUS_IMAGE_RIGHT);
+           else if (!it->second->goingRight()&&it->second->getImage()!=BUS_IMAGE_LEFT_HIT) it->second->setImage(BUS_IMAGE_LEFT);
            return;
       }
 
@@ -256,7 +263,7 @@ void Tampere::drawActors(){
 
            // If actor is a bus
            if(isBus){
-               BetterActorItem* actor_graphic = new BetterActorItem(BUS_IMAGE,BUS_HEALTH);
+               BetterActorItem* actor_graphic = new BetterActorItem(BUS_IMAGE_RIGHT,BUS_HEALTH);
                nysseGraphicPairs_.insert({iactor, actor_graphic});
                scene_->addItem(actor_graphic);
                actor_graphic->setPos(bus_coords+QPoint());
@@ -357,7 +364,13 @@ void Tampere::checkShotCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
 
                 stats.incrementScore(SCORE_FOR_BUS);
                 stats.nyssesDestroyed += 1;
+                scene_->removeItem(item);
+                shots_.erase(shots_.find(item));
+                break;
             }
+            if(hit_nysse->getImage()==BUS_IMAGE_LEFT)  {hit_nysse->setImage(BUS_IMAGE_LEFT_HIT); QTimer::singleShot(150,[=](){hit_nysse->setImage(BUS_IMAGE_LEFT);});}
+            if(hit_nysse->getImage()==BUS_IMAGE_RIGHT)  {hit_nysse->setImage(BUS_IMAGE_RIGHT_HIT); QTimer::singleShot(150,[=](){hit_nysse->setImage(BUS_IMAGE_RIGHT);});}
+
             hit_nysse->lowerHealth();
             scene_->removeItem(item);
             shots_.erase(shots_.find(item));
