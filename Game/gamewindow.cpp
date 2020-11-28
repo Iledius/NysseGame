@@ -13,6 +13,7 @@ QImage SATELLITE_MAP = QImage("../../etkot-software/Game/images/mapUHD.png");
 
 const int GAME_TIME = 4280;
 const int UPDATE_RATE = 10;
+const int CAMERA_SMOOTHNESS = 11;
 
 GameWindow::GameWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -135,6 +136,8 @@ void GameWindow::endGame(){
     endScreen.setElons(city_->stats.elonsSaved);
     endScreen.setNyssesDestoyed(city_->stats.nyssesDestroyed);
     endScreen.setTotalScore(city_->stats.currentScore);
+    endScreen.setPlayerName(player_name);
+    endScreen.setDifficulty(difficulty);
 
     int score = city_->stats.currentScore;
     bool hs = city_->stats.isNewHighScore(score);
@@ -143,6 +146,10 @@ void GameWindow::endGame(){
         endScreen.setNewHsLabel();
     }
     endScreen.show();
+    if(endScreen.result() == 1)
+    {
+        city_->startGame();
+    }
 }
 
 void GameWindow::centerCamera(){
@@ -150,7 +157,7 @@ void GameWindow::centerCamera(){
     qreal delta_x = -sceneCenter.x()+city_->player_->getPos().first;
     qreal delta_y = -sceneCenter.y()+city_->player_->getPos().second;
 
-    gameView->centerOn(sceneCenter + QPointF(delta_x/8,delta_y/8));
+    gameView->centerOn(sceneCenter + QPointF(delta_x/CAMERA_SMOOTHNESS,delta_y/CAMERA_SMOOTHNESS));
 }
 
 GameWindow::~GameWindow()

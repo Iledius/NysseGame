@@ -44,8 +44,6 @@ private slots:
 private:
     void centerCamera();
     void incrementTime();
-
-
     Ui::GameWindow *ui;
     QGraphicsScene *scene;
     CourseSide::Logic* logic_;

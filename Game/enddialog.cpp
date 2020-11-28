@@ -6,7 +6,6 @@ void endDialog::setElons(int s)
 {
     this->elonsSaved = s;
     ui->elonCountLabel->setNum(s);
-    //QString::number(elonsSaved)
 }
 
 void endDialog::setNyssesDestoyed(int s)
@@ -27,6 +26,16 @@ void endDialog::setNewHsLabel()
     ui->newHsLablel->setText(str);
 }
 
+void endDialog::setPlayerName(QString name)
+{
+    newPlayerName = name;
+}
+
+void endDialog::setDifficulty(int d)
+{
+    this->difficulty = d;
+}
+
 endDialog::endDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::endDialog)
@@ -41,10 +50,29 @@ endDialog::~endDialog()
 
 void endDialog::on_buttonBox_accepted()
 {
-    //Aloita peli alusta
+    QString newName = ui->newPlayerNameLine->text();
+    if(newName.length() > 0)
+    {
+        newPlayerName = ui->newPlayerNameLine->text();
+    }
 }
 
 void endDialog::on_buttonBox_rejected()
 {
     QApplication::exit();
 }
+
+void endDialog::on_EasyRadioButton_clicked()
+{
+    setDifficulty(0);
+}
+void endDialog::on_mediumRadioButton_clicked()
+{
+    setDifficulty(1);
+}
+
+void endDialog::on_hardRadioButton_clicked()
+{
+    setDifficulty(2);
+}
+

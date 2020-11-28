@@ -16,13 +16,23 @@ public:
     void setNyssesDestoyed(int s);
     void setTotalScore(int s);
     void setNewHsLabel();
+    void setPlayerName(QString name = "");
+    void setDifficulty(int d);
     explicit endDialog(QWidget *parent = nullptr);
     ~endDialog();
+    QString newPlayerName = "";
+    int difficulty = 0;
 
 private slots:
     void on_buttonBox_accepted();
 
     void on_buttonBox_rejected();
+
+    void on_EasyRadioButton_clicked();
+
+    void on_mediumRadioButton_clicked();
+
+    void on_hardRadioButton_clicked();
 
 private:
     Ui::endDialog *ui;

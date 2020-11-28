@@ -7,17 +7,17 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>387</height>
+    <height>443</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>NysseMeni</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>350</y>
+     <y>400</y>
      <width>161</width>
      <height>32</height>
     </rect>
@@ -29,21 +29,11 @@
     <set>QDialogButtonBox::Close|QDialogButtonBox::Retry</set>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>310</y>
-     <width>291</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>240</y>
+     <y>290</y>
      <width>401</width>
      <height>20</height>
     </rect>
@@ -78,7 +68,7 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>34</y>
+     <y>44</y>
      <width>401</width>
      <height>31</height>
     </rect>
@@ -94,7 +84,7 @@
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>74</y>
+     <y>84</y>
      <width>121</width>
      <height>20</height>
     </rect>
@@ -107,7 +97,7 @@
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>104</y>
+     <y>114</y>
      <width>121</width>
      <height>20</height>
     </rect>
@@ -120,7 +110,7 @@
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>134</y>
+     <y>144</y>
      <width>121</width>
      <height>20</height>
     </rect>
@@ -133,7 +123,7 @@
    <property name="geometry">
     <rect>
      <x>260</x>
-     <y>74</y>
+     <y>84</y>
      <width>41</width>
      <height>20</height>
     </rect>
@@ -146,7 +136,7 @@
    <property name="geometry">
     <rect>
      <x>260</x>
-     <y>104</y>
+     <y>114</y>
      <width>51</width>
      <height>20</height>
     </rect>
@@ -159,7 +149,7 @@
    <property name="geometry">
     <rect>
      <x>260</x>
-     <y>134</y>
+     <y>144</y>
      <width>63</width>
      <height>20</height>
     </rect>
@@ -172,7 +162,7 @@
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>120</y>
+     <y>130</y>
      <width>161</width>
      <height>16</height>
     </rect>
@@ -185,7 +175,7 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>200</y>
+     <y>210</y>
      <width>401</width>
      <height>20</height>
     </rect>
@@ -201,7 +191,7 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>220</y>
+     <y>240</y>
      <width>401</width>
      <height>20</height>
     </rect>
@@ -217,7 +207,7 @@
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>160</y>
+     <y>170</y>
      <width>141</width>
      <height>20</height>
     </rect>
@@ -230,7 +220,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>270</y>
+     <y>320</y>
      <width>381</width>
      <height>30</height>
     </rect>
@@ -275,18 +265,27 @@
     </item>
    </layout>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QWidget" name="horizontalLayoutWidget_2">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>310</y>
-     <width>83</width>
-     <height>28</height>
+     <y>350</y>
+     <width>381</width>
+     <height>30</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Player name:</string>
-   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Player name:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="newPlayerNameLine"/>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>
