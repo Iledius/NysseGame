@@ -13,6 +13,7 @@
 #include <QTimer>
 #include "gameview.hh"
 #include "statistics.h"
+#include "enddialog.h"
 
 namespace Ui {
 class GameWindow;
@@ -54,9 +55,10 @@ private:
     std::vector<std::string> diffs;
     int score;
     std::shared_ptr<Player> player_;
-    Statistics stats;
     int current_time = 0;
     bool paused = false;
+    endDialog endScreen;
+
 
 };
 

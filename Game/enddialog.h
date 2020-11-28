@@ -4,19 +4,34 @@
 #include <QDialog>
 
 namespace Ui {
-class enddialog;
+class endDialog;
 }
 
-class enddialog : public QDialog
+class endDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit enddialog(QWidget *parent = nullptr);
-    ~enddialog();
+    void setElons(int s);
+    void setNyssesDestoyed(int s);
+    void setTotalScore(int s);
+    void setNewHsLabel();
+    explicit endDialog(QWidget *parent = nullptr);
+    ~endDialog();
+
+private slots:
+    void on_buttonBox_accepted();
+
+    void on_buttonBox_rejected();
 
 private:
-    Ui::enddialog *ui;
+    Ui::endDialog *ui;
+    int elonsSaved = 0;
+    int nyssesDestroyed = 0;
+    int totalScore = 0;
+    QString playerName;
+    bool isNewHs = false;
+    //QString newPlayerName;
 };
 
 #endif // ENDDIALOG_H

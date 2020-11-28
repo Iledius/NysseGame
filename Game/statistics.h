@@ -26,7 +26,6 @@ public:
     void nysseRemoved() override;
     void morePassengers(int num) override;
 
-
 private:
 
 };

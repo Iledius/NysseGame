@@ -350,7 +350,7 @@ void Tampere::checkShotCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
                        removeActor(it->first);
 
                 stats.incrementScore(SCORE_FOR_BUS);
-                stats.nyssesDestroyed = stats.nyssesDestroyed + 1;
+                stats.nyssesDestroyed += 1;
             }
             hit_nysse->lowerHealth();
             scene_->removeItem(item);
@@ -371,7 +371,9 @@ void Tampere::checkShotCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
       // If Q pressed while on shuttle, add score and empty passengers to shuttle
       if(passengers_picked_>=PASSENGER_STORAGE && collidingitem->zValue()==SHUTTLE_Z && Z_VALUE==SHUTTLE_Z){
           stats.incrementScore(passengers_picked_*SCORE_FOR_PASSENGER);
+          stats.elonsSaved += passengers_picked_;
           passengers_picked_=0;
+          std::cout << "elonit turvas" << std::endl;
 
          }
       }

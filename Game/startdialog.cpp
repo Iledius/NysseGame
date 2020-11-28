@@ -27,7 +27,7 @@ void startDialog::on_buttonBox_2_accepted()
 
 void startDialog::on_buttonBox_2_rejected()
 {
-
+    startDialog::reject();
 }
 
 void startDialog::on_EasyRadioButton_clicked()

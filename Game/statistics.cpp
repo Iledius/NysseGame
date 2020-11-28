@@ -110,6 +110,8 @@ std::multimap<int, QString> Statistics::readScores()
 bool Statistics::isNewHighScore(int score)
 {
     std::multimap<int, QString>::iterator it = highScores.end();
+    it--;
+    std::cout << "paskin hs" << it->first << std::endl;
     if(it->second < score || highScores.size() == 0)
     {
         return true;

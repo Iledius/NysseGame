@@ -19,14 +19,12 @@ int main(int argc, char *argv[])
     if(s.result() == 1)
     {
         gameWindow.show();
+        gameWindow.setPlayerName(s.player_name);
+        gameWindow.setDifficulty(s.difficulty);
     }
-
-    gameWindow.setPlayerName(s.player_name);
-    gameWindow.setDifficulty(s.difficulty);
-
     if(s.result() == 0)
     {
-        //TODO: Sulje ohjelma
+        QApplication::exit();
     }
     return a.exec();
 }

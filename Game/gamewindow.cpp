@@ -4,6 +4,7 @@
 #include "startdialog.h"
 #include <QString>
 #include "statistics.h"
+#include "enddialog.h"
 
 #include <QKeyEvent>
 
@@ -59,7 +60,7 @@ GameWindow::GameWindow(QWidget *parent) :
     //Set highscore display
     std::multimap<int, QString>::reverse_iterator it;
     int n = 1;
-    for(it = stats.highScores.rbegin(); it != stats.highScores.rend(); it++)
+    for(it = city_->stats.highScores.rbegin(); it != city_->stats.highScores.rend(); it++)
     {
         QString name = it->second;
         QString qstScore = QString::number(it->first);
@@ -114,7 +115,7 @@ void GameWindow::advance()
         city_->moveShots();
     }
     else{
-        setMouseTracking(false);
+        //setMouseTracking(false);
     }
 }
 
@@ -129,6 +130,19 @@ void GameWindow::endGame(){
     timer->stop();
     city_->endGame();
     qDebug() << "GAME FINISHED";
+    city_->stats.saveScores(player_name);
+
+    endScreen.setElons(city_->stats.elonsSaved);
+    endScreen.setNyssesDestoyed(city_->stats.nyssesDestroyed);
+    endScreen.setTotalScore(city_->stats.currentScore);
+
+    int score = city_->stats.currentScore;
+    bool hs = city_->stats.isNewHighScore(score);
+    if(hs)
+    {
+        endScreen.setNewHsLabel();
+    }
+    endScreen.show();
 }
 
 void GameWindow::centerCamera(){
@@ -142,11 +156,6 @@ void GameWindow::centerCamera(){
 GameWindow::~GameWindow()
 {
     delete ui;
-    // TODO: kokeile tarviiko deletee kaikki erikseen
-//    delete scene;
-//    delete logic_;
-//    delete gameView;
-//    delete timer;
 }
 
 void GameWindow::on_quitButton_pressed()
