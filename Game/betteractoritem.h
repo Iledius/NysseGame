@@ -18,10 +18,13 @@ public:
     void setAng(QPoint oldpos, QPoint newpos);
     void lowerHealth();
     int getHealth();
+    QImage getImage();
     void setDestructTimer(int time);
+    bool goingRight();
 
 private:
     QImage image_;
+    bool right_ = true;
     std::vector<qreal> angHistory;
     int health_;
     QTimer* destruct_timer_;
