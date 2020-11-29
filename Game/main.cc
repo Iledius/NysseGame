@@ -11,7 +11,6 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     Q_INIT_RESOURCE(offlinedata);
-    qDebug() << QDir::currentPath();
     startDialog s;
     s.exec();
     GameWindow gameWindow;

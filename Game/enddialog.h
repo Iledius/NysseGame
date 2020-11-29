@@ -36,12 +36,11 @@ private slots:
 
 private:
     Ui::endDialog *ui;
-    int elonsSaved = 0;
-    int nyssesDestroyed = 0;
-    int totalScore = 0;
-    QString playerName;
-    bool isNewHs = false;
-    //QString newPlayerName;
+    int elonsSaved_ = 0;
+    int nyssesDestroyed_ = 0;
+    int totalScore_ = 0;
+    QString playerName_;
+    bool isNewHs_ = false;
 };
 
 #endif // ENDDIALOG_H
