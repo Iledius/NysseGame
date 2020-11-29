@@ -7,7 +7,6 @@ QImage BUS_IMAGE_LEFT("../../etkot-software/Game/images/tankLeft.png");
 QImage BUS_IMAGE_RIGHT_HIT("../../etkot-software/Game/images/tankRightHit.png");
 QImage BUS_IMAGE_LEFT_HIT("../../etkot-software/Game/images/tankLeftHit.png");
 
-
 QImage PASSENGER_IMAGE("../../etkot-software/Game/images/elon.png");
 QImage PLAYER_IMAGE("../../etkot-software/Game/images/ufo.png");
 QImage RAY("../../etkot-software/Game/images/ray.png");
@@ -216,6 +215,7 @@ bool Tampere::findActor(std::shared_ptr<Interface::IActor> actor) const {
 }
 
 void Tampere::actorMoved(std::shared_ptr<Interface::IActor> actor){
+    advanced_amount++;
     std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*>::iterator it;
       it = nysseGraphicPairs_.find(actor);
       if(it != nysseGraphicPairs_.end()){
@@ -301,6 +301,7 @@ void Tampere::drawShot(){
 
         BetterActorItem* shot = new BetterActorItem(SHOT_IMAGE);
         scene_->addItem(shot);
+        shot->setZValue(BUS_Z+1);
 
         // Set shot to the right angle
         shot->setRotation(playerArrow_->rotation()+270);
@@ -354,7 +355,7 @@ void Tampere::checkShotCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
             // Add explosion image to scene, and set destruct timer to 0.1 seconds
             BetterActorItem* hit_image = new BetterActorItem(EXPLOSION_IMAGE);
             hit_image->setTransform(collidingitem->transform());
-            hit_image->setPos(hit_nysse->pos());
+            hit_image->setPos(hit_nysse->pos()+QPointF(30,30));
             hit_image->setZValue(BUS_Z+1);
             scene_->addItem(hit_image);
             hit_image->setDestructTimer(100);
