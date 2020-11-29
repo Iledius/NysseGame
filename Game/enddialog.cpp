@@ -4,19 +4,19 @@
 
 void endDialog::setElons(int s)
 {
-    this->elonsSaved = s;
+    this->elonsSaved_ = s;
     ui->elonCountLabel->setNum(s);
 }
 
 void endDialog::setNyssesDestoyed(int s)
 {
-    this->nyssesDestroyed = s;
+    this->nyssesDestroyed_ = s;
     ui->busCountLabel->setNum(s);
 }
 
 void endDialog::setTotalScore(int s)
 {
-    this->totalScore = s;
+    this->totalScore_ = s;
     ui->totalScoreLabel->setNum(s);
 }
 
