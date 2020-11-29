@@ -74,7 +74,7 @@ private:
     int reloadTime_ = 0;
     QTimer pickingTimer_;
     bool gameOver_  = false;
-    BetterActorItem* ray;
+    BetterActorItem* ray_;
     int passengers_picked_=0;
 
 

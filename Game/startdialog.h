@@ -31,7 +31,7 @@ private slots:
     void setDifficulty(int d);
 
 private:
-    Ui::startDialog *ui;
+    Ui::startDialog *ui_;
 };
 
 #endif // STARTDIALOG_H

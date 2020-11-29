@@ -94,10 +94,10 @@ void Tampere::startGame()
     ammo_ = AMMO;
 
 
-    ray = new BetterActorItem(RAY);
-    scene_->addItem(ray);
-    ray->setOpacity(0);
-    ray->setZValue(PLAYER_Z-2);
+    ray_ = new BetterActorItem(RAY);
+    scene_->addItem(ray_);
+    ray_->setOpacity(0);
+    ray_->setZValue(PLAYER_Z-2);
 }
 
 void Tampere::movePlayer()
@@ -163,7 +163,7 @@ void Tampere::movePlayer()
         qDebug()<< "reloaded 6 shots";
     }
 
-    if(ray) ray->setPos(playerGraphic_->pos()+QPointF(-35,-35));
+    if(ray_) ray_->setPos(playerGraphic_->pos()+QPointF(-35,-35));
 
 }
 
@@ -412,9 +412,9 @@ void Tampere::checkShotCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
 void Tampere::pickPassengers()
 {
 
-    ray->setOpacity(255);
-    QTimer::singleShot(150,[&](){ray->setOpacity(0);});
-    checkShotCollison(ray, PASSENGER_Z);
+    ray_->setOpacity(255);
+    QTimer::singleShot(150,[&](){ray_->setOpacity(0);});
+    checkShotCollison(ray_, PASSENGER_Z);
     checkShotCollison(playerGraphic_, SHUTTLE_Z);
 }
 

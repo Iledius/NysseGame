@@ -25,7 +25,7 @@ public:
 private:
     QImage image_;
     bool right_ = true;
-    std::vector<qreal> angHistory;
+    std::vector<qreal> angHistory_;
     int health_;
     QTimer* destruct_timer_;
 };
