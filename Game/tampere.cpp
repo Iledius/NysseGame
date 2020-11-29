@@ -379,6 +379,7 @@ void Tampere::checkShotCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
           stats.incrementScore(passengers_picked_*SCORE_FOR_PASSENGER);
           stats.elonsSaved += passengers_picked_;
           qDebug() << "ELONS LOADED";
+
           passengers_picked_=0;
           std::cout << "elonit turvas" << std::endl;
 
