@@ -241,9 +241,13 @@ void Tampere::actorMoved(std::shared_ptr<Interface::IActor> actor){
 
 std::vector<std::shared_ptr<Interface::IActor>> Tampere::getNearbyActors(Interface::Location loc) const {
     // TODO:: käytä jotenkin? halusin tällä vaan varotukset pois
-    qDebug() << loc.giveX();
-    std::vector<std::shared_ptr<Interface::IActor>> asd;
-    return asd;
+    //std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*>::iterator it;
+    std::vector<std::shared_ptr<Interface::IActor>> nearbyActors;
+    for(auto it:nysseGraphicPairs_){                                                        // loop all nyssegraphicpairs
+        if(it.first->giveLocation().calcDistance(loc,it.first->giveLocation())>50)          // if actor is 50 units close
+            nearbyActors.push_back(it.first);
+    }
+    return nearbyActors;
 }
 
 void Tampere::endGame(){
@@ -380,11 +384,15 @@ void Tampere::checkShotCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
       // if Q pressed while on passengers(elons) remove them from scene and increase passengers_picked
       if(collidingitem->zValue()==PASSENGER_Z&&Z_VALUE==PASSENGER_Z&&passengers_picked_<PASSENGER_STORAGE){
           BetterActorItem* passenger = static_cast<BetterActorItem*>(passenger);
-          passengers_picked_++;
-          qDebug() <<passengers_picked_;
-          for(auto it = passengerGraphicPairs_.begin(); it != passengerGraphicPairs_.end(); ++it)
-              if(it->second==collidingitem)
-                 removeActor(it->first);
+
+          for(auto it = passengerGraphicPairs_.begin(); it != passengerGraphicPairs_.end(); ++it){
+                  if(it->second==collidingitem){
+                     removeActor(it->first);
+                     passengers_picked_++;
+                     qDebug() <<passengers_picked_;
+                     break;
+                  }
+        }
       }
 
       // If Q pressed while on shuttle, add score and empty passengers to shuttle
@@ -405,7 +413,6 @@ void Tampere::pickPassengers()
 
     ray->setOpacity(255);
     QTimer::singleShot(150,[&](){ray->setOpacity(0);});
-
     checkShotCollison(ray, PASSENGER_Z);
     checkShotCollison(playerGraphic_, SHUTTLE_Z);
 }
