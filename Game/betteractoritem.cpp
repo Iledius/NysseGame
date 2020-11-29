@@ -22,6 +22,15 @@ void BetterActorItem::setDestructTimer(int time){
 
 }
 
+bool BetterActorItem::goingRight()
+{
+    return right_;
+}
+
+
+QImage BetterActorItem::getImage(){
+    return image_;
+}
 
 void BetterActorItem::setAng(QPoint oldpos, QPoint newpos)
 {
@@ -45,8 +54,8 @@ void BetterActorItem::setAng(QPoint oldpos, QPoint newpos)
     if(oldpos.x()-newpos.x()>0){angHistory.push_back(1);}
     else{angHistory.push_back(-1);}
 
-    if(accumulate(angHistory.begin(),angHistory.end(),0)<1){setTransform(QTransform::fromScale(1,1));}
-    else{setTransform(QTransform::fromScale(-1,1));}
+    if(accumulate(angHistory.begin(),angHistory.end(),0)<1){right_ = 1;}
+    else{right_=0;}
 
     if(angHistory.size()>10){angHistory.erase(angHistory.begin());}
 }

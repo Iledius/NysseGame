@@ -2,7 +2,12 @@
 #include "iostream"
 #include "statistics.h"
 
-QImage BUS_IMAGE("../../etkot-software/Game/images/tank.png");
+QImage BUS_IMAGE_RIGHT("../../etkot-software/Game/images/tank.png");
+QImage BUS_IMAGE_LEFT("../../etkot-software/Game/images/tankLeft.png");
+QImage BUS_IMAGE_RIGHT_HIT("../../etkot-software/Game/images/tankRightHit.png");
+QImage BUS_IMAGE_LEFT_HIT("../../etkot-software/Game/images/tankLeftHit.png");
+
+
 QImage PASSENGER_IMAGE("../../etkot-software/Game/images/elon.png");
 QImage PLAYER_IMAGE("../../etkot-software/Game/images/ufo.png");
 QImage RAY("../../etkot-software/Game/images/ray.png");
@@ -216,6 +221,8 @@ void Tampere::actorMoved(std::shared_ptr<Interface::IActor> actor){
       if(it != nysseGraphicPairs_.end()){
            it->second->setAng(QPoint(it->second->x(), it->second->y()), QPoint(actor.get()->giveLocation().giveX(), 490-actor.get()->giveLocation().giveY()));
            it->second->setPos(QPoint(actor.get()->giveLocation().giveX(),500-actor.get()->giveLocation().giveY()));
+           if(it->second->goingRight()&&it->second->getImage()!=BUS_IMAGE_RIGHT_HIT) it->second->setImage(BUS_IMAGE_RIGHT);
+           else if (!it->second->goingRight()&&it->second->getImage()!=BUS_IMAGE_LEFT_HIT) it->second->setImage(BUS_IMAGE_LEFT);
            return;
       }
 
@@ -234,9 +241,13 @@ void Tampere::actorMoved(std::shared_ptr<Interface::IActor> actor){
 
 std::vector<std::shared_ptr<Interface::IActor>> Tampere::getNearbyActors(Interface::Location loc) const {
     // TODO:: käytä jotenkin? halusin tällä vaan varotukset pois
-    qDebug() << loc.giveX();
-    std::vector<std::shared_ptr<Interface::IActor>> asd;
-    return asd;
+    //std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*>::iterator it;
+    std::vector<std::shared_ptr<Interface::IActor>> nearbyActors;
+    for(auto it:nysseGraphicPairs_){                                                        // loop all nyssegraphicpairs
+        if(it.first->giveLocation().calcDistance(loc,it.first->giveLocation())>50)          // if actor is 50 units close
+            nearbyActors.push_back(it.first);
+    }
+    return nearbyActors;
 }
 
 void Tampere::endGame(){
@@ -256,7 +267,7 @@ void Tampere::drawActors(){
 
            // If actor is a bus
            if(isBus){
-               BetterActorItem* actor_graphic = new BetterActorItem(BUS_IMAGE,BUS_HEALTH);
+               BetterActorItem* actor_graphic = new BetterActorItem(BUS_IMAGE_RIGHT,BUS_HEALTH);
                nysseGraphicPairs_.insert({iactor, actor_graphic});
                scene_->addItem(actor_graphic);
                actor_graphic->setPos(bus_coords+QPoint());
@@ -357,7 +368,13 @@ void Tampere::checkShotCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
 
                 stats.incrementScore(SCORE_FOR_BUS);
                 stats.nyssesDestroyed += 1;
+                scene_->removeItem(item);
+                shots_.erase(shots_.find(item));
+                break;
             }
+            if(hit_nysse->getImage()==BUS_IMAGE_LEFT)  {hit_nysse->setImage(BUS_IMAGE_LEFT_HIT); QTimer::singleShot(150,[=](){hit_nysse->setImage(BUS_IMAGE_LEFT);});}
+            if(hit_nysse->getImage()==BUS_IMAGE_RIGHT)  {hit_nysse->setImage(BUS_IMAGE_RIGHT_HIT); QTimer::singleShot(150,[=](){hit_nysse->setImage(BUS_IMAGE_RIGHT);});}
+
             hit_nysse->lowerHealth();
             scene_->removeItem(item);
             shots_.erase(shots_.find(item));
@@ -367,11 +384,15 @@ void Tampere::checkShotCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
       // if Q pressed while on passengers(elons) remove them from scene and increase passengers_picked
       if(collidingitem->zValue()==PASSENGER_Z&&Z_VALUE==PASSENGER_Z&&passengers_picked_<PASSENGER_STORAGE){
           BetterActorItem* passenger = static_cast<BetterActorItem*>(passenger);
-          passengers_picked_++;
-          qDebug() <<passengers_picked_;
-          for(auto it = passengerGraphicPairs_.begin(); it != passengerGraphicPairs_.end(); ++it)
-              if(it->second==collidingitem)
-                 removeActor(it->first);
+
+          for(auto it = passengerGraphicPairs_.begin(); it != passengerGraphicPairs_.end(); ++it){
+                  if(it->second==collidingitem){
+                     removeActor(it->first);
+                     passengers_picked_++;
+                     qDebug() <<passengers_picked_;
+                     break;
+                  }
+        }
       }
 
       // If Q pressed while on shuttle, add score and empty passengers to shuttle
@@ -392,13 +413,10 @@ void Tampere::pickPassengers()
 {
 
     ray->setOpacity(255);
-    QTimer::singleShot(150,[=](){ray->setOpacity(0);});
-
+    QTimer::singleShot(150,[&](){ray->setOpacity(0);});
     checkShotCollison(ray, PASSENGER_Z);
     checkShotCollison(playerGraphic_, SHUTTLE_Z);
 }
-
-
 
 Tampere::~Tampere(){
 

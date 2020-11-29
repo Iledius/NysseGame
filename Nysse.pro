@@ -2,7 +2,8 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
 	CourseLib \
-	Game
+        Game \
+    statistics_test
 
 CourseLib.subdir = Course/CourseLib
 Game.depends = CourseLib
