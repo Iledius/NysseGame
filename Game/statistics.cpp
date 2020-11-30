@@ -26,7 +26,6 @@ if(highScores.size() == 0)
         "Heihachi",
         "Lei",
         "Jin"
-
     };
     std::vector<int> fillerScores =
     {

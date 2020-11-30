@@ -66,15 +66,6 @@ void GameView::mouseMoveEvent(QMouseEvent *event){
       qreal y = 365;
       qreal ang = qAtan2((event->x()-x), (event->y()-y));
       city_->setArrowAngle(-ang*57+180);
-      qDebug() << event->pos();
-
-      // set arrow to right pos next to player
-      //float new_x = x+ang*
-      //float new_y = (90-abs(-ang*57))/90;
-      //float new_x = (ang*57/90);
-       //     std::cout << new_x+x << std::endl;
-      //city_->setArrowPos(QPointF(x+new_x, y+new_y));
-
 }
 
 void GameView::mousePressEvent(QMouseEvent *event){
