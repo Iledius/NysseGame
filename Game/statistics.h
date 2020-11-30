@@ -5,14 +5,15 @@
 #include <map>
 #include <unordered_map>
 
-class Statistics : public Interface::IStatistics
+class Statistics
 {
 public:
     Statistics();
-    ~Statistics() override;
+    ~Statistics();
 
     void setCurrentScore(int s);
     void incrementScore(int i);
+    void nysseRemoved();
     int currentScore = 0;
     int nyssesDestroyed = 0;
     int elonsSaved = 0;
@@ -20,11 +21,6 @@ public:
     void saveScores(QString playerName);
     std::multimap<int, QString> readScores();
     bool isNewHighScore(int score);
-
-    void newNysse() override;
-    void nysseLeft() override;
-    void nysseRemoved() override;
-    void morePassengers(int num) override;
 
 private:
 

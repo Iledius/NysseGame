@@ -122,16 +122,6 @@ bool Statistics::isNewHighScore(int score)
     }
 }
 
-void Statistics::newNysse()
-{
-
-}
-
-void Statistics::nysseLeft()
-{
-
-}
-
 void Statistics::nysseRemoved()
 {
     int scoreForBus = 10;
@@ -139,7 +129,3 @@ void Statistics::nysseRemoved()
     incrementScore(scoreForBus);
 }
 
-void Statistics::morePassengers(int num)
-{
-
-}

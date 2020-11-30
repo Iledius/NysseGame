@@ -77,7 +77,6 @@ private:
     BetterActorItem* ray_;
     int passengers_picked_=0;
 
-
 };
 
 #endif // TAMPERE_HH
