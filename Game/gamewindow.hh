@@ -55,7 +55,7 @@ private:
     std::shared_ptr<Player> player_;
     int current_time = 0;
     bool paused = false;
-    endDialog endScreen;
+    EndDialog endScreen;
 
 
 };

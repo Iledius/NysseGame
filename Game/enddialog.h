@@ -7,7 +7,7 @@ namespace Ui {
 class endDialog;
 }
 
-class endDialog : public QDialog
+class EndDialog : public QDialog
 {
     Q_OBJECT
 
@@ -18,8 +18,8 @@ public:
     void setNewHsLabel();
     void setPlayerName(QString name = "");
     void setDifficulty(int d);
-    explicit endDialog(QWidget *parent = nullptr);
-    ~endDialog();
+    explicit EndDialog(QWidget *parent = nullptr);
+    ~EndDialog();
     QString newPlayerName = "";
     int difficulty = 0;
 

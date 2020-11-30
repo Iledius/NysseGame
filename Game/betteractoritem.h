@@ -15,7 +15,7 @@ public:
     BetterActorItem(QImage image, int health=2);
     void setImage(QImage image);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-    void setAng(QPoint oldpos, QPoint newpos);
+    void setAngle(QPoint oldpos, QPoint newpos);
     void lowerHealth();
     int getHealth();
     QImage getImage();
@@ -25,7 +25,7 @@ public:
 private:
     QImage image_;
     bool right_ = true;
-    std::vector<qreal> angHistory;
+    std::vector<qreal> angHistory_;
     int health_;
     QTimer* destruct_timer_;
 };

@@ -76,7 +76,7 @@ private:
     QTimer pickingTimer_;
     bool gameOver_  = false;
     BetterActorItem* ray;
-    int passengers_picked_=0;
+    int passengersPicked_=0;
 
 
 };

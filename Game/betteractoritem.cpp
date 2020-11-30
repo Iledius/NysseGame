@@ -32,7 +32,7 @@ QImage BetterActorItem::getImage(){
     return image_;
 }
 
-void BetterActorItem::setAng(QPoint oldpos, QPoint newpos)
+void BetterActorItem::setAngle(QPoint oldpos, QPoint newpos)
 {
 
     // Tällä actorin saa kääntymään liikkumissuuntaan, anghistory tasottamassa rajuja muutoksia
@@ -51,13 +51,13 @@ void BetterActorItem::setAng(QPoint oldpos, QPoint newpos)
 //        }
 //    }
 //    setRotation(-angAvg/amount*57);
-    if(oldpos.x()-newpos.x()>0){angHistory.push_back(1);}
-    else{angHistory.push_back(-1);}
+    if(oldpos.x()-newpos.x()>0){angHistory_.push_back(1);}
+    else{angHistory_.push_back(-1);}
 
-    if(accumulate(angHistory.begin(),angHistory.end(),0)<1){right_ = 1;}
+    if(accumulate(angHistory_.begin(),angHistory_.end(),0)<1){right_ = 1;}
     else{right_=0;}
 
-    if(angHistory.size()>10){angHistory.erase(angHistory.begin());}
+    if(angHistory_.size()>10){angHistory_.erase(angHistory_.begin());}
 }
 
 void BetterActorItem::lowerHealth()

@@ -219,7 +219,7 @@ void Tampere::actorMoved(std::shared_ptr<Interface::IActor> actor){
     std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*>::iterator it;
       it = nysseGraphicPairs_.find(actor);
       if(it != nysseGraphicPairs_.end()&& it->second!=nullptr          ){
-           it->second->setAng(QPoint(it->second->x(), it->second->y()), QPoint(actor.get()->giveLocation().giveX(), 490-actor.get()->giveLocation().giveY()));
+           it->second->setAngle(QPoint(it->second->x(), it->second->y()), QPoint(actor.get()->giveLocation().giveX(), 490-actor.get()->giveLocation().giveY()));
            it->second->setPos(QPoint(actor.get()->giveLocation().giveX(),500-actor.get()->giveLocation().giveY()));
            if(it->second->goingRight()&&it->second->getImage()!=BUS_IMAGE_RIGHT_HIT) it->second->setImage(BUS_IMAGE_RIGHT);
            else if (!it->second->goingRight()&&it->second->getImage()!=BUS_IMAGE_LEFT_HIT) it->second->setImage(BUS_IMAGE_LEFT);
@@ -393,14 +393,14 @@ void Tampere::checkShotCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
         }
 
       // if Q pressed while on passengers(elons) remove them from scene and increase passengers_picked
-      if(collidingitem->zValue()==PASSENGER_Z&&Z_VALUE==PASSENGER_Z&&passengers_picked_<PASSENGER_STORAGE){
+      if(collidingitem->zValue()==PASSENGER_Z&&Z_VALUE==PASSENGER_Z&&passengersPicked_<PASSENGER_STORAGE){
           BetterActorItem* passenger = static_cast<BetterActorItem*>(passenger);
 
           for(auto it = passengerGraphicPairs_.begin(); it != passengerGraphicPairs_.end(); ++it){
                   if(it->second==collidingitem){
                      removeActor(it->first);
-                     passengers_picked_++;
-                     qDebug() <<passengers_picked_;
+                     passengersPicked_++;
+                     qDebug() <<passengersPicked_;
                      break;
                   }
         }
@@ -408,11 +408,11 @@ void Tampere::checkShotCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
 
       // If Q pressed while on shuttle, add score and empty passengers to shuttle
       if(collidingitem->zValue()==SHUTTLE_Z && Z_VALUE==SHUTTLE_Z){
-          stats.incrementScore(passengers_picked_*SCORE_FOR_PASSENGER);
-          stats.elonsSaved += passengers_picked_;
+          stats.incrementScore(passengersPicked_*SCORE_FOR_PASSENGER);
+          stats.elonsSaved += passengersPicked_;
           qDebug() << "ELONS LOADED";
 
-          passengers_picked_=0;
+          passengersPicked_=0;
           std::cout << "elonit turvas" << std::endl;
 
          }
