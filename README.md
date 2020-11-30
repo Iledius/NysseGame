@@ -3,7 +3,7 @@ TKL:n pahat panssarinysset yrittävät kaapata kloonit, ja voit tuhota panssarin
 
 Kloonien pelastamisesta panssarinyssejen tuhoamisesta saa pisteitä. Pisteet tallentuvat huippupisteisiin, joissa voit vertailla itseäsi muihin pelaajiin.  
 
-Liiku aluksella:
+Liiku aluksella:  
 [W] - YLÖS  
 [S] - ALAS  
 [A] - VASEMMALLE  
