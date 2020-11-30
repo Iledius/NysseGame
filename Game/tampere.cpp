@@ -112,8 +112,6 @@ void Tampere::movePlayer()
 
     // moving with acceleration
 
-    //if(left==)
-
     if(left==1) {player_->changePos(-SPEED*leftAcc,0);leftAcc=(leftAcc>ACC_LIMIT) ? leftAcc+1:ACC_LIMIT;}
     if(right==1) {player_->changePos(SPEED*rightAcc,0);rightAcc=(rightAcc>ACC_LIMIT) ? rightAcc+1:ACC_LIMIT;}
     if(up==1) {player_->changePos(0,-SPEED*upAcc);upAcc=(upAcc>ACC_LIMIT) ? upAcc+1:ACC_LIMIT;}
@@ -172,6 +170,16 @@ void Tampere::movePlayer()
     }
 
     if(ray_) ray_->setPos(playerGraphic_->pos()+QPointF(-35,-35));
+
+    if(player_->getPos().first>3520)
+        player_->changePos(-SPEED*rightAcc,0);
+    if(player_->getPos().first<-3)
+        player_->changePos(SPEED*leftAcc,0);
+    if(player_->getPos().second>3683)
+        player_->changePos(0,-SPEED*downAcc);
+    if(player_->getPos().second<0)
+        player_->changePos(0,SPEED*upAcc);
+
 
 }
 
