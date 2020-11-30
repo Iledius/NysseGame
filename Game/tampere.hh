@@ -36,15 +36,59 @@ public:
     std::vector<std::shared_ptr<Interface::IActor>> getNearbyActors(Interface::Location loc) const override;
     bool isGameOver() const override;
 
+    /**
+     * @brief takeScene
+     * @param sceneToTake
+     */
     void takeScene(QGraphicsScene* sceneToTake);
+
+    /**
+     * @brief drawActors
+     * Adds all the actors on the scene, is called in the game start.
+     */
     void drawActors();
+
+    /**
+     * @brief movePlayer
+     * Moves BetterActorItem to position that corresponds player location.
+     * Changes
+     */
     void movePlayer();
+
+    /**
+     * @brief setArrowAngle
+     * @param angle
+     */
     void setArrowAngle(qreal angle);
+
+    /**
+     * @brief drawShot
+     */
     void drawShot();
+
+    /**
+     * @brief moveShots
+     */
     void moveShots();
+
+    /**
+     * @brief reloadPressed
+     */
     void reloadPressed();
+
+    /**
+     * @brief pauseGame
+     */
     void pauseGame();
+
+    /**
+     * @brief endGame
+     */
     void endGame();
+
+    /**
+     * @brief pickPassengers
+     */
     void pickPassengers();
 
     std::vector<std::shared_ptr<Interface::IStop>> stops;

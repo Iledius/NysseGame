@@ -1,6 +1,4 @@
 #include "gameview.hh"
-#include <QKeyEvent>
-#include <QtMath>
 
 GameView::GameView(QWidget *parent)
     : QGraphicsView(parent)
@@ -85,7 +83,4 @@ void GameView::mouseMoveEvent(QMouseEvent *event){
 
 void GameView::mousePressEvent(QMouseEvent *event){
    city_->drawShot();
-}
-
-void GameView::focus(){
 }

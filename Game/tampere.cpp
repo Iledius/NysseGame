@@ -18,6 +18,11 @@ QImage EXPLOSION_IMAGE("../../etkot-software/Game/images/explosion.png");
 
 QImage AMMO_6("../../etkot-software/Game/images/6ammo.png");
 
+const int X_MULT=2;
+const int Y_MULT=2;
+const int X_CONST = 100;
+const int Y_CONST = 100;
+
 // Z-levels for different items:
 const int PLAYER_Z = 7;
 const int BUS_Z = 3;
@@ -76,7 +81,7 @@ void Tampere::startGame()
     ammoGraphic_->setParentItem(playerGraphic_);
     ammoGraphic_->setScale(2);
 
-    playerGraphic_->setPos(QPoint(250,250));
+    playerGraphic_->setPos(QPoint(500,500));
     playerArrow_->setPos(player_->getPos().first+23, player_->getPos().second+23);
 
     playerGraphic_->setZValue(PLAYER_Z);  // player always on top
@@ -88,7 +93,7 @@ void Tampere::startGame()
     // Shuttle visual, where we drop our Elon clones
     scene_->addItem(shuttle_);
     shuttle_->setZValue(SHUTTLE_Z);
-    shuttle_->setPos(400,400);
+    shuttle_->setPos(1000,450);
     shuttle_->setScale(1);
     ammo_ = AMMO;
 
@@ -218,9 +223,9 @@ void Tampere::actorMoved(std::shared_ptr<Interface::IActor> actor){
     advanced_amount++;
     std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*>::iterator it;
       it = nysseGraphicPairs_.find(actor);
-      if(it != nysseGraphicPairs_.end()&& it->second!=nullptr          ){
+      if(it != nysseGraphicPairs_.end()&& it->second!=nullptr){
            it->second->setAngle(QPoint(it->second->x(), it->second->y()), QPoint(actor.get()->giveLocation().giveX(), 490-actor.get()->giveLocation().giveY()));
-           it->second->setPos(QPoint(actor.get()->giveLocation().giveX(),500-actor.get()->giveLocation().giveY()));
+           it->second->setPos(X_MULT*QPoint(actor.get()->giveLocation().giveX()+X_CONST,-actor.get()->giveLocation().giveY()*Y_MULT+Y_CONST));
            if(it->second->goingRight()&&it->second->getImage()!=BUS_IMAGE_RIGHT_HIT) it->second->setImage(BUS_IMAGE_RIGHT);
            else if (!it->second->goingRight()&&it->second->getImage()!=BUS_IMAGE_LEFT_HIT) it->second->setImage(BUS_IMAGE_LEFT);
            return;

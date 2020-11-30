@@ -1,12 +1,5 @@
 #include "gamewindow.hh"
-#include <iostream>
 #include "ui_gamewindow.h"
-#include "startdialog.h"
-#include <QString>
-#include "statistics.h"
-#include "enddialog.h"
-
-#include <QKeyEvent>
 
 QImage TAMPERE_MAP = QImage(":/offlinedata/offlinedata/kartta_iso_1095x592.png");
 QImage SATELLITE_MAP = QImage("../../etkot-software/Game/images/mapUHD.png");
