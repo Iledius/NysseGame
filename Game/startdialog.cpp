@@ -2,48 +2,48 @@
 #include "ui_startdialog.h"
 #include <iostream>
 
-startDialog::startDialog(QWidget *parent) :
+StartDialog::StartDialog(QWidget *parent) :
     QDialog(parent),
-    ui_(new Ui::startDialog)
+    ui_(new Ui::StartDialog)
 {
     ui_->setupUi(this);
 }
 
-startDialog::~startDialog()
+StartDialog::~StartDialog()
 {
     delete ui_;
 }
 
-void startDialog::on_buttonBox_2_accepted()
+void StartDialog::on_buttonBox_2_accepted()
 {
     QString new_name = ui_->nameEdit->text();
     if(new_name.toStdString().length() > 0)
     {
         player_name = new_name;
     }
-    startDialog::accept();
+    StartDialog::accept();
 }
 
-void startDialog::on_buttonBox_2_rejected()
+void StartDialog::on_buttonBox_2_rejected()
 {
-    startDialog::reject();
+    StartDialog::reject();
 }
 
-void startDialog::on_EasyRadioButton_clicked()
+void StartDialog::on_EasyRadioButton_clicked()
 {
     setDifficulty(0);
 }
-void startDialog::on_mediumRadioButton_clicked()
+void StartDialog::on_mediumRadioButton_clicked()
 {
     setDifficulty(1);
 }
 
-void startDialog::on_hardRadioButton_clicked()
+void StartDialog::on_hardRadioButton_clicked()
 {
     setDifficulty(2);
 }
 
-void startDialog::setDifficulty(int d)
+void StartDialog::setDifficulty(int d)
 {
     this->difficulty = d;
 }

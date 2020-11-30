@@ -4,16 +4,16 @@
 #include <QDialog>
 
 namespace Ui {
-class startDialog;
+class StartDialog;
 }
 
-class startDialog : public QDialog
+class StartDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit startDialog(QWidget *parent = nullptr);
-    ~startDialog();
+    explicit StartDialog(QWidget *parent = nullptr);
+    ~StartDialog();
     QString player_name = "Tero Default";
     int difficulty = 0;
 
@@ -31,7 +31,7 @@ private slots:
     void setDifficulty(int d);
 
 private:
-    Ui::startDialog *ui_;
+    Ui::StartDialog *ui_;
 };
 
 #endif // STARTDIALOG_H

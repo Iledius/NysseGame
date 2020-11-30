@@ -56,6 +56,7 @@ public:
     void pickPassengers();
     std::vector<BetterActorItem*> hit_items;
     bool paused=false;
+    int advanced_amount = 0;
 
 private:
     void checkShotCollison(BetterActorItem* item, int Z_VALUE);
@@ -75,7 +76,7 @@ private:
     QTimer pickingTimer_;
     bool gameOver_  = false;
     BetterActorItem* ray_;
-    int passengers_picked_=0;
+    int passengersPicked_=0;
 
 };
 

@@ -32,7 +32,7 @@ QImage BetterActorItem::getImage(){
     return image_;
 }
 
-void BetterActorItem::setAng(QPoint oldpos, QPoint newpos)
+void BetterActorItem::setAngle(QPoint oldpos, QPoint newpos)
 {
 
     // Tällä actorin saa kääntymään liikkumissuuntaan, anghistory tasottamassa rajuja muutoksia

@@ -7,7 +7,6 @@ QImage BUS_IMAGE_LEFT("../../etkot-software/Game/images/tankLeft.png");
 QImage BUS_IMAGE_RIGHT_HIT("../../etkot-software/Game/images/tankRightHit.png");
 QImage BUS_IMAGE_LEFT_HIT("../../etkot-software/Game/images/tankLeftHit.png");
 
-
 QImage PASSENGER_IMAGE("../../etkot-software/Game/images/elon.png");
 QImage PLAYER_IMAGE("../../etkot-software/Game/images/ufo.png");
 QImage RAY("../../etkot-software/Game/images/ray.png");
@@ -36,7 +35,7 @@ const int PASSENGER_STORAGE = 100;
 const int SCORE_FOR_BUS = 100;
 const int SCORE_FOR_PASSENGER = 3;
 
-int AMMO = 6;
+int AMMO = 1000;
 
 
 Tampere::Tampere() :
@@ -188,7 +187,7 @@ void Tampere::removeActor(std::shared_ptr<Interface::IActor> actor)
 {
     std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*>::iterator it;
     it=nysseGraphicPairs_.find(actor);
-    if(it != nysseGraphicPairs_.end() && it->second->scene() != nullptr){
+    if(it != nysseGraphicPairs_.end() && it->second->scene() != nullptr && it->second != nullptr        ){
          scene_->removeItem(it->second);
          delete it->second;
          nysseGraphicPairs_.erase(it);
@@ -216,10 +215,11 @@ bool Tampere::findActor(std::shared_ptr<Interface::IActor> actor) const {
 }
 
 void Tampere::actorMoved(std::shared_ptr<Interface::IActor> actor){
+    advanced_amount++;
     std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*>::iterator it;
       it = nysseGraphicPairs_.find(actor);
-      if(it != nysseGraphicPairs_.end()){
-           it->second->setAng(QPoint(it->second->x(), it->second->y()), QPoint(actor.get()->giveLocation().giveX(), 490-actor.get()->giveLocation().giveY()));
+      if(it != nysseGraphicPairs_.end()&& it->second!=nullptr          ){
+           it->second->setAngle(QPoint(it->second->x(), it->second->y()), QPoint(actor.get()->giveLocation().giveX(), 490-actor.get()->giveLocation().giveY()));
            it->second->setPos(QPoint(actor.get()->giveLocation().giveX(),500-actor.get()->giveLocation().giveY()));
            if(it->second->goingRight()&&it->second->getImage()!=BUS_IMAGE_RIGHT_HIT) it->second->setImage(BUS_IMAGE_RIGHT);
            else if (!it->second->goingRight()&&it->second->getImage()!=BUS_IMAGE_LEFT_HIT) it->second->setImage(BUS_IMAGE_LEFT);
@@ -301,6 +301,7 @@ void Tampere::drawShot(){
 
         BetterActorItem* shot = new BetterActorItem(SHOT_IMAGE);
         scene_->addItem(shot);
+        shot->setZValue(BUS_Z+1);
 
         // Set shot to the right angle
         shot->setRotation(playerArrow_->rotation()+270);
@@ -354,7 +355,7 @@ void Tampere::checkShotCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
             // Add explosion image to scene, and set destruct timer to 0.1 seconds
             BetterActorItem* hit_image = new BetterActorItem(EXPLOSION_IMAGE);
             hit_image->setTransform(collidingitem->transform());
-            hit_image->setPos(hit_nysse->pos());
+            hit_image->setPos(hit_nysse->pos()+QPointF(30,30));
             hit_image->setZValue(BUS_Z+1);
             scene_->addItem(hit_image);
             hit_image->setDestructTimer(100);
@@ -364,32 +365,42 @@ void Tampere::checkShotCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
             if(hit_nysse->getHealth()==0){
                 for(auto it = nysseGraphicPairs_.begin(); it != nysseGraphicPairs_.end(); ++it)
                     if(it->second==collidingitem)
-                       removeActor(it->first);
+                             removeActor(it->first);
 
                 stats.incrementScore(SCORE_FOR_BUS);
                 stats.nyssesDestroyed += 1;
-                scene_->removeItem(item);
-                shots_.erase(shots_.find(item));
-                break;
+                if(item!=nullptr){
+                    scene_->removeItem(item);
+                    shots_.erase(shots_.find(item));
+                }
+                return;
             }
-            if(hit_nysse->getImage()==BUS_IMAGE_LEFT)  {hit_nysse->setImage(BUS_IMAGE_LEFT_HIT); QTimer::singleShot(150,[=](){hit_nysse->setImage(BUS_IMAGE_LEFT);});}
-            if(hit_nysse->getImage()==BUS_IMAGE_RIGHT)  {hit_nysse->setImage(BUS_IMAGE_RIGHT_HIT); QTimer::singleShot(150,[=](){hit_nysse->setImage(BUS_IMAGE_RIGHT);});}
+            if(hit_nysse->getImage()==BUS_IMAGE_LEFT)  {hit_nysse->setImage(BUS_IMAGE_LEFT_HIT); QTimer::singleShot(150,[=](){
+                    for(auto it = nysseGraphicPairs_.begin(); it != nysseGraphicPairs_.end(); ++it)
+                        if(it->second==collidingitem)
+                            hit_nysse->setImage(BUS_IMAGE_LEFT);});}
+            if(hit_nysse->getImage()==BUS_IMAGE_RIGHT)  {hit_nysse->setImage(BUS_IMAGE_RIGHT_HIT); QTimer::singleShot(150,[=](){
+                    for(auto it = nysseGraphicPairs_.begin(); it != nysseGraphicPairs_.end(); ++it)
+                        if(it->second==collidingitem)
+                            hit_nysse->setImage(BUS_IMAGE_RIGHT);});}
 
             hit_nysse->lowerHealth();
-            scene_->removeItem(item);
-            shots_.erase(shots_.find(item));
-            break;
+            if(item!=nullptr){
+                scene_->removeItem(item);
+                shots_.erase(shots_.find(item));
+            }
+            return;
         }
 
       // if Q pressed while on passengers(elons) remove them from scene and increase passengers_picked
-      if(collidingitem->zValue()==PASSENGER_Z&&Z_VALUE==PASSENGER_Z&&passengers_picked_<PASSENGER_STORAGE){
+      if(collidingitem->zValue()==PASSENGER_Z&&Z_VALUE==PASSENGER_Z&&passengersPicked_<PASSENGER_STORAGE){
           BetterActorItem* passenger = static_cast<BetterActorItem*>(passenger);
 
           for(auto it = passengerGraphicPairs_.begin(); it != passengerGraphicPairs_.end(); ++it){
                   if(it->second==collidingitem){
                      removeActor(it->first);
-                     passengers_picked_++;
-                     qDebug() <<passengers_picked_;
+                     passengersPicked_++;
+                     qDebug() <<passengersPicked_;
                      break;
                   }
         }
@@ -397,11 +408,11 @@ void Tampere::checkShotCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
 
       // If Q pressed while on shuttle, add score and empty passengers to shuttle
       if(collidingitem->zValue()==SHUTTLE_Z && Z_VALUE==SHUTTLE_Z){
-          stats.incrementScore(passengers_picked_*SCORE_FOR_PASSENGER);
-          stats.elonsSaved += passengers_picked_;
+          stats.incrementScore(passengersPicked_*SCORE_FOR_PASSENGER);
+          stats.elonsSaved += passengersPicked_;
           qDebug() << "ELONS LOADED";
 
-          passengers_picked_=0;
+          passengersPicked_=0;
           std::cout << "elonit turvas" << std::endl;
 
          }
