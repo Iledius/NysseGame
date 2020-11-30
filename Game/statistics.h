@@ -17,10 +17,14 @@ public:
     int currentScore = 0;
     int nyssesDestroyed = 0;
     int elonsSaved = 0;
-    std::multimap<int, QString> highScores;
+    QString playerName = "Tero Default";
+    std::multimap<int, QString> highScores = {};
     void saveScores(QString playerName);
     std::multimap<int, QString> readScores();
     bool isNewHighScore(int score);
+
+    QString getPlayerName() const;
+    void setPlayerName(const QString &value);
 
 private:
 

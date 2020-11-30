@@ -45,22 +45,19 @@ public:
     void reloadPressed();
     void pauseGame();
     void endGame();
+    void pickPassengers();
 
     std::vector<std::shared_ptr<Interface::IStop>> stops;
     std::vector<std::shared_ptr<Interface::IActor>> actors;
     Player* player_;
     int left, right, up, down, aimUp=0, aimDown=0, aimLeft=0, aimRight=0;
     float leftAcc=0, rightAcc=0, upAcc=0, downAcc=0;
-    int score = 0;
     Statistics stats;
-    void pickPassengers();
-    std::vector<BetterActorItem*> hit_items;
     bool paused=false;
     int advanced_amount = 0;
 
 private:
-    void checkShotCollison(BetterActorItem* item, int Z_VALUE);
-
+    void checkCollison(BetterActorItem* item, int Z_VALUE);
     QTime time_;
     QGraphicsScene* scene_;
     BetterActorItem* playerGraphic_;

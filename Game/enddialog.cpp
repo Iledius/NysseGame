@@ -2,6 +2,18 @@
 #include "ui_enddialog.h"
 #include <iostream>
 
+EndDialog::EndDialog(QWidget *parent) :
+    QDialog(parent),
+    ui_(new Ui::endDialog)
+{
+    ui_->setupUi(this);
+}
+
+EndDialog::~EndDialog()
+{
+    delete ui_;
+}
+
 void EndDialog::setElons(int s)
 {
     this->elonsSaved_ = s;
@@ -34,18 +46,6 @@ void EndDialog::setPlayerName(QString name)
 void EndDialog::setDifficulty(int d)
 {
     this->difficulty = d;
-}
-
-EndDialog::EndDialog(QWidget *parent) :
-    QDialog(parent),
-    ui_(new Ui::endDialog)
-{
-    ui_->setupUi(this);
-}
-
-EndDialog::~EndDialog()
-{
-    delete ui_;
 }
 
 void EndDialog::on_buttonBox_accepted()

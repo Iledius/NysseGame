@@ -12,7 +12,47 @@
 Statistics::Statistics()
 {
 highScores = readScores();
+if(highScores.size() == 0)
+{
+    std::vector<QString> fillerNames =
+    {
+        "Yoshimitsu",
+        "King",
+        "Paul",
+        "Eddy",
+        "Mokujin",
+        "Anna",
+        "Kuma",
+        "Heihachi",
+        "Lei",
+        "Jin"
+
+    };
+    std::vector<int> fillerScores =
+    {
+        4000,
+        3670,
+        3200,
+        2700,
+        2600,
+        2350,
+        2000,
+        1800,
+        1500,
+        1200
+    };
+    std::transform(fillerScores.begin(),
+                   fillerScores.end(),
+                   fillerNames.begin(),
+                   std::inserter(highScores,
+                                 highScores.end()),
+                   [](int a, QString b)
+    {
+        return std::make_pair(a, b);
+    });
+}
 std::multimap<int, QString>::iterator i;
+
 }
 
 Statistics::~Statistics()
@@ -41,41 +81,31 @@ void Statistics::saveScores(QString name)
     std::multimap<int, QString>::iterator i;
 
     //Insert the new score and fill the newList with old scores
-    if(highScores.size() > 0)
+    for (ir = highScores.rbegin(); ir != highScores.rend(); ir++)
     {
-        for (ir = highScores.rbegin(); ir != highScores.rend(); ir++)
+        if (currentScore >= ir->first && !scoreInserted)
         {
-            if (currentScore >= ir->first && !scoreInserted)
-            {
-                newList.insert(newHS);
-                scoreInserted = true;
-            }
-            if (newList.size() < 10)
-            {
-                newList.insert(std::make_pair(ir->first, ir->second));
-            }
+            newList.insert(newHS);
+            scoreInserted = true;
+        }
+        if (newList.size() < 10)
+        {
+            newList.insert(std::make_pair(ir->first, ir->second));
         }
     }
-    else
-    {
-        newList.insert(newHS);
-    }
 
-
-    //Save new scores to scores.txt
+    //Save new scores to scores.txt if no scores.txt made yet, fill it with placeholders
     QFile file("scores.txt");
     if(file.open(QIODevice::WriteOnly))
     {
         QTextStream outStream(&file);
         for (i = newList.begin(); i != newList.end(); i++)
         {
-            std::cout << i->second.toStdString() << i->first << std::endl;
             std::string str = std::to_string(i->first) + ":" +  i->second.toStdString();
             QString qstr = QString::fromStdString(str);
             outStream << qstr << endl;
         }
         file.close();
-        std::cout << "scores saved!"<<  std::endl;
     }
 }
 
@@ -111,7 +141,6 @@ bool Statistics::isNewHighScore(int score)
 {
     std::multimap<int, QString>::iterator it = highScores.end();
     it--;
-    std::cout << "paskin hs" << it->first << std::endl;
     if(it->second < score || highScores.size() == 0)
     {
         return true;
@@ -127,5 +156,15 @@ void Statistics::nysseRemoved()
     int scoreForBus = 10;
     nyssesDestroyed = nyssesDestroyed + 1;
     incrementScore(scoreForBus);
+}
+
+QString Statistics::getPlayerName() const
+{
+    return playerName;
+}
+
+void Statistics::setPlayerName(const QString &value)
+{
+    playerName = value;
 }
 

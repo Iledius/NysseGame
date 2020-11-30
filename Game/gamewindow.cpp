@@ -46,13 +46,6 @@ GameWindow::GameWindow(QWidget *parent) :
     gameView_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scene_->setBackgroundBrush(backGround);
 
-    // suunnittelin fullscreeniä, vaatis grafiikoiten siirtelyä
-//    this->resize(1980,1080);
-//    ui->timeDisplay->move(QPoint(1750,ui->timeDisplay->y()));
-//    ui->timeHintText->move(QPoint(1750,ui->timeHintText->y()));
-//    ui->scoreDisplay->move(QPoint(1750,ui->scoreDisplay->y()));
-//    ui->highScoreBrowser->move(QPoint(1750,ui->highScoresLabel->y()));
-
     std::shared_ptr<Tampere> city_temp_ = std::make_shared<Tampere>();
     takeCity(city_temp_);
     gameView_->takeCity(city_temp_);
@@ -87,10 +80,6 @@ void GameWindow::takeCity(std::shared_ptr<Tampere>& city)
     city_ = city;
 }
 
-void GameWindow::drawStops()
-{
-}
-
 void GameWindow::setPlayerName(QString s)
 {
     player_name = s;
@@ -110,6 +99,8 @@ void GameWindow::advance()
         incrementTime();
         ui_->timeDisplay->display((GAME_TIME-current_time_)/(700/UPDATE_RATE));
         ui_->scoreDisplay->display(city_->stats.currentScore);
+        ui_->elonsDisplay->display(city_->stats.elonsSaved);
+        ui_->destoyedTanksDisplay->display(city_->stats.nyssesDestroyed);
         centerCamera();
 
         city_->movePlayer();
