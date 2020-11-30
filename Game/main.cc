@@ -13,10 +13,11 @@ int main(int argc, char *argv[])
     Q_INIT_RESOURCE(offlinedata);
     StartDialog s;
     s.exec();
-    GameWindow gameWindow;
+
 
     if(s.result() == 1)
     {
+        GameWindow gameWindow;
         gameWindow.show();
         gameWindow.setPlayerName(s.player_name);
         gameWindow.setDifficulty(s.difficulty);

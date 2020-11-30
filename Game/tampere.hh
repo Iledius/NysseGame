@@ -38,6 +38,7 @@ public:
 
     /**
      * @brief takeScene
+     * Takes scene, in which adds the actors
      * @param sceneToTake
      */
     void takeScene(QGraphicsScene* sceneToTake);
@@ -51,33 +52,38 @@ public:
     /**
      * @brief movePlayer
      * Moves BetterActorItem to position that corresponds player location.
-     * Changes
      */
     void movePlayer();
 
     /**
      * @brief setArrowAngle
+     * set's aim indicators angle
      * @param angle
+     * Angle to change arrow angle to
      */
     void setArrowAngle(qreal angle);
 
     /**
      * @brief drawShot
+     * Adds shot to scene
      */
     void drawShot();
 
     /**
      * @brief moveShots
+     * Moves shot a bit forward every tick
      */
     void moveShots();
 
     /**
      * @brief reloadPressed
+     * When reload key(R) is pressed, starts reloading. When finished, refills 6 ammo
      */
     void reloadPressed();
 
     /**
      * @brief pauseGame
+     * Pauses game, BROKEN.
      */
     void pauseGame();
 

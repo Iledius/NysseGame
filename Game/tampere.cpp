@@ -111,12 +111,15 @@ void Tampere::movePlayer()
 
 
     // moving with acceleration
+
+    //if(left==)
+
     if(left==1) {player_->changePos(-SPEED*leftAcc,0);leftAcc=(leftAcc>ACC_LIMIT) ? leftAcc+1:ACC_LIMIT;}
     if(right==1) {player_->changePos(SPEED*rightAcc,0);rightAcc=(rightAcc>ACC_LIMIT) ? rightAcc+1:ACC_LIMIT;}
     if(up==1) {player_->changePos(0,-SPEED*upAcc);upAcc=(upAcc>ACC_LIMIT) ? upAcc+1:ACC_LIMIT;}
     if(down==1) {player_->changePos(0,SPEED*downAcc);downAcc=(downAcc>ACC_LIMIT) ? downAcc+1:ACC_LIMIT;}
 
-   if(left==0&&leftAcc>0){
+   if(left==0&&leftAcc>0&&player_){
        leftAcc=leftAcc/DECELERATION_MULT;
        if(leftAcc>0){
            player_->changePos(-0.1*leftAcc,0);
@@ -155,8 +158,6 @@ void Tampere::movePlayer()
     int x_new = player_->getPos().first;
     int y_new = player_->getPos().second;
     playerGraphic_->setPos(QPoint(x_new,y_new));
-    qDebug() << x_new;
-    qDebug() << y_new;
     playerArrow_->setPos(player_->getPos().first+23, player_->getPos().second+23);
 
     // Reload timer

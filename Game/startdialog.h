@@ -17,8 +17,16 @@ public:
     int difficulty = 0;
 
 private slots:
+    /**
+     * @brief on_buttonBox_2_accepted
+     * Accept button, starts game
+     */
     void on_buttonBox_2_accepted();
 
+    /**
+     * @brief on_buttonBox_2_rejected
+     * Reject button, closes
+     */
     void on_buttonBox_2_rejected();
 
     void on_EasyRadioButton_clicked();
