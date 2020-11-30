@@ -45,5 +45,5 @@ void StartDialog::on_hardRadioButton_clicked()
 
 void StartDialog::setDifficulty(int d)
 {
-    this->difficulty = d;
+    difficulty = d;
 }

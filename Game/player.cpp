@@ -3,7 +3,8 @@
 
 Player::Player()
 {
-    pos_ = {250,250};
+    // Starts at bottom of space shuttle
+    pos_ = {1050,740};
 }
 
 Player::~Player(){

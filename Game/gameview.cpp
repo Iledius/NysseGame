@@ -21,8 +21,7 @@ void GameView::takeCity(std::shared_ptr<Tampere> city){
 
 void GameView::keyPressEvent(QKeyEvent *event)
 {
-    //if(event->isAutoRepeat()) {event->ignore();}
-
+    if(event->isAutoRepeat()) {event->ignore();}
 
     switch(event->key())
     {
@@ -38,11 +37,8 @@ void GameView::keyPressEvent(QKeyEvent *event)
 
     case Qt::Key_Space: {city_->drawShot();break;}
     case Qt::Key_R: {city_->reloadPressed(); break; }
-
     case Qt::Key_Q: {city_->pickPassengers(); break; }
-
     case Qt::Key_Escape: {city_->pauseGame();break;}
-
     }
 }
 

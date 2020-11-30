@@ -1,6 +1,7 @@
 #ifndef STARTDIALOG_H
 #define STARTDIALOG_H
 #include <QDialog>
+#include <QDebug>
 
 namespace Ui {
 class StartDialog;
@@ -14,7 +15,7 @@ public:
     explicit StartDialog(QWidget *parent = nullptr);
     ~StartDialog();
     QString player_name = "Tero Default";
-    int difficulty = 0;
+    int difficulty;
 
 private slots:
     /**

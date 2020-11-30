@@ -34,23 +34,6 @@ QImage BetterActorItem::getImage(){
 
 void BetterActorItem::setAngle(QPoint oldpos, QPoint newpos)
 {
-
-    // Tällä actorin saa kääntymään liikkumissuuntaan, anghistory tasottamassa rajuja muutoksia
-
-//    qreal ang = qAtan2((oldpos.y()-newpos.y()), (oldpos.x()-newpos.x()));
-//    angHistory.push_back(ang);
-//    qreal angAvg = 0;
-//    int amount = 0;
-//    for (qreal angle: angHistory){
-//        angAvg+= angle;
-//        qDebug() << angle*57;
-//        amount++;
-//        if(amount == 6){
-//            angHistory.erase(angHistory.begin());
-//            break;
-//        }
-//    }
-//    setRotation(-angAvg/amount*57);
     if(oldpos.x()-newpos.x()>0){angHistory_.push_back(1);}
     else{angHistory_.push_back(-1);}
 

@@ -32,7 +32,7 @@ public:
     void setDifficulty(int d);
     void endGame();
     QString player_name;
-    int difficulty;
+    int difficulty=0;
 
 public Q_SLOTS:
     void advance();

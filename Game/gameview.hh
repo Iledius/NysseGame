@@ -15,6 +15,11 @@ public:
     explicit GameView(QWidget *parent = nullptr);
     GameView(QGraphicsScene *scene, QWidget *parent = nullptr);
     ~GameView();
+    /**
+     * @brief takeCity
+     * takes city, on which it applies the effects from keypressevents.
+     * @param city
+     */
     void takeCity(std::shared_ptr<Tampere> city);
 
 private:

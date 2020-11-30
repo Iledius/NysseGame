@@ -7,11 +7,10 @@
 #include "actors/stop.hh"
 #include "interfaces/iactor.hh"
 #include "core/location.hh"
-#include <algorithm>    // std::find
-#include <map>  // ei ehkä tarvii
+#include <algorithm>
+#include <map>
 #include "player.hh"
-#include <QTimeLine> // ei ehkä tarvii
-#include <QPointF> // ei ehkä tarvii
+#include <QPointF>
 #include "betteractoritem.h"
 #include <QtDebug>
 #include <vector>
@@ -89,25 +88,27 @@ public:
 
     /**
      * @brief endGame
+     * set gameOver to true.
      */
     void endGame();
 
     /**
      * @brief pickPassengers
+     * Removes passengers from map, increases passengers loaded in ship.
      */
     void pickPassengers();
 
     std::vector<std::shared_ptr<Interface::IStop>> stops;
     std::vector<std::shared_ptr<Interface::IActor>> actors;
     Player* player_;
+    Statistics stats;
+
     int left, right, up, down, aimUp=0, aimDown=0, aimLeft=0, aimRight=0;
     float leftAcc=0, rightAcc=0, upAcc=0, downAcc=0;
-    Statistics stats;
     bool paused=false;
-    int advanced_amount = 0;
-
-
-    void updateDebug();
+    int difficulty=0;
+    int bus_health_=2;
+    float speed = 0.1;
 
 private:
     void checkCollison(BetterActorItem* item, int Z_VALUE);
@@ -117,21 +118,17 @@ private:
     std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*> nysseGraphicPairs_;
     std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*> passengerGraphicPairs_;
     QGraphicsPolygonItem* playerArrow_;
-    int ammo_;
     std::map<BetterActorItem*, int> shots_;
     BetterActorItem* shuttle_;
     BetterActorItem* ammoGraphic_;
+
+    int ammo_;
     int acceleration_ = 0;
     int reloadTime_ = 0;
-    QTimer pickingTimer_;
-    bool gameOver_  = false;
-    BetterActorItem* ray_;
     int passengersPicked_=0;
 
-    std::map<CourseSide::SimpleActorItem*, std::shared_ptr<Interface::IStop>> stop_graphics;
-
-
-
+    bool gameOver_  = false;
+    BetterActorItem* ray_;
 };
 
 #endif // TAMPERE_HH

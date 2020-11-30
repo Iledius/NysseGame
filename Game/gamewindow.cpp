@@ -4,7 +4,7 @@
 QImage TAMPERE_MAP = QImage(":/offlinedata/offlinedata/kartta_iso_1095x592.png");
 QImage SATELLITE_MAP = QImage("../../etkot-software/Game/images/mapUHD.png");
 
-const int GAME_TIME = 428000;
+const int GAME_TIME = 4280;
 const int UPDATE_RATE = 10;
 const int CAMERA_SMOOTHNESS = 11;
 
@@ -46,6 +46,7 @@ GameWindow::GameWindow(QWidget *parent) :
 
     //Set highscore display
     std::multimap<int, QString>::reverse_iterator it;
+
     int n = 1;
     for(it = city_->stats.highScores.rbegin(); it != city_->stats.highScores.rend(); it++)
     {
@@ -60,12 +61,9 @@ GameWindow::GameWindow(QWidget *parent) :
     logic_->setTime(7, 30);
     logic_->readOfflineData(buses_string,stops_string);
 
-    // tää säätö koska joku shared pointer ongelma joka korjautu kun annetaan referenssinä tälle luokalle se
-    // https://manski.net/2012/02/cpp-references-and-inheritance/ tuolla selitetty muistaakseni
-
     city_->takeScene(scene_);
+    setDifficulty(difficulty);
     logic_->finalizeGameStart();
-
 }
 
 void GameWindow::takeCity(std::shared_ptr<Tampere>& city)
@@ -84,6 +82,9 @@ void GameWindow::setDifficulty(int d)
     this->difficulty = d;
     std::vector<std::string> diffs = {"Easy", "Medium", "Hard"};
     ui_->difficultyLabel->setText(QString::fromStdString(diffs.at(d)));
+    // Speed is different based on difficulty
+    city_->speed=0.12-d*0.001;
+    city_->difficulty=d;
 }
 
 void GameWindow::advance()
@@ -100,7 +101,7 @@ void GameWindow::advance()
         city_->moveShots();
     }
     else{
-        //setMouseTracking(false);
+        setMouseTracking(false);
     }
 }
 

@@ -16,9 +16,9 @@ int main(int argc, char *argv[])
     GameWindow gameWindow;
     if(s.result() == 1)
     {
+        gameWindow.setDifficulty(s.difficulty);
         gameWindow.show();
         gameWindow.setPlayerName(s.player_name);
-        gameWindow.setDifficulty(s.difficulty);
         return a.exec();
     }
     if(s.result() == 0)
