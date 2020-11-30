@@ -4,19 +4,19 @@
 
 StartDialog::StartDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::StartDialog)
+    ui_(new Ui::StartDialog)
 {
-    ui->setupUi(this);
+    ui_->setupUi(this);
 }
 
 StartDialog::~StartDialog()
 {
-    delete ui;
+    delete ui_;
 }
 
 void StartDialog::on_buttonBox_2_accepted()
 {
-    QString new_name = ui->nameEdit->text();
+    QString new_name = ui_->nameEdit->text();
     if(new_name.toStdString().length() > 0)
     {
         player_name = new_name;

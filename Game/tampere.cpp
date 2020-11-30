@@ -320,7 +320,7 @@ void Tampere::moveShots(){
         qreal ang = (qDegreesToRadians(shot.first->rotation()));
         shot.first->rotation();
         shot.first->moveBy(qCos(ang)*6, qSin(ang)*6);
-        checkShotCollison(shot.first,BUS_Z);
+        checkCollison(shot.first,BUS_Z);
 
         if(shot.second >= SHOT_RANGE){
             scene_->removeItem(shot.first);
@@ -346,7 +346,7 @@ void Tampere::pauseGame()
 }
 
 
-void Tampere::checkShotCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
+void Tampere::checkCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
     if (!item->collidingItems().empty()){
         for (auto collidingitem : scene_->collidingItems(item)){
           if(collidingitem->zValue()==BUS_Z&&Z_VALUE==BUS_Z){
@@ -425,8 +425,8 @@ void Tampere::pickPassengers()
 
     ray->setOpacity(255);
     QTimer::singleShot(150,[&](){ray->setOpacity(0);});
-    checkShotCollison(ray, PASSENGER_Z);
-    checkShotCollison(playerGraphic_, SHUTTLE_Z);
+    checkCollison(ray, PASSENGER_Z);
+    checkCollison(playerGraphic_, SHUTTLE_Z);
 }
 
 Tampere::~Tampere(){

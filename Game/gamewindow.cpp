@@ -46,13 +46,6 @@ GameWindow::GameWindow(QWidget *parent) :
     gameView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scene->setBackgroundBrush(backGround);
 
-    // suunnittelin fullscreeniä, vaatis grafiikoiten siirtelyä
-//    this->resize(1980,1080);
-//    ui->timeDisplay->move(QPoint(1750,ui->timeDisplay->y()));
-//    ui->timeHintText->move(QPoint(1750,ui->timeHintText->y()));
-//    ui->scoreDisplay->move(QPoint(1750,ui->scoreDisplay->y()));
-//    ui->highScoreBrowser->move(QPoint(1750,ui->highScoresLabel->y()));
-
     std::shared_ptr<Tampere> city_temp_ = std::make_shared<Tampere>();
     takeCity(city_temp_);
     gameView->takeCity(city_temp_);
@@ -85,10 +78,6 @@ GameWindow::GameWindow(QWidget *parent) :
 void GameWindow::takeCity(std::shared_ptr<Tampere>& city)
 {
     city_ = city;
-}
-
-void GameWindow::drawStops()
-{
 }
 
 void GameWindow::setPlayerName(QString s)
