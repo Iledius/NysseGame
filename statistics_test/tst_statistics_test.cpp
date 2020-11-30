@@ -58,6 +58,7 @@ void statistics_test::tst_readScores(){
         testScore = 100;
     }
     stats->incrementScore(testScore);
+    stats->saveScores(test_person);
     scoresAfterAdding = stats->readScores();
     if(scoresAfterAdding.end()--->first==testScore&&scoresAfterAdding.end()--->second==test_person)
         qDebug() << "readScores TEST CASE PASSED";passedCases++;

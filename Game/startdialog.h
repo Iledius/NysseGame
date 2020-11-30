@@ -1,6 +1,5 @@
 #ifndef STARTDIALOG_H
 #define STARTDIALOG_H
-#include <QString>
 #include <QDialog>
 
 namespace Ui {

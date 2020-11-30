@@ -43,19 +43,18 @@ private slots:
 private:
     void centerCamera();
     void incrementTime();
-    Ui::GameWindow *ui;
-    QGraphicsScene *scene;
+    Ui::GameWindow *ui_;
+    QGraphicsScene *scene_;
     CourseSide::Logic* logic_;
     std::shared_ptr<Tampere> city_;
-    QTimer *timer;
-    GameView *gameView;
-    std::vector<std::string> diffs;
-    int score;
+    QTimer *timer_;
+    GameView *gameView_;
+    std::vector<std::string> diffs_;
+    int score_ = 0;
     std::shared_ptr<Player> player_;
-    int current_time = 0;
-    bool paused = false;
-    EndDialog endScreen;
-
+    int current_time_ = 0;
+    bool paused_ = false;
+    EndDialog endScreen_;
 
 };
 

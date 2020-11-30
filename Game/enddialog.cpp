@@ -2,28 +2,40 @@
 #include "ui_enddialog.h"
 #include <iostream>
 
+EndDialog::EndDialog(QWidget *parent) :
+    QDialog(parent),
+    ui_(new Ui::endDialog)
+{
+    ui_->setupUi(this);
+}
+
+EndDialog::~EndDialog()
+{
+    delete ui_;
+}
+
 void EndDialog::setElons(int s)
 {
     this->elonsSaved_ = s;
-    ui->elonCountLabel->setNum(s);
+    ui_->elonCountLabel->setNum(s);
 }
 
 void EndDialog::setNyssesDestoyed(int s)
 {
     this->nyssesDestroyed_ = s;
-    ui->busCountLabel->setNum(s);
+    ui_->busCountLabel->setNum(s);
 }
 
 void EndDialog::setTotalScore(int s)
 {
-    this->totalScore_  = s;
-    ui->totalScoreLabel->setNum(s);
+    this->totalScore_ = s;
+    ui_->totalScoreLabel->setNum(s);
 }
 
 void EndDialog::setNewHsLabel()
 {
     QString str = "NEW HIGH SCORE!";
-    ui->newHsLablel->setText(str);
+    ui_->newHsLablel->setText(str);
 }
 
 void EndDialog::setPlayerName(QString name)
@@ -36,24 +48,12 @@ void EndDialog::setDifficulty(int d)
     this->difficulty = d;
 }
 
-EndDialog::EndDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::endDialog)
-{
-    ui->setupUi(this);
-}
-
-EndDialog::~EndDialog()
-{
-    delete ui;
-}
-
 void EndDialog::on_buttonBox_accepted()
 {
-    QString newName = ui->newPlayerNameLine->text();
+    QString newName = ui_->newPlayerNameLine->text();
     if(newName.length() > 0)
     {
-        newPlayerName = ui->newPlayerNameLine->text();
+        newPlayerName = ui_->newPlayerNameLine->text();
     }
 }
 

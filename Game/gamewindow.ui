@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1197</width>
-    <height>644</height>
+    <width>1186</width>
+    <height>731</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,9 +17,9 @@
    <widget class="QLCDNumber" name="scoreDisplay">
     <property name="geometry">
      <rect>
-      <x>1040</x>
+      <x>1010</x>
       <y>30</y>
-      <width>131</width>
+      <width>161</width>
       <height>31</height>
      </rect>
     </property>
@@ -27,9 +27,9 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>1040</x>
+      <x>1010</x>
       <y>70</y>
-      <width>131</width>
+      <width>161</width>
       <height>80</height>
      </rect>
     </property>
@@ -72,16 +72,16 @@
       <x>1010</x>
       <y>160</y>
       <width>161</width>
-      <height>341</height>
+      <height>331</height>
      </rect>
     </property>
    </widget>
    <widget class="QLCDNumber" name="timeDisplay">
     <property name="geometry">
      <rect>
-      <x>1040</x>
-      <y>510</y>
-      <width>131</width>
+      <x>1010</x>
+      <y>640</y>
+      <width>161</width>
       <height>31</height>
      </rect>
     </property>
@@ -89,14 +89,168 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>1030</x>
-      <y>550</y>
-      <width>151</width>
+      <x>1010</x>
+      <y>620</y>
+      <width>161</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
      <string>Seconds untill takeoff</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>650</y>
+      <width>961</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>WASD - Move</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Mouse/arrow keys - Aim</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Left click/Spacebar - Shoot</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Q - Pick up/Drop elons</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>R - Reload</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>1010</x>
+      <y>500</y>
+      <width>161</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Elons saved</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="elonsDisplay">
+    <property name="geometry">
+     <rect>
+      <x>1010</x>
+      <y>520</y>
+      <width>161</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="destoyedTanksDisplay">
+    <property name="geometry">
+     <rect>
+      <x>1010</x>
+      <y>580</y>
+      <width>161</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>1010</x>
+      <y>560</y>
+      <width>161</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TKL tanks destoyed</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>
@@ -105,7 +259,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1197</width>
+     <width>1186</width>
      <height>25</height>
     </rect>
    </property>

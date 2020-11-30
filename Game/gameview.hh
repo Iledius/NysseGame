@@ -6,6 +6,7 @@
 #include <QGraphicsScale>
 #include <tampere.hh>
 #include <iostream>
+#include <QKeyEvent>
 
 class GameView : public QGraphicsView
 {
@@ -18,7 +19,6 @@ public:
 
 private:
     std::shared_ptr<Tampere> city_;
-    void focus();
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;

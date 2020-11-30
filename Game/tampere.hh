@@ -100,6 +100,9 @@ public:
     bool paused=false;
     int advanced_amount = 0;
 
+
+    void updateDebug();
+
 private:
     void checkCollison(BetterActorItem* item, int Z_VALUE);
     QTime time_;
@@ -116,8 +119,11 @@ private:
     int reloadTime_ = 0;
     QTimer pickingTimer_;
     bool gameOver_  = false;
-    BetterActorItem* ray;
+    BetterActorItem* ray_;
     int passengersPicked_=0;
+
+    std::map<CourseSide::SimpleActorItem*, std::shared_ptr<Interface::IStop>> stop_graphics;
+
 
 
 };

@@ -35,7 +35,7 @@ private slots:
     void on_hardRadioButton_clicked();
 
 private:
-    Ui::endDialog *ui;
+    Ui::endDialog *ui_;
     int elonsSaved_ = 0;
     int nyssesDestroyed_ = 0;
     int totalScore_ = 0;

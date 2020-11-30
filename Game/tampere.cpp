@@ -2,6 +2,8 @@
 #include "iostream"
 #include "statistics.h"
 
+
+// Sprites.
 QImage BUS_IMAGE_RIGHT("../../etkot-software/Game/images/tank.png");
 QImage BUS_IMAGE_LEFT("../../etkot-software/Game/images/tankLeft.png");
 QImage BUS_IMAGE_RIGHT_HIT("../../etkot-software/Game/images/tankRightHit.png");
@@ -14,33 +16,36 @@ QImage SHOT_IMAGE("../../etkot-software/Game/images/laser2.png");
 QImage SHUTTLE_IMAGE("../../etkot-software/Game/images/shuttle.png");
 QImage EXPLOSION_IMAGE("../../etkot-software/Game/images/explosion.png");
 
-
-
 QImage AMMO_6("../../etkot-software/Game/images/6ammo.png");
 
-const int X_MULT=2;
-const int Y_MULT=2;
-const int X_CONST = 100;
-const int Y_CONST = 100;
 
-// Z-levels for different items:
+// constants to adjust courselib nysse location data to our map size.
+const float X_MULT=1.4,Y_MULT=1.3;
+const int X_CONST = 710, Y_CONST = 820;
+
+
+// Z-levels for different items.
 const int PLAYER_Z = 7;
 const int BUS_Z = 3;
 const int PASSENGER_Z = 2;
 const int SHUTTLE_Z = 4;
 
+
+// Acceleration adjustments. Increasing makes feel more slippery
 const int ACC_LIMIT = 60;
 const float DECELERATION_MULT = 1.07; // 1 = never slows down
 
-const int SHOT_RANGE = 100;
-const int BUS_HEALTH = 2;
-const float SPEED = 0.1;
 
+// Game settings
+const int SHOT_RANGE = 100;
+const float SPEED = 0.1;
 const int PASSENGER_STORAGE = 100;
+int AMMO = 1000;
+
+const int BUS_HEALTH = 2;
 const int SCORE_FOR_BUS = 100;
 const int SCORE_FOR_PASSENGER = 3;
 
-int AMMO = 1000;
 
 
 Tampere::Tampere() :
@@ -56,16 +61,10 @@ Tampere::Tampere() :
 
 void Tampere::setBackground(QImage &basicbackground, QImage &bigbackground)
 {
-    // FILLEREITÄ VAROTUKSIA VARTEN
-    //TODO: jotain tällä funktiolla?? pitää implementoida ettei oo virtual
-    basicbackground.setColor(1,0);
-    bigbackground.setColor(1,0);
 }
 
 void Tampere::setClock(QTime clock)
 {
-    // FILLEREITÄ VAROTUKSIA VARTEN
-    //TODO: jotain tällä funktiolla?? pitää implementoida ettei oo virtual
     this->time_.setHMS(clock.hour(),clock.minute(),clock.second());
 }
 
@@ -76,6 +75,8 @@ void Tampere::startGame()
     // Player cannon and player visuals
     playerArrow_ = scene_->addPolygon(player_->createArrow());
     scene_->addItem(playerGraphic_);
+
+
     // Visual that displays how much ammo left
     scene_->addItem(ammoGraphic_);
     ammoGraphic_->setParentItem(playerGraphic_);
@@ -93,15 +94,15 @@ void Tampere::startGame()
     // Shuttle visual, where we drop our Elon clones
     scene_->addItem(shuttle_);
     shuttle_->setZValue(SHUTTLE_Z);
-    shuttle_->setPos(1000,450);
+    shuttle_->setPos(1000,530);
     shuttle_->setScale(1);
     ammo_ = AMMO;
 
 
-    ray = new BetterActorItem(RAY);
-    scene_->addItem(ray);
-    ray->setOpacity(0);
-    ray->setZValue(PLAYER_Z-2);
+    ray_ = new BetterActorItem(RAY);
+    scene_->addItem(ray_);
+    ray_->setOpacity(0);
+    ray_->setZValue(PLAYER_Z-2);
 }
 
 void Tampere::movePlayer()
@@ -154,6 +155,8 @@ void Tampere::movePlayer()
     int x_new = player_->getPos().first;
     int y_new = player_->getPos().second;
     playerGraphic_->setPos(QPoint(x_new,y_new));
+    qDebug() << x_new;
+    qDebug() << y_new;
     playerArrow_->setPos(player_->getPos().first+23, player_->getPos().second+23);
 
     // Reload timer
@@ -167,7 +170,7 @@ void Tampere::movePlayer()
         qDebug()<< "reloaded 6 shots";
     }
 
-    if(ray) ray->setPos(playerGraphic_->pos()+QPointF(-35,-35));
+    if(ray_) ray_->setPos(playerGraphic_->pos()+QPointF(-35,-35));
 
 }
 
@@ -178,6 +181,7 @@ void Tampere::addStop(std::shared_ptr<Interface::IStop> stop)
     stops.push_back(stop);
     CourseSide::SimpleActorItem* stop_interf = new CourseSide::SimpleActorItem(stop->getLocation().giveX(),
                                                                           stop->getLocation().giveY(),255);
+    stop_graphics.insert({stop_interf,stop});
     scene_->addItem(stop_interf);
     stop_interf->setPos(QPoint(x,490-y));
     stop_interf->setScale(0.4);
@@ -220,33 +224,18 @@ bool Tampere::findActor(std::shared_ptr<Interface::IActor> actor) const {
 }
 
 void Tampere::actorMoved(std::shared_ptr<Interface::IActor> actor){
-    advanced_amount++;
-    std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*>::iterator it;
-      it = nysseGraphicPairs_.find(actor);
-      if(it != nysseGraphicPairs_.end()&& it->second!=nullptr){
+       advanced_amount++;
+       std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*>::iterator it;
+       it = nysseGraphicPairs_.find(actor);
+       if(it != nysseGraphicPairs_.end()&& it->second!=nullptr){
            it->second->setAngle(QPoint(it->second->x(), it->second->y()), QPoint(actor.get()->giveLocation().giveX(), 490-actor.get()->giveLocation().giveY()));
-           it->second->setPos(X_MULT*QPoint(actor.get()->giveLocation().giveX()+X_CONST,-actor.get()->giveLocation().giveY()*Y_MULT+Y_CONST));
+           it->second->setPos(QPoint(X_MULT*actor.get()->giveLocation().giveX()+X_CONST,-actor.get()->giveLocation().giveY()*Y_MULT+Y_CONST));
            if(it->second->goingRight()&&it->second->getImage()!=BUS_IMAGE_RIGHT_HIT) it->second->setImage(BUS_IMAGE_RIGHT);
            else if (!it->second->goingRight()&&it->second->getImage()!=BUS_IMAGE_LEFT_HIT) it->second->setImage(BUS_IMAGE_LEFT);
-           return;
-      }
-
-    // TODO: korjaa passengerit kulkemaan!!
-//   std::shared_ptr<Interface::IPassenger> pass = std::dynamic_pointer_cast<Interface::IPassenger>(actor);
-//   if(pass){
-//        if(findActor(pass->getVehicle())){
-//            passengerGraphicPairs_.find(actor);
-//            if(it != passengerGraphicPairs_.end()){
-//                it->second->setPos(QPoint(actor.get()->giveLocation().giveX(),500-actor.get()->giveLocation().giveY()));
-//            }
-//        }
-//   }
-
+       }
 }
 
 std::vector<std::shared_ptr<Interface::IActor>> Tampere::getNearbyActors(Interface::Location loc) const {
-    // TODO:: käytä jotenkin? halusin tällä vaan varotukset pois
-    //std::map<std::shared_ptr<Interface::IActor>,BetterActorItem*>::iterator it;
     std::vector<std::shared_ptr<Interface::IActor>> nearbyActors;
     for(auto it:nysseGraphicPairs_){                                                        // loop all nyssegraphicpairs
         if(it.first->giveLocation().calcDistance(loc,it.first->giveLocation())>50)          // if actor is 50 units close
@@ -267,10 +256,10 @@ bool Tampere::isGameOver() const {
 
 void Tampere::drawActors(){
     for(std::shared_ptr<Interface::IActor> iactor : actors){
-           QPoint bus_coords = QPoint(iactor->giveLocation().giveX(),iactor->giveLocation().giveY());
+           QPoint bus_coords = QPoint(iactor->giveLocation().giveX()*X_MULT+X_CONST,-Y_MULT*iactor->giveLocation().giveY()+Y_CONST);
            std::shared_ptr<Interface::IVehicle> isBus = std::dynamic_pointer_cast<Interface::IVehicle>(iactor);
 
-           // If actor is a bus
+//         If actor is a bus
            if(isBus){
                BetterActorItem* actor_graphic = new BetterActorItem(BUS_IMAGE_RIGHT,BUS_HEALTH);
                nysseGraphicPairs_.insert({iactor, actor_graphic});
@@ -405,7 +394,6 @@ void Tampere::checkCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
                   if(it->second==collidingitem){
                      removeActor(it->first);
                      passengersPicked_++;
-                     qDebug() <<passengersPicked_;
                      break;
                   }
         }
@@ -427,11 +415,11 @@ void Tampere::checkCollison(BetterActorItem* item, int Z_VALUE=BUS_Z){
 
 void Tampere::pickPassengers()
 {
-
-    ray->setOpacity(255);
-    QTimer::singleShot(150,[&](){ray->setOpacity(0);});
-    checkCollison(ray, PASSENGER_Z);
+    ray_->setOpacity(255);
+    QTimer::singleShot(150,[&](){ray_->setOpacity(0);});
+    checkCollison(ray_, PASSENGER_Z);
     checkCollison(playerGraphic_, SHUTTLE_Z);
+
 }
 
 Tampere::~Tampere(){
